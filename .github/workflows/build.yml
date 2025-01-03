@@ -6,72 +6,14 @@ on:
       ref:
         description: 'Tag to build'
         required: true
-
-env:
-  VANAGON_LOCATION: 'https://github.com/overlookinfra/vanagon#main'
+      project_name:
+        description: 'The vanagon project to build'
+        required: false
+        default: 'agent-runtime-main'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 300
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [
-          'amazon-2-aarch64',
-          'amazon-2023-aarch64',
-          'amazon-2023-x86_64',
-          'debian-10-amd64',
-          'debian-11-aarch64',
-          'debian-11-amd64',
-          'debian-12-aarch64',
-          'debian-12-amd64',
-          'el-7-x86_64',
-          'el-8-aarch64',
-          'el-8-x86_64',
-          'el-8-ppc64le',
-          'el-9-aarch64',
-          'el-9-x86_64',
-          'el-9-ppc64le',
-          'fedora-36-x86_64',
-          'fedora-40-x86_64',
-          'fedora-40-aarch64',
-          'sles-15-x86_64',
-          'ubuntu-18.04-aarch64',
-          'ubuntu-18.04-amd64',
-          'ubuntu-20.04-aarch64',
-          'ubuntu-20.04-amd64',
-          'ubuntu-22.04-aarch64',
-          'ubuntu-22.04-amd64',
-          'ubuntu-24.04-aarch64',
-          'ubuntu-24.04-amd64',
-        ]
-    steps:
-      - name: Checkout code at tag
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.ref }}
-
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2.6'
-          bundler-cache: true
-
-      - name: Install qemu-user-static
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y qemu-user-static
-
-      - name: Run build script
-        run: |
-          rm -rf .bundle
-          bundle install
-          rm -rf output
-          bundle exec build agent-runtime-main ${{ matrix.os }} --engine docker
-
-      - name: Save output
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.os }}-output
-          path: output/
+    uses: 'overlookinfra/shared-actions/.github/workflows/build_vanagon.yml@main'
+    with:
+      ref: ${{ inputs.ref }}
+      project_name: ${{ inputs.project_name }}
