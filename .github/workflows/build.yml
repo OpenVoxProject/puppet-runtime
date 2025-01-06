@@ -1,0 +1,19 @@
+name: Build puppet-runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Tag to build'
+        required: true
+      project_name:
+        description: 'The vanagon project to build'
+        required: false
+        default: 'agent-runtime-main'
+
+jobs:
+  build:
+    uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@main'
+    with:
+      ref: ${{ inputs.ref }}
+      project_name: ${{ inputs.project_name }}
