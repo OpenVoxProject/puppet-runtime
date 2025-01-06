@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    uses: 'overlookinfra/shared-actions/.github/workflows/build_vanagon.yml@main'
+    uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@main'
     with:
       ref: ${{ inputs.ref }}
       project_name: ${{ inputs.project_name }}
