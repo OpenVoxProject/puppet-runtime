@@ -35,6 +35,12 @@ elsif platform.name.start_with?('ubuntu-24')
   pkg.sha256sum '9a3a3705ac13a2ccca2de6d652b6356fead10f36fb33115c185c5ccdf29eec19'
   pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
   pkg.build_requires 'python3-setuptools'
+elsif platform.name.start_with?('el-10')
+  # SELinux 3.7 is the minimum version available in RHEL 10 repos
+  pkg.version '3.7'
+  pkg.sha256sum 'ea03f42d13a4f95757997dba8cf0b26321fac5d2f164418b4cc856a92d2b17bd'
+  pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
+  pkg.build_requires 'python3-setuptools'
 else
   pkg.version "2.9"
   pkg.md5sum "bb449431b6ed55a0a0496dbc366d6e31"
@@ -51,7 +57,7 @@ ruby = "#{ruby_bindir}/ruby -rrbconfig"
 # The RHEL 9 libselinux-devel package provides headers, but we don't want to
 # use the package becuase of a compatibility issue with the shared library. 
 # Instead, we use the headers provided in the tarball.
-system_include.prepend('-I./include ') if platform.name.start_with?('el-9')
+system_include.prepend('-I./include ') if platform.name =~ /el-(9|10)/ 
 
 if platform.is_cross_compiled_linux?
   cc = "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc"
@@ -83,7 +89,8 @@ pkg.build do
     # when running debian >= 12, fedora >= 40, etc
     unless (platform.is_debian? && platform.os_version.to_i >= 12) ||
         (platform.is_fedora? && platform.os_version.to_i >= 40) ||
-        (platform.is_ubuntu? && platform.os_version.to_i >= 24)
+        (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
+        (platform.is_el? && platform.os_version.to_i >= 10)
       steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../selinuxswig_ruby_wrap.patch"
     end
     # EL 7 uses an older version of swig (2.0) so a different patch is needed to
@@ -91,10 +98,11 @@ pkg.build do
     if platform.name =~ /el-7|redhatfips-7/
       steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../undefining_allocator_el_7.patch"
     else
-      # Ubuntu 24 & Fedora 40 use a newer swig that already has the fix that's
+      # Ubuntu 24, Fedora 40, and EL 10 use a newer swig that already has the fix that's
       # being patched
       unless (platform.is_fedora? && platform.os_version.to_i >= 40) ||
-          (platform.is_ubuntu? && platform.os_version.to_i >= 24)
+          (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
+          (platform.is_el? && platform.os_version.to_i >= 10)
         steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../selinuxswig_ruby_undefining_allocator.patch"
       end
     end
@@ -103,8 +111,9 @@ pkg.build do
   # libselinux 3.3 is the minimum version we want to build on RHEL 9, but the
   # libeselinux-devel-3.3 package confusingly installs a shared library that
   # uses 3.4. The hacky workaround for this is to symlink an existing library.
-  # PDK builds two Rubies so check if symlink exists first.
-  if platform.name.start_with?('el-9')
+  # PDK builds two Rubies so check if symlink exists first. Similar issue
+  # exists for RHEL 10.
+  if platform.name =~ /el-(9|10)/
     steps << 'if [ ! -L /usr/lib64/libselinux.so ]; then ln -s /usr/lib64/libselinux.so.1 /usr/lib64/libselinux.so; fi'
   end
 
