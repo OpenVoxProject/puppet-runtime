@@ -122,11 +122,17 @@ component "boost" do |pkg, settings, platform|
     pkg.environment "CXXFLAGS", "-pthread"
     pkg.environment "PATH", "/opt/freeware/bin:/opt/pl-build-tools/bin:$(PATH)"
     linkflags = "-Wl,-L#{settings[:libdir]},-L/opt/pl-build-tools/lib"
-  elsif platform.name =~ /el-[567]|redhatfips-7|sles-(:?11|12)|ubuntu-18.04-amd64/
+  elsif platform.name =~ /el-[56]|redhatfips-7|sles-(:?11|12)/
     pkg.environment "PATH", "/opt/pl-build-tools/bin:#{settings[:bindir]}:$(PATH)"
     linkflags = "-Wl,-rpath=#{settings[:libdir]},-rpath=#{settings[:libdir]}64"
+  elsif platform.name =~ /el-7/
+    pkg.environment "PATH", "/opt/rh/devtoolset-7/root/usr/bin:$(PATH)"
+    # Not sure this actually does anything
+    pkg.environment "CMAKE_CXX_COMPILER", "/opt/rh/devtoolset-7/root/usr/bin/gcc"
+
+    linkflags = "-Wl,-rpath=#{settings[:libdir]},-rpath=#{settings[:libdir]}64"
+    gpp = '/opt/rh/devtoolset-7/root/usr/bin/g++'
   else
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:#{settings[:bindir]}:$(PATH)"
     linkflags = "#{settings[:ldflags]},-rpath=#{settings[:libdir]}64"
     gpp = '/usr/bin/g++'
   end

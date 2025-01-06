@@ -5,8 +5,8 @@ platform "ubuntu-18.04-amd64" do |plat|
     libbz2-dev
     libreadline-dev
     libselinux1-dev
-    pl-cmake
-    pl-gcc
+    cmake
+    gcc
     swig 
     systemtap-sdt-dev
     zlib1g-dev

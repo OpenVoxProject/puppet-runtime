@@ -47,7 +47,7 @@ component "yaml-cpp" do |pkg, settings, platform|
     pkg.environment "CYGWIN", settings[:cygwin]
     cmake = "C:/ProgramData/chocolatey/bin/cmake.exe -G \"MinGW Makefiles\""
     cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
-  elsif platform.name =~ /aix-7\.1-ppc|debian-9|el-[567]|redhatfips-7|sles-(?:11|12)|ubuntu-18\.04-amd64/
+  elsif platform.name =~ /aix-7\.1-ppc|el-[56]|redhatfips-7|sles-(?:11)/
     cmake = "#{settings[:tools_root]}/bin/cmake"
     cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
   else
@@ -62,16 +62,19 @@ component "yaml-cpp" do |pkg, settings, platform|
 
   # Build Commands
   pkg.build do
-    [ "#{mkdir} build",
-      "cd build",
-      "#{cmake} \
+    buildcmd = "#{cmake} \
       #{cmake_toolchain_file} \
       -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} \
       -DCMAKE_VERBOSE_MAKEFILE=ON \
       -DYAML_CPP_BUILD_TOOLS=0 \
       -DYAML_CPP_BUILD_TESTS=0 \
-      -DBUILD_SHARED_LIBS=ON \
-      .. ",
+      -DBUILD_SHARED_LIBS=ON "
+    buildcmd += "-DCMAKE_CXX_COMPILER='/opt/rh/devtoolset-7/root/usr/bin/g++'" if platform.name =~ /el-7/
+    buildcmd += " .. "
+
+    [ "#{mkdir} build",
+      "cd build",
+      buildcmd,
       "#{make} VERBOSE=1 -j$(shell expr $(shell #{platform[:num_cores]}) + 1)",
     ]
   end

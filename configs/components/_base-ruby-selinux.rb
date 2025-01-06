@@ -63,7 +63,7 @@ end
 cflags = ""
 
 # The platforms below use pl-build-tools
-unless platform.name =~ /el-(6|7)|ubuntu-(16|18.04-amd64)/
+unless platform.name =~ /el-6|ubuntu-(16-amd64)/
   cc = '/usr/bin/gcc'
   cflags += "#{settings[:cppflags]} #{settings[:cflags]}"
 end

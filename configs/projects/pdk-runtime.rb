@@ -24,9 +24,6 @@ project 'pdk-runtime' do |proj|
     '-DOPENSSL_NO_HEARTBEATS'
     ])
 
-  proj.setting(:artifactory_url, 'https://artifactory.delivery.puppetlabs.net/artifactory')
-  proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
-
   proj.description 'The PDK runtime contains third-party components needed for the puppet developer kit'
   proj.license 'See components'
   proj.vendor 'Puppet, Inc.  <info@puppet.com>'

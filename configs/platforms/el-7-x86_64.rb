@@ -6,8 +6,6 @@ platform "el-7-x86_64" do |plat|
     libsepol-devel
     libselinux-devel
     pkgconfig
-    pl-cmake
-    pl-gcc
     readline-devel
     rpm-build
     swig

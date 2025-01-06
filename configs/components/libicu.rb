@@ -20,7 +20,7 @@ component 'libicu' do |pkg, settings, platform|
   end
 
   if platform.is_linux?
-    if platform.name =~ /el-[67]|redhatfips-7|sles-12|ubuntu-18.04-amd64/
+    if platform.name =~ /el-6|redhatfips-7/
       pkg.build_requires 'pl-gcc'
     else
       pkg.build_requires 'gcc'

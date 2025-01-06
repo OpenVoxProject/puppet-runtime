@@ -70,9 +70,6 @@ project 'bolt-runtime' do |proj|
   proj.setting(:platform_triple, platform_triple)
   proj.setting(:host, host)
 
-  proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
-  proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
-
   # Define default CFLAGS and LDFLAGS for most platforms, and then
   # tweak or adjust them as needed.
   proj.setting(:cppflags, "-I#{proj.includedir} -I/opt/pl-build-tools/include")

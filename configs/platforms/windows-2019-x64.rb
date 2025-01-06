@@ -1,5 +1,8 @@
 platform "windows-2019-x64" do |plat|
   plat.vmpooler_template "win-2019-x86_64"
+  plat.docker_image "windows:ltsc2019"
+  plat.docker_registry "mcr.microsoft.com"
+  plat.docker_arch "linux/amd64"
 
   plat.servicetype "windows"
   visual_studio_version = '2017'

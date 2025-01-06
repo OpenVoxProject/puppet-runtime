@@ -28,9 +28,6 @@ else
   proj.setting(:openssl_version, '1.1.1')
 end
 
-proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
-proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
-
 if platform.is_windows?
   # Windows Installer settings.
   proj.setting(:company_id, "PuppetLabs")
