@@ -8,6 +8,7 @@ platform "el-10-x86_64" do |plat|
     readline-devel
     rpmdevtools
     swig
+    systemtap-sdt-dtrace
     systemtap-sdt-devel
     yum-utils
     zlib-devel

@@ -9,6 +9,7 @@ platform 'el-10-aarch64' do |plat|
     readline-devel 
     zlib-devel 
     systemtap-sdt-devel
+    systemtap-sdt-dtrace
   )
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
   plat.install_build_dependencies_with "dnf install -y --allowerasing "
