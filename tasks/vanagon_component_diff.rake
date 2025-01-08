@@ -127,7 +127,7 @@ namespace :vanagon do |args|
       files
     end
 
-    git_from_rev = 'origin/master'
+    git_from_rev = 'origin/main'
     git_to_rev = 'HEAD'
     default_projects = ['agent-runtime-main']
     projects = []
