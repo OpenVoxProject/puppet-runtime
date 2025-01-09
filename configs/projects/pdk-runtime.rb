@@ -26,13 +26,13 @@ project 'pdk-runtime' do |proj|
 
   proj.description 'The PDK runtime contains third-party components needed for the puppet developer kit'
   proj.license 'See components'
-  proj.vendor 'Puppet, Inc.  <info@puppet.com>'
-  proj.homepage 'https://puppet.com'
-  proj.identifier 'com.puppetlabs' if platform.is_macos?
+  proj.vendor 'Vox Pupuli <voxpupuli@groups.io>'
+  proj.homepage 'https://github.com/OpenVoxProject'
+  proj.identifier 'org.voxpupuli' if platform.is_macos?
 
   if platform.is_windows?
     proj.setting(:base_dir, 'ProgramFiles64Folder')
-    proj.setting(:company_id, 'PuppetLabs')
+    proj.setting(:company_id, 'VoxPupuli')
     proj.setting(:product_id, 'DevelopmentKit')
     proj.setting(:install_root, File.join('C:', proj.base_dir, proj.company_id, proj.product_id))
     proj.setting(:prefix, proj.install_root)

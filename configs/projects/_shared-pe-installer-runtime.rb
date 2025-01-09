@@ -5,9 +5,9 @@ proj.generate_packages false
 
 proj.description "The PE Installer runtime contains third-party components needed for PE Installer standalone packaging"
 proj.license "See components"
-proj.vendor "Puppet, Inc.  <info@puppet.com>"
-proj.homepage "https://puppet.com"
-proj.identifier "com.puppetlabs"
+proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+proj.homepage "https://github.com/OpenVoxProject"
+proj.identifier "org.voxpupuli"
 
 # Used in component configurations to conditionally include dependencies
 proj.setting(:runtime_project, 'pe-installer')

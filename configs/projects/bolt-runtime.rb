@@ -24,12 +24,12 @@ project 'bolt-runtime' do |proj|
 
   proj.description "The Bolt runtime contains third-party components needed for Bolt standalone packaging"
   proj.license "See components"
-  proj.vendor "Puppet, Inc.  <info@puppet.com>"
-  proj.homepage "https://puppet.com"
-  proj.identifier "com.puppetlabs"
+  proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+  proj.homepage "https://github.com/OpenVoxProject"
+  proj.identifier "org.voxpupuli"
 
   if platform.is_windows?
-    proj.setting(:company_id, "PuppetLabs")
+    proj.setting(:company_id, "VoxPupuli")
     proj.setting(:product_id, "Bolt")
     if platform.architecture == "x64"
       proj.setting(:base_dir, "ProgramFiles64Folder")

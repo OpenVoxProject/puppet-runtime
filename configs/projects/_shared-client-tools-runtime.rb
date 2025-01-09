@@ -13,9 +13,9 @@ proj.generate_packages false
 
 proj.description "The client-tools runtime contains third-party components needed for client-tools"
 proj.license "See components"
-proj.vendor "Puppet, Inc.  <info@puppet.com>"
-proj.homepage "https://puppet.com"
-proj.identifier "com.puppetlabs"
+proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+proj.homepage "https://github.com/OpenVoxProject"
+proj.identifier "org.voxpupuli"
 proj.version_from_git
 
 platform = proj.get_platform
@@ -30,7 +30,7 @@ end
 
 if platform.is_windows?
   # Windows Installer settings.
-  proj.setting(:company_id, "PuppetLabs")
+  proj.setting(:company_id, "VoxPupuli")
   proj.setting(:product_id, "Client")
   if platform.architecture == "x64"
     proj.setting(:base_dir, "ProgramFiles64Folder")

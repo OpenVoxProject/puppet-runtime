@@ -22,16 +22,16 @@ proj.generate_packages false
 
 proj.description 'The puppet agent runtime contains third-party components needed for the puppet agent'
 proj.license 'See components'
-proj.vendor 'Puppet, Inc.  <info@puppet.com>'
-proj.homepage 'https://puppet.com'
+proj.vendor 'Vox Pupuli <voxpupuli@groups.io>'
+proj.homepage 'https://github.com/OpenVoxProject'
 proj.version_from_git
 
 proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
 proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
 
 if platform.is_windows?
-  proj.setting(:company_id, "PuppetLabs")
-  proj.setting(:product_id, "Puppet")
+  proj.setting(:company_id, "VoxPupuli")
+  proj.setting(:product_id, "OpenVox")
   if platform.architecture == "x64"
     proj.setting(:base_dir, "ProgramFiles64Folder")
   else
@@ -204,9 +204,9 @@ if platform.is_aix?
 end
 
 if platform.is_solaris?
-  proj.identifier 'puppetlabs.com'
+  proj.identifier 'voxpupuli.org'
 elsif platform.is_macos?
-  proj.identifier 'com.puppetlabs'
+  proj.identifier 'org.voxpupuli'
 end
 
 proj.timeout 7200 if platform.is_windows?
