@@ -22,7 +22,7 @@ proj.generate_packages false
 
 proj.description 'The puppet agent runtime contains third-party components needed for the puppet agent'
 proj.license 'See components'
-proj.vendor 'Vox Pupuli <voxpupuli@groups.io>'
+proj.vendor 'Vox Pupuli <openvox@voxpupuli.org>'
 proj.homepage 'https://github.com/OpenVoxProject'
 proj.version_from_git
 

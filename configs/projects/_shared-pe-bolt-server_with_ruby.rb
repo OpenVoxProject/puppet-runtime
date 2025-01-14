@@ -20,7 +20,7 @@ end
 
 proj.description('The PE Bolt runtime contains third-party components needed for PE Bolt server packaging')
 proj.license('See components')
-proj.vendor('Vox Pupuli <voxpupuli@groups.io>')
+proj.vendor('Vox Pupuli <openvox@voxpupuli.org>')
 proj.homepage('https://github.com/OpenVoxProject')
 proj.identifier('org.voxpupuli')
 proj.version_from_git

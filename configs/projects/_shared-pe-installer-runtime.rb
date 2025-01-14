@@ -5,7 +5,7 @@ proj.generate_packages false
 
 proj.description "The PE Installer runtime contains third-party components needed for PE Installer standalone packaging"
 proj.license "See components"
-proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+proj.vendor "Vox Pupuli <openvox@voxpupuli.org>"
 proj.homepage "https://github.com/OpenVoxProject"
 proj.identifier "org.voxpupuli"
 

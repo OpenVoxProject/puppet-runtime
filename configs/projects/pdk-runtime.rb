@@ -26,7 +26,7 @@ project 'pdk-runtime' do |proj|
 
   proj.description 'The PDK runtime contains third-party components needed for the puppet developer kit'
   proj.license 'See components'
-  proj.vendor 'Vox Pupuli <voxpupuli@groups.io>'
+  proj.vendor 'Vox Pupuli <openvox@voxpupuli.org>'
   proj.homepage 'https://github.com/OpenVoxProject'
   proj.identifier 'org.voxpupuli' if platform.is_macos?
 

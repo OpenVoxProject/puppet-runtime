@@ -13,7 +13,7 @@ proj.generate_packages false
 
 proj.description "The client-tools runtime contains third-party components needed for client-tools"
 proj.license "See components"
-proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+proj.vendor "Vox Pupuli <openvox@voxpupuli.org>"
 proj.homepage "https://github.com/OpenVoxProject"
 proj.identifier "org.voxpupuli"
 proj.version_from_git

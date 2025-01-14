@@ -24,7 +24,7 @@ project 'bolt-runtime' do |proj|
 
   proj.description "The Bolt runtime contains third-party components needed for Bolt standalone packaging"
   proj.license "See components"
-  proj.vendor "Vox Pupuli <voxpupuli@groups.io>"
+  proj.vendor "Vox Pupuli <openvox@voxpupuli.org>"
   proj.homepage "https://github.com/OpenVoxProject"
   proj.identifier "org.voxpupuli"
 
