@@ -3,7 +3,9 @@ platform 'el-10-aarch64' do |plat|
 
   packages = %w(
     perl
+    perl-FindBin
     perl-Getopt-Long 
+    perl-lib
     patch 
     swig 
     readline-devel 

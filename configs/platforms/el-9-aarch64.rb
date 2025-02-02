@@ -3,12 +3,15 @@ platform 'el-9-aarch64' do |plat|
 
   packages = %w(
     perl
+    perl-FindBin
     perl-Getopt-Long 
+    perl-lib
     patch 
     swig 
     readline-devel 
     zlib-devel 
     systemtap-sdt-devel
+    systemtap-sdt-dtrace
   )
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
   plat.install_build_dependencies_with "dnf install -y --allowerasing "
