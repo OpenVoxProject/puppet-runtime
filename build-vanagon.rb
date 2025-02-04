@@ -6,35 +6,7 @@ require 'fileutils'
 
 # USAGE: ./build-vanagon.rb <vanagon project name> <folder name> <version> <number of threads>
 
-PLATFORM_LIST = [
-    'amazon-2-aarch64',
-    'amazon-2023-aarch64',
-    'amazon-2023-x86_64',
-    'debian-10-amd64',
-    'debian-11-aarch64',
-    'debian-11-amd64',
-    'debian-12-aarch64',
-    'debian-12-amd64',
-    'el-7-x86_64',
-    'el-8-aarch64',
-    'el-8-x86_64',
-    'el-8-ppc64le',
-    'el-9-aarch64',
-    'el-9-x86_64',
-    'el-9-ppc64le',
-    'fedora-36-x86_64',
-    'fedora-40-x86_64',
-    'fedora-40-aarch64',
-    'sles-15-x86_64',
-    'ubuntu-18.04-aarch64',
-    'ubuntu-18.04-amd64',
-    'ubuntu-20.04-aarch64',
-    'ubuntu-20.04-amd64',
-    'ubuntu-22.04-aarch64',
-    'ubuntu-22.04-amd64',
-    'ubuntu-24.04-aarch64',
-    'ubuntu-24.04-amd64',
-]
+PLATFORM_LIST = File.readlines('platforms.txt', chomp: true).reject { |line| line.start_with?('#') }
 
 @project = ARGV[0] # Name of project in vanagon
 @repo = ARGV[1] # Name of folder/repo
