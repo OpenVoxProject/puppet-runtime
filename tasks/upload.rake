@@ -24,7 +24,7 @@ namespace :vox do
     path = "s3://#{bucket}/#{repo}/#{args[:tag]}"
     files.each do |f|
       puts "Uploading #{File.basename(f)}"
-      run_command("#{s3} cp #{f} #{path}/#{File.basename(f)} --endpoint-url=#{endpoint}")
+      run_command("#{s3} cp --debug #{f} #{path}/#{File.basename(f)}")
     end
   end
 end

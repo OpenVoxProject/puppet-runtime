@@ -6,6 +6,7 @@ platform 'amazon-2023-x86_64' do |plat|
     perl-lib
     readline-devel
     systemtap-sdt-devel
+    systemtap-sdt-dtrace
     zlib-devel
   ]
 

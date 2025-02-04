@@ -7,6 +7,7 @@ platform 'amazon-2-aarch64' do |plat|
     perl-IPC-Cmd
     readline-devel
     systemtap-sdt-devel
+    systemtap-sdt-trace
     zlib-devel
   ]
 
