@@ -2,9 +2,10 @@ require 'open3'
 
 namespace :overlookinfra do
   desc "Upload artifacts from the output directory to S3. Requires the AWS CLI to be installed and configured appropriately."
-  task :upload, [:tag] do |t, args|
+  task :upload, [:tag, :platform] do |t, args|
     endpoint = ENV['ENDPOINT_URL']
     bucket = ENV['BUCKET_NAME']
+    platform = args[:platform] || ''
 
     if endpoint.nil? || endpoint.empty?
       abort "You must set the ENDPOINT_URL environment variable to the S3 server you want to upload to."
@@ -21,7 +22,7 @@ namespace :overlookinfra do
     # Ensure the AWS CLI isn't going to fail with the given parameters
     run_command("#{s3} ls s3://#{bucket}/")
 
-    files = Dir.glob("#{__dir__}/../output/*#{munged_tag}*")
+    files = Dir.glob("#{__dir__}/../output/*#{munged_tag}*#{platform}*")
     if files.empty?
       puts "No files for the given tag found in the output directory."
     end

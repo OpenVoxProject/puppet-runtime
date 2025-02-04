@@ -313,3 +313,12 @@ index 99a996c..63c5487 100644
    proj.description 'The PDK runtime contains third-party components needed for the puppet developer kit'
    proj.license 'See components'
    proj.vendor 'Puppet, Inc.  <info@puppet.com>'
+diff --git a/configs/platforms/fedora-40-aarch64.rb b/configs/platforms/fedora-40-aarch64.rb
+new file mode 100644
+index 0000000..0503231
+--- /dev/null
++++ b/configs/platforms/fedora-40-aarch64.rb
+@@ -0,0 +1,3 @@
++platform 'fedora-40-aarch64' do |plat|
++  plat.inherit_from_default
++end
