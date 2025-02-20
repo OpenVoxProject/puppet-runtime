@@ -1,6 +1,6 @@
 component 'rubygem-rexml' do |pkg, settings, platform|
-  pkg.version '3.3.8'
-  pkg.md5sum '111bbda9878bcf60da37175970d0a65e'
+  pkg.version '3.4.1'
+  pkg.sha256sum 'c74527a9a0a04b4ec31dbe0dc4ed6004b960af943d8db42e539edde3a871abca'
 
   settings["#{pkg.get_name}_remove_older_versions".to_sym] = true
 

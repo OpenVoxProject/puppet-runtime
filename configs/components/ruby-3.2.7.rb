@@ -1,7 +1,8 @@
 # The file name of the ruby component must match the ruby_version
-component 'ruby-3.2.5' do |pkg, settings, platform|
-  pkg.version '3.2.5'
-  pkg.sha256sum 'ef0610b498f60fb5cfd77b51adb3c10f4ca8ed9a17cb87c61e5bea314ac34a16'
+component 'ruby-3.2.7' do |pkg, settings, platform|
+  pkg.version '3.2.7'
+  # https://www.ruby-lang.org/en/downloads/releases/
+  pkg.sha256sum '8488fa620ff0333c16d437f2b890bba3b67f8745fdecb1472568a6114aad9741'
 
   # rbconfig-update is used to munge rbconfigs after the fact.
   pkg.add_source("file://resources/files/ruby/rbconfig-update.rb")
@@ -30,7 +31,6 @@ component 'ruby-3.2.5' do |pkg, settings, platform|
 
   # Most ruby configuration happens in the base ruby config:
   instance_eval File.read('configs/components/_base-ruby.rb')
-  # Configuration below should only be applicable to ruby 2.5
 
   #########
   # PATCHES
@@ -84,9 +84,6 @@ component 'ruby-3.2.5' do |pkg, settings, platform|
     pkg.environment 'optflags', "-O2 -fPIC -g0 "
   elsif platform.is_solaris?
     pkg.environment 'optflags', '-O1'
-  elsif platform.name == 'sles-11-x86_64'
-    pkg.environment 'PATH', '/opt/pl-build-tools/bin:$(PATH)'
-    pkg.environment 'optflags', '-O2'
   else
     pkg.environment 'optflags', '-O2'
   end
