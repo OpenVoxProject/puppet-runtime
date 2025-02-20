@@ -7,7 +7,10 @@ component 'dmidecode' do |pkg, settings, platform|
   pkg.apply_patch 'resources/patches/dmidecode/de392ff0.patch'
 
   pkg.apply_patch 'resources/patches/dmidecode/dmidecode-install-to-bin.patch'
-  pkg.url "http://download.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
+  # Mirrors were having issues, so we are using our own copy. Change this back next time
+  # we update dmidecode.
+  #pkg.url "http://download.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
+  pkg.url "https://artifacts.overlookinfratech.com/components/dmidecode-#{pkg.get_version}.tar.xz"
   pkg.mirror "#{settings[:buildsources_url]}/dmidecode-#{pkg.get_version}.tar.xz"
 
   pkg.environment "LDFLAGS", settings[:ldflags]
