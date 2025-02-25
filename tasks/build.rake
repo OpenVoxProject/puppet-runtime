@@ -12,7 +12,13 @@ namespace :vox do
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
 
-    cmd = "bundle exec build #{project} #{platform} --engine docker"
+    if platform =~ /^osx-/
+      abort 'It appears homebrew is not installed. Install it first.' if `which brew`.empty?
+      cmd = "bundle exec build #{project} #{platform} --engine local"
+    else
+      cmd = "bundle exec build #{project} #{platform} --engine docker"
+    end
+
     puts "Running #{cmd}"
     exitcode = nil
     Open3.popen2e(cmd) do |_stdin, stdout_stderr, thread|
