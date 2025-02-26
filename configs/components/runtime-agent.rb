@@ -18,7 +18,7 @@ component "runtime-agent" do |pkg, settings, platform|
       pkg.install do
         # These are dependencies of ruby@3.x, remove symlinks from /usr/local
         # so our build doesn't use the wrong headers
-        "#{platform.brew} unlink openssl libyaml"
+        "cd /etc/homebrew && su test -c '#{platform.brew} unlink openssl libyaml'"
       end
     end
   end
