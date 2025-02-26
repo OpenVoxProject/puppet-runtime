@@ -61,7 +61,10 @@ component "boost" do |pkg, settings, platform|
     pkg.environment "CXX", "/usr/bin/g++"
     gpp = "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-g++"
   elsif platform.is_macos?
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH)"
+    # clang 16 used in Sequoia throws a warning without this. This is actually a bug in boost, which was
+    # fixed in 1.81. When we upgrade to 1.81+, we should remove this.
+    # https://github.com/llvm/llvm-project/issues/59036#issuecomment-2517829718
+    cxxflags = "-Wno-enum-constexpr-conversion"
     linkflags = ""
     gpp = if platform.is_cross_compiled? && platform.name =~ /osx-11/
             'clang++ -target arm64-apple-macos11'
