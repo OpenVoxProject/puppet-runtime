@@ -12,12 +12,8 @@ namespace :vox do
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
 
-    if platform =~ /^osx-/
-      abort 'It appears homebrew is not installed. Install it first.' if `which brew`.empty?
-      cmd = "bundle exec build #{project} #{platform} --engine local"
-    else
-      cmd = "bundle exec build #{project} #{platform} --engine docker"
-    end
+    engine = platform =~ /^osx-/ ? 'local' : 'docker'
+    cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
 
     puts "Running #{cmd}"
     exitcode = nil
