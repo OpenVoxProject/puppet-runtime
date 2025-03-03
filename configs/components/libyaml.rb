@@ -47,7 +47,8 @@ component 'libyaml' do |pkg, settings, platform|
   pkg.install do
     [
       "#{platform[:make]} VERBOSE=1 -j$(shell expr $(shell #{platform[:num_cores]}) + 1) install",
-      "rm -rf #{settings[:datadir]}/doc/#{pkg.get_name}*"
+      "rm -rf #{settings[:datadir]}/doc/#{pkg.get_name}*",
+      "rm -f #{settings[:libdir]}/*.{la,a}"
     ]
   end
 end
