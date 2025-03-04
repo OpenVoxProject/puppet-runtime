@@ -67,10 +67,10 @@ component "runtime-agent" do |pkg, settings, platform|
 
     # gdbm, yaml-cpp and iconv are all runtime dependancies of ruby, and their libraries need
     # To exist inside our vendored ruby
-    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm-4.dll", "#{settings[:ruby_bindir]}/libgdbm-4.dll"
-    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4.dll", "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
+    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm-6__.dll", "#{settings[:ruby_bindir]}/libgdbm-6.dll"
+    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4__.dll", "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libiconv-2.dll", "#{settings[:ruby_bindir]}/libiconv-2.dll"
-    pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
+    pkg.install_file "#{settings[:tools_root]}/bin/libffi-8__.dll", "#{settings[:ruby_bindir]}/libffi-8.dll"
   elsif platform.is_solaris? ||
         platform.name =~ /el-[56]|redhatfips-7|sles-(:?11)/
     pkg.install do

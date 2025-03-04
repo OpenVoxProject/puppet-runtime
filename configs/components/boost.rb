@@ -87,7 +87,7 @@ component "boost" do |pkg, settings, platform|
     pkg.environment("LD_LIBRARY_PATH", '/opt/pl-build-tools/lib') if platform.name =~ /solaris-10/
   elsif platform.is_windows?
     arch = platform.architecture == "x64" ? "64" : "32"
-    pkg.environment "PATH", "C:/tools/mingw#{arch}/bin:$(PATH)"
+    #pkg.environment "PATH", "C:/tools/mingw#{arch}/bin:$(PATH)"
     pkg.environment "CYGWIN", "nodosfilewarning"
     b2location = "#{settings[:prefix]}/bin/b2.exe"
     bjamlocation = "#{settings[:prefix]}/bin/bjam.exe"
@@ -99,7 +99,8 @@ component "boost" do |pkg, settings, platform|
     # we need to make sure we link against non-cygwin libraries
     execute = "cmd.exe /c "
 
-    gpp = "C:/tools/mingw#{arch}/bin/g++"
+    #gpp = "C:/tools/mingw#{arch}/bin/g++"
+    gpp = "/usr/bin/g++"
 
     # Set the address model so we only build one arch
     #
