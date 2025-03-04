@@ -10,8 +10,6 @@ component 'openssl' do |pkg, settings, platform|
 
   if platform.name =~ /^(el-|redhat-|redhatfips-|fedora-)/
     pkg.build_requires 'perl-core'
-  elsif platform.is_windows?
-    pkg.build_requires 'strawberryperl'
   elsif platform.is_solaris?
     # perl is installed in platform definition
   else

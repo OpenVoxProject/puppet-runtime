@@ -6,6 +6,7 @@ component "yaml-cpp" do |pkg, settings, platform|
   cmake_toolchain_file = ''
   make = 'make'
   mkdir = 'mkdir'
+  prefix = settings[:prefix]
   cmake = if platform.name =~ /amazon-2-aarch64/
     '/usr/bin/cmake3'
   else
@@ -41,12 +42,15 @@ component "yaml-cpp" do |pkg, settings, platform|
     end
 
   elsif platform.is_windows?
-    make = "#{settings[:gcc_bindir]}/mingw32-make"
     mkdir = '/usr/bin/mkdir'
-    pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0"
+    pkg.environment "PATH", "/usr/bin:$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0"
     pkg.environment "CYGWIN", settings[:cygwin]
-    cmake = "C:/ProgramData/chocolatey/bin/cmake.exe -G \"MinGW Makefiles\""
-    cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
+    cmake = "/usr/bin/cmake"
+    cmake_toolchain_file = ''
+    prefix = "$(shell cygpath -u #{settings[:prefix]})"
+    extraflags = "-DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++"
+    pkg.environment 'CC', "x86_64-w64-mingw32-gcc"
+    pkg.environment 'CXX', "x86_64-w64-mingw32-g++"
   elsif platform.name =~ /aix-7\.1-ppc|el-[56]|redhatfips-7|sles-(?:11)/
     cmake = "#{settings[:tools_root]}/bin/cmake"
     cmake_toolchain_file = "-DCMAKE_TOOLCHAIN_FILE=#{settings[:tools_root]}/pl-build-toolchain.cmake"
@@ -60,21 +64,21 @@ component "yaml-cpp" do |pkg, settings, platform|
     pkg.environment 'LDFLAGS', settings[:ldflags]
   end
 
+  extraflags = "-DCMAKE_CXX_COMPILER='/opt/rh/devtoolset-7/root/usr/bin/g++'" if platform.name =~ /el-7/
+
   # Build Commands
   pkg.build do
-    buildcmd = "#{cmake} \
+    [ "#{mkdir} build",
+      "cd build",
+      "#{cmake} \
       #{cmake_toolchain_file} \
-      -DCMAKE_INSTALL_PREFIX=#{settings[:prefix]} \
+      -DCMAKE_INSTALL_PREFIX=#{prefix} \
       -DCMAKE_VERBOSE_MAKEFILE=ON \
       -DYAML_CPP_BUILD_TOOLS=0 \
       -DYAML_CPP_BUILD_TESTS=0 \
-      -DBUILD_SHARED_LIBS=ON "
-    buildcmd += "-DCMAKE_CXX_COMPILER='/opt/rh/devtoolset-7/root/usr/bin/g++'" if platform.name =~ /el-7/
-    buildcmd += " .. "
-
-    [ "#{mkdir} build",
-      "cd build",
-      buildcmd,
+      -DBUILD_SHARED_LIBS=ON \
+      #{extraflags} \
+      .. ",
       "#{make} VERBOSE=1 -j$(shell expr $(shell #{platform[:num_cores]}) + 1)",
     ]
   end

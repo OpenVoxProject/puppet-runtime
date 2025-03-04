@@ -48,7 +48,6 @@ component 'ruby-3.2.7' do |pkg, settings, platform|
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
-    pkg.apply_patch "#{base}/windows_nocodepage_utf8_fallback_r2.5.patch"
     pkg.apply_patch "#{base}/ruby-faster-load_32.patch"
     pkg.apply_patch "#{base}/revert_speed_up_rebuilding_loaded_feature_index.patch"
     pkg.apply_patch "#{base}/revert-ruby-double-load-symlink.patch"
@@ -69,7 +68,9 @@ component 'ruby-3.2.7' do |pkg, settings, platform|
     pkg.environment 'optflags', settings[:cflags]
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
   elsif platform.is_windows?
-    pkg.environment 'optflags', settings[:cflags] + ' -O3'
+    optflags = settings[:cflags] + ' -O3'
+    pkg.environment 'optflags', optflags
+    pkg.environment 'CFLAGS', optflags
     pkg.environment 'MAKE', 'make'
   elsif platform.is_cross_compiled?
     pkg.environment 'CROSS_COMPILING', 'true'

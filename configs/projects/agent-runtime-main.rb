@@ -80,6 +80,6 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-prime'
 
-  proj.component 'boost' if ENV['NO_PXP_AGENT'].to_s.empty?
-  proj.component 'yaml-cpp' if ENV['NO_PXP_AGENT'].to_s.empty?
+  proj.component 'boost' unless ENV['NO_PXP_AGENT'].to_s.empty?
+  proj.component 'yaml-cpp' unless ENV['NO_PXP_AGENT'].to_s.empty?
 end

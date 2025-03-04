@@ -1,7 +1,7 @@
 component "boost" do |pkg, settings, platform|
   # Source-Related Metadata
-  pkg.version "1.73.0"
-  pkg.md5sum "4036cd27ef7548b8d29c30ea10956196"
+  pkg.version "1.87.0"
+  pkg.md5sum "f435e8ae57edb203a1165cdb99cfb2a3"
   # Apparently boost doesn't use dots to version they use underscores....arg
   pkg.url "http://downloads.sourceforge.net/project/boost/boost/#{pkg.get_version}/boost_#{pkg.get_version.gsub('.','_')}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/boost_#{pkg.get_version.gsub('.','_')}.tar.gz"
@@ -87,19 +87,19 @@ component "boost" do |pkg, settings, platform|
     pkg.environment("LD_LIBRARY_PATH", '/opt/pl-build-tools/lib') if platform.name =~ /solaris-10/
   elsif platform.is_windows?
     arch = platform.architecture == "x64" ? "64" : "32"
-    pkg.environment "PATH", "C:/tools/mingw#{arch}/bin:$(PATH)"
+    pkg.environment "PATH", "#{settings[:gcc_bindir]}:$(PATH)"
     pkg.environment "CYGWIN", "nodosfilewarning"
-    b2location = "#{settings[:prefix]}/bin/b2.exe"
-    bjamlocation = "#{settings[:prefix]}/bin/bjam.exe"
+    b2location = "#{settings[:prefix]}/b2.exe"
+    bjamlocation = "#{settings[:prefix]}/bjam.exe"
     # bootstrap.bat does not take the `--with-toolset` flag
     toolset = "gcc"
-    with_toolset = ""
+    with_toolset = "mingw"
     # we do not need to reference the .bat suffix when calling the bootstrap script
     bootstrap_suffix = ""
     # we need to make sure we link against non-cygwin libraries
     execute = "cmd.exe /c "
 
-    gpp = "C:/tools/mingw#{arch}/bin/g++"
+    gpp = "x86_64-w64-mingw32-g++.exe"
 
     # Set the address model so we only build one arch
     #
