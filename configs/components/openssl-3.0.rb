@@ -180,6 +180,7 @@ component 'openssl' do |pkg, settings, platform|
   # Skip man and html docs
   install_commands << "#{platform[:make]} #{install_prefix} install_sw install_ssldirs"
   install_commands << "rm -f #{settings[:prefix]}/bin/c_rehash"
+  install_commands << "rm -f #{settings[:libdir]}/*.{la,a}"
 
   pkg.install do
     install_commands
