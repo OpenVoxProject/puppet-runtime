@@ -12,7 +12,7 @@ namespace :vox do
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
 
-    engine = platform =~ /^osx-/ ? 'local' : 'docker'
+    engine = platform =~ /^(osx|windows)-/ ? 'local' : 'docker'
     cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
 
     puts "Running #{cmd}"

@@ -60,7 +60,9 @@ elsif platform.is_windows?
   pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:tools_root]}/bin):$(shell cygpath -u #{settings[:tools_root]}/include):$(shell cygpath -u #{settings[:bindir]}):$(shell cygpath -u #{ruby_bindir}):$(shell cygpath -u #{settings[:includedir]}):$(PATH)"
   pkg.environment 'CYGWIN', settings[:cygwin]
   pkg.environment 'LDFLAGS', settings[:ldflags]
-  pkg.environment 'optflags', settings[:cflags] + ' -O3'
+  optflags = settings[:cflags] + ' -O3'
+  pkg.environment 'optflags', optflags
+  pkg.environment 'CFLAGS', optflags
 elsif platform.is_macos?
   pkg.environment 'optflags', settings[:cflags]
   if platform.is_cross_compiled?
