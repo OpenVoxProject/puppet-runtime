@@ -13,14 +13,7 @@ component "git" do |pkg, settings, platform|
     pkg.mirror "#{settings[:buildsources_url]}/git-#{pkg.get_version}.tar.gz"
   end
 
-  if platform.is_windows?
-    pkg.environment "PATH", [
-      "$(shell cygpath -u \"C:\\ProgramData\\chocolatey\\bin\")",
-      "$(PATH)",
-    ].join(':')
-  else
-    pkg.build_requires 'curl'
-  end
+  pkg.build_requires 'curl' unless platform.is_windows?
 
   build_deps = []
 
