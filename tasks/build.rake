@@ -1,4 +1,3 @@
-require 'open3'
 require 'fileutils'
 
 namespace :vox do
@@ -18,13 +17,6 @@ namespace :vox do
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
-    puts "Running #{cmd}"
-    exitcode = nil
-    Open3.popen2e(cmd) do |_stdin, stdout_stderr, thread|
-      stdout_stderr.each { |line| puts line }
-      exitcode = thread.value.exitstatus
-      puts "Command finished with status #{exitcode}"
-    end
-    exit exitcode
+    run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
