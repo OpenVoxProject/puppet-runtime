@@ -1,5 +1,3 @@
-require 'open3'
-
 namespace :vox do
   desc 'Upload artifacts from the output directory to S3. Requires the AWS CLI to be installed and configured appropriately.'
   task :upload, [:tag, :platform] do |_, args|
@@ -23,8 +21,7 @@ namespace :vox do
 
     path = "s3://#{bucket}/#{repo}/#{args[:tag]}"
     files.each do |f|
-      puts "Uploading #{File.basename(f)}"
-      run_command("#{s3} cp --debug #{f} #{path}/#{File.basename(f)}")
+      run_command("#{s3} cp #{f} #{path}/#{File.basename(f)}", silent: false)
     end
   end
 end
