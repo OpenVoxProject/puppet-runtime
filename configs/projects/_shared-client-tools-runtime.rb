@@ -30,7 +30,7 @@ end
 
 if platform.is_windows?
   # Windows Installer settings.
-  proj.setting(:company_id, "VoxPupuli")
+  proj.setting(:company_id, "PuppetLabs")
   proj.setting(:product_id, "Client")
   if platform.architecture == "x64"
     proj.setting(:base_dir, "ProgramFiles64Folder")

@@ -29,7 +29,7 @@ project 'bolt-runtime' do |proj|
   proj.identifier "org.voxpupuli"
 
   if platform.is_windows?
-    proj.setting(:company_id, "VoxPupuli")
+    proj.setting(:company_id, "PuppetLabs")
     proj.setting(:product_id, "Bolt")
     if platform.architecture == "x64"
       proj.setting(:base_dir, "ProgramFiles64Folder")
