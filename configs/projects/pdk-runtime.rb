@@ -32,7 +32,7 @@ project 'pdk-runtime' do |proj|
 
   if platform.is_windows?
     proj.setting(:base_dir, 'ProgramFiles64Folder')
-    proj.setting(:company_id, 'VoxPupuli')
+    proj.setting(:company_id, 'PuppetLabs')
     proj.setting(:product_id, 'DevelopmentKit')
     proj.setting(:install_root, File.join('C:', proj.base_dir, proj.company_id, proj.product_id))
     proj.setting(:prefix, proj.install_root)

@@ -30,8 +30,11 @@ proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/arti
 proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
 
 if platform.is_windows?
+  # In order not to break people, we need to keep the paths Puppetlabs/Puppet
   proj.setting(:company_id, "VoxPupuli")
+  proj.setting(:pl_company_id, "PuppetLabs")
   proj.setting(:product_id, "OpenVox")
+  proj.setting(:pl_product_id, "Puppet")
   if platform.architecture == "x64"
     proj.setting(:base_dir, "ProgramFiles64Folder")
   else
@@ -39,8 +42,8 @@ if platform.is_windows?
   end
   # We build for windows not in the final destination, but in the paths that correspond
   # to the directory ids expected by WIX. This will allow for a portable installation (ideally).
-  proj.setting(:install_root, File.join("C:", proj.base_dir, proj.company_id, proj.product_id))
-  proj.setting(:sysconfdir, File.join("C:", "CommonAppDataFolder", proj.company_id))
+  proj.setting(:install_root, File.join("C:", proj.base_dir, proj.pl_company_id, proj.pl_product_id))
+  proj.setting(:sysconfdir, File.join("C:", "CommonAppDataFolder", proj.pl_company_id))
   proj.setting(:tmpfilesdir, "C:/Windows/Temp")
 else
   proj.setting(:install_root, "/opt/puppetlabs")
