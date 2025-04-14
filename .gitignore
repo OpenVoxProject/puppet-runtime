@@ -6,6 +6,6 @@ Gemfile.local
 Gemfile.lock
 *.log
 ext/packaging
-ext/build_metadata.json
+ext/build_metadata*.json
 pkg
 *.swp
