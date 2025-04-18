@@ -1,6 +1,6 @@
 component 'rubygem-hiera-eyaml' do |pkg, settings, platform|
-  pkg.version '3.4.0'
-  pkg.sha256sum 'cdacb683dc5efefcae9bc668ab881f17ce5597cac1c0493aee7c4387c7c8ff54'
+  pkg.version '4.2.0'
+  pkg.sha256sum '9285e71bb4861d81cb48f961330ea45126d3a9fe88e8310ddbe7bdc2161ff4b3'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

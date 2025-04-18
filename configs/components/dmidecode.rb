@@ -1,16 +1,9 @@
 component 'dmidecode' do |pkg, settings, platform|
-  pkg.version '3.5'
-  pkg.sha256sum '79d76735ee8e25196e2a722964cf9683f5a09581503537884b256b01389cc073'
-
-  pkg.apply_patch 'resources/patches/dmidecode/80de3762.patch'
-  pkg.apply_patch 'resources/patches/dmidecode/c76ddda0.patch'
-  pkg.apply_patch 'resources/patches/dmidecode/de392ff0.patch'
+  pkg.version '3.6'
+  pkg.sha256sum 'e40c65f3ec3dafe31ad8349a4ef1a97122d38f65004ed66575e1a8d575dd8bae'
 
   pkg.apply_patch 'resources/patches/dmidecode/dmidecode-install-to-bin.patch'
-  # Mirrors were having issues, so we are using our own copy. Change this back next time
-  # we update dmidecode.
-  #pkg.url "http://download.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
-  pkg.url "https://artifacts.overlookinfratech.com/components/dmidecode-#{pkg.get_version}.tar.xz"
+  pkg.url "http://download.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
   pkg.mirror "#{settings[:buildsources_url]}/dmidecode-#{pkg.get_version}.tar.xz"
 
   pkg.environment "LDFLAGS", settings[:ldflags]

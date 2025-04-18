@@ -1,15 +1,11 @@
 component "boost" do |pkg, settings, platform|
   # Source-Related Metadata
-  # Only updating for Windows because we have to in order to compile it
-  # under modern Cygwin. Leaving the old version out of an abundance of
-  # caution for everything else until we have proper testing in place.
-  if platform.is_windows?
-    pkg.version "1.82.0"
-    pkg.md5sum "f7050f554a65f6a42ece221eaeec1660"
-  else
-    pkg.version "1.73.0"
-    pkg.md5sum "4036cd27ef7548b8d29c30ea10956196"
-  end
+  # Updated to 1.82 for Windows because we have to in order to compile it
+  # under modern Cygwin, and el10 also has problems with the old 1.73.
+  # However, later versions (at least 1.87) break pxp-agent.
+  pkg.version "1.82.0"
+  pkg.md5sum "f7050f554a65f6a42ece221eaeec1660"
+
   # Apparently boost doesn't use dots to version they use underscores....arg
   pkg.url "http://downloads.sourceforge.net/project/boost/boost/#{pkg.get_version}/boost_#{pkg.get_version.gsub('.','_')}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/boost_#{pkg.get_version.gsub('.','_')}.tar.gz"

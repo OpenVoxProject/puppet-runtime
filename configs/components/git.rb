@@ -1,14 +1,14 @@
 component "git" do |pkg, settings, platform|
   if platform.is_windows?
-    pkg.version "2.39.4"
-    pkg.md5sum "5f129f61fdc84ceb5a5634da10ed824d"
+    pkg.version "2.49.0"
+    pkg.md5sum "971cdee7c0feaa1e41369c46da88d1000a24e79a6f50191c820100338fb7eca5"
 
     release = "1"
     pkg.url "https://github.com/git-for-windows/git/releases/download/v#{pkg.get_version.split('.')[0..2].join('.')}.windows.#{release}/MinGit-#{pkg.get_version}-64-bit.zip"
     pkg.mirror "#{settings[:buildsources_url]}/MinGit-#{pkg.get_version}-64-bit.zip"
   else
-    pkg.version "2.39.4"
-    pkg.md5sum "6b52f8bda1ff882cd17188a11c95e864"
+    pkg.version "2.49.0"
+    pkg.sha256sum "f8047f572f665bebeb637fd5f14678f31b3ca5d2ff9a18f20bd925bd48f75d3c"
     pkg.url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-#{pkg.get_version}.tar.gz"
     pkg.mirror "#{settings[:buildsources_url]}/git-#{pkg.get_version}.tar.gz"
   end
