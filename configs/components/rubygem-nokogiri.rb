@@ -1,6 +1,6 @@
 component 'rubygem-nokogiri' do |pkg, settings, _platform|
-  pkg.version '1.14.2'
-  pkg.sha256sum 'c765a74aac6cf430a710bb0b6038b8ee11f177393cd6ae8dadc7a44a6e2658b6'
+  pkg.version '1.18.7'
+  pkg.sha256sum '6b63ff5defe48f30d1d3b3122f65255ca91df2caf5378c6e0482ce73ff46fb31'
 
   cflags = platform.is_macos? ? '--with-cflags="-Wno-incompatible-function-pointer-types"' : ''
   settings["#{pkg.get_name}_gem_install_options".to_sym] = "--platform=ruby -- \

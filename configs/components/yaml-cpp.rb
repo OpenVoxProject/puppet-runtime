@@ -1,6 +1,6 @@
 component "yaml-cpp" do |pkg, settings, platform|
   pkg.url "https://github.com/jbeder/yaml-cpp.git"
-  pkg.ref "refs/tags/yaml-cpp-0.6.2"
+  pkg.ref "refs/tags/0.8.0"
 
   # Build-time Configuration
   cmake_toolchain_file = ''
@@ -40,6 +40,7 @@ component "yaml-cpp" do |pkg, settings, platform|
       pkg.environment 'CXX', 'clang++'
       cmake = "/opt/homebrew/bin/cmake"
     end
+    extraflags = "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
 
   elsif platform.is_windows?
     mkdir = '/usr/bin/mkdir'

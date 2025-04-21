@@ -1,6 +1,6 @@
 component 'libffi' do |pkg, settings, platform|
-  pkg.version '3.4.6'
-  pkg.sha256sum 'b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e'
+  pkg.version '3.4.8'
+  pkg.sha256sum 'bc9842a18898bfacb0ed1252c4febcc7e78fa139fd27fdc7a3e30d9d9356119b'
   pkg.url "https://github.com/libffi/libffi/releases/download/v#{pkg.get_version}/#{pkg.get_name}-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/#{pkg.get_name}-#{pkg.get_version}.tar.gz"
 
