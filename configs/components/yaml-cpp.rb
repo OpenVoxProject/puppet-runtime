@@ -7,7 +7,7 @@ component "yaml-cpp" do |pkg, settings, platform|
   make = 'make'
   mkdir = 'mkdir'
   prefix = settings[:prefix]
-  cmake = if platform.name =~ /amazon-2-aarch64/
+  cmake = if platform.name =~ /amazon-2-aarch64|el-7/
     '/usr/bin/cmake3'
   else
     'cmake'
