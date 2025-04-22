@@ -79,5 +79,4 @@ project 'agent-runtime-7.x' do |proj|
   end
 
   proj.component 'boost' if ENV['NO_PXP_AGENT'].to_s.empty?
-  proj.component 'yaml-cpp' if ENV['NO_PXP_AGENT'].to_s.empty?
 end

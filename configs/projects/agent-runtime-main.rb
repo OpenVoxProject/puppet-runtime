@@ -87,5 +87,4 @@ project 'agent-runtime-main' do |proj|
   # For other platforms, build these unless NO_PXP_AGENT is set.
   build_for_pxp_agent = platform.is_windows? ? !ENV['BUILD_WINDOWS_PXP_AGENT'].to_s.empty? : ENV['NO_PXP_AGENT'].to_s.empty?
   proj.component 'boost' if build_for_pxp_agent
-  proj.component 'yaml-cpp' if build_for_pxp_agent
 end
