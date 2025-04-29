@@ -91,8 +91,16 @@ component 'ruby-3.2.8' do |pkg, settings, platform|
 
   special_flags = " --prefix=#{ruby_dir} --with-opt-dir=#{settings[:prefix]} "
 
+  cflags = settings[:cflags]
+  if platform.is_debian? && platform.os_version.to_i >= 13
+    # A problem with --enable-dtrace, which I suspect may be because of GCC on the Trixie image.
+    # Check if this is still needed next time we bump Ruby and/or bump the Debian 13
+    # container to the release version.
+    cflags += ' -Wno-error=implicit-function-declaration'
+  end
+
   if settings[:supports_pie]
-    special_flags += " CFLAGS='#{settings[:cflags]}' LDFLAGS='#{settings[:ldflags]}' CPPFLAGS='#{settings[:cppflags]}' "
+    special_flags += " CFLAGS='#{cflags}' LDFLAGS='#{settings[:ldflags]}' CPPFLAGS='#{settings[:cppflags]}' "
   end
 
   # Ruby's build process requires a "base" ruby and we need a ruby to install

@@ -29,6 +29,13 @@ elsif platform.name.start_with?('debian-12')
   pkg.sha256sum '77c294a927e6795c2e98f74b5c3adde9c8839690e9255b767c5fca6acff9b779'
   pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
   pkg.build_requires 'python3-distutils'
+elsif platform.name.start_with?('debian-13')
+  # SELinux 3.8.1 is the minimum version available in Debian 13 repos
+  # Double check when Trixie is released
+  pkg.version '3.8.1'
+  pkg.sha256sum 'ec2d2789f931152d21c1db1eb4bc202ce4eccede34d9be9e360e3b45243cee2c'
+  pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
+  pkg.build_requires 'python3-setuptools'
 elsif platform.name.start_with?('ubuntu-24')
   # SELinux 3.5 is the minimum version available in Ubuntu 24 repos
   pkg.version '3.5'
@@ -98,11 +105,12 @@ pkg.build do
     if platform.name =~ /el-7|redhatfips-7/
       steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../undefining_allocator_el_7.patch"
     else
-      # Ubuntu 24, Fedora 40, and EL 10 use a newer swig that already has the fix that's
+      # Ubuntu 24, Fedora 40, EL 10, and Debian 13 use a newer swig that already has the fix that's
       # being patched
       unless (platform.is_fedora? && platform.os_version.to_i >= 40) ||
           (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
-          (platform.is_el? && platform.os_version.to_i >= 10)
+          (platform.is_el? && platform.os_version.to_i >= 10) ||
+          (platform.is_debian? && platform.os_version.to_i >= 13)
         steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../selinuxswig_ruby_undefining_allocator.patch"
       end
     end
