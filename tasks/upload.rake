@@ -16,7 +16,8 @@ namespace :vox do
     # Ensure the AWS CLI isn't going to fail with the given parameters
     run_command("#{s3} ls s3://#{bucket}/")
 
-    files = Dir.glob("#{__dir__}/../output/*#{munged_tag}*#{platform}*")
+    prepend = File.directory?('/cygdrive/') ? 'C:/cygwin64/' : ''
+    files = Dir.glob("#{prepend}#{__dir__}/../output/*#{munged_tag}*#{platform}*")
     puts 'No files for the given tag found in the output directory.' if files.empty?
 
     path = "s3://#{bucket}/#{repo}/#{args[:tag]}"
