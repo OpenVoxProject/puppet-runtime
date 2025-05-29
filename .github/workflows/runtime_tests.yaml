@@ -1,3 +1,4 @@
+---
 name: Runtime tests
 
 on:
@@ -9,10 +10,13 @@ on:
 permissions:
   contents: read
 
+env:
+  BUNDLE_WITHOUT: development
+
 jobs:
   vanagon_inspect:
     name: Vanagon inspect
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout current PR
         uses: actions/checkout@v4
@@ -22,15 +26,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3
-      - name: Update rubygems and install gems
-        run: |
-          gem update --system --silent --no-document
-          bundle config set without development
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
+
       - name: Vanagon inspect
         run: |
           stat=0
-          for projfile in $(ls configs/projects/[a-z]*.rb); do
+          for projfile in configs/projects/[a-z]*.rb; do
             for plat in el-7-x86_64 ubuntu-18.04-amd64 ubuntu-20.04-amd64 ubuntu-22.04-amd64 windows-2012r2-x64; do
               proj=$(basename -s .rb "$projfile")
               if [[ "$proj" =~ ^pe- && "$plat" =~ ^(windows|osx) ]]; then
