@@ -23,5 +23,3 @@ group(:development, optional: true) do
 end
 
 #gem 'rubocop', "~> 0.34.2"
-
-eval_gemfile("#{__FILE__}.local") if File.exist?("#{__FILE__}.local")
