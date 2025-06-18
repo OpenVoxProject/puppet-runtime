@@ -12,7 +12,6 @@ jobs:
   create-github-release:
     # Prevent releases from forked repositories
     if: github.repository_owner == 'OpenVoxProject'
-    needs: build-release
     name: Create GitHub release
     runs-on: ubuntu-24.04
     permissions:
