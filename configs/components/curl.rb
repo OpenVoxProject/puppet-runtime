@@ -1,13 +1,13 @@
 component 'curl' do |pkg, settings, platform|
   # Projects may define a :curl_version setting
-  version = settings[:curl_version] || '8.13.0'
+  version = settings[:curl_version] || '8.14.1'
   pkg.version version
 
   case version
   when '7.88.1'
     pkg.sha256sum 'cdb38b72e36bc5d33d5b8810f8018ece1baa29a8f215b4495e495ded82bbf3c7'
-  when '8.13.0'
-    pkg.sha256sum 'c261a4db579b289a7501565497658bbd52d3138fdbaccf1490fa918129ab45bc'
+  when '8.14.1'
+    pkg.sha256sum '6766ada7101d292b42b8b15681120acd68effa4a9660935853cf6d61f0d984d4'
   else
     raise "curl version #{version} has not been configured; Cannot continue."
   end
