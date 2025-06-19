@@ -17,7 +17,6 @@ jobs:
     permissions:
       contents: write # clone repo and create release
     steps:
-      - uses: actions/checkout@v4
       - name: Create Release
         shell: bash
         env:
