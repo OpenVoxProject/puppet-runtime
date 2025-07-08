@@ -178,7 +178,7 @@ project 'bolt-runtime' do |proj|
   proj.component 'rubygem-connection_pool'
   proj.component 'rubygem-cri'
   proj.component 'rubygem-erubi'
-  proj.component 'rubygem-facter'
+  proj.component 'rubygem-openfact'
   proj.component 'rubygem-ffi'
   proj.component 'rubygem-gssapi'
   proj.component 'rubygem-gyoku'

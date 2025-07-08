@@ -208,7 +208,7 @@ end
 
 proj.timeout 7200 if platform.is_windows?
 
-# These are the boost libraries we care about for facter and friends
+# These are the boost libraries we care about for OpenFact and friends
 proj.setting(:boost_libs, ["chrono", "date_time", "filesystem", "locale", "log", "program_options",
                            "random", "regex", "system", "thread"])
 proj.setting(:boost_link_option, "link=shared")
