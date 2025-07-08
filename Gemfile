@@ -1,4 +1,4 @@
-source ENV['GEM_SOURCE'] || "http://rubygems.org"
+source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 def location_for(place)
   if place =~ /^((?:git[:@]|https:)[^#]*)#(.*)/
