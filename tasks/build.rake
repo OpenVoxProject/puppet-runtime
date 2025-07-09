@@ -15,8 +15,8 @@ namespace :vox do
     platform = args[:platform]
 
     engine = platform =~ /^(osx|windows)-/ ? 'local' : 'docker'
-    cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine}"
-    #cmd = "bundle exec vanagon build #{project} #{platform} 10.133.158.184"
+    #cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine}"
+    cmd = "bundle exec vanagon build #{project} #{platform} 10.133.158.184"
 
     if platform =~ /^windows-/
       FileUtils.rm_rf('C:/ProgramFiles64Folder')
