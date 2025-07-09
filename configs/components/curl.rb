@@ -12,8 +12,8 @@ component 'curl' do |pkg, settings, platform|
     raise "curl version #{version} has not been configured; Cannot continue."
   end
 
-  #pkg.url "https://curl.se/download/curl-#{pkg.get_version}.tar.gz"
-  pkg.url "http://scripts.corp.blizzard.net/curl-8.14.1.tar.gz"
+  pkg.url "https://curl.se/download/curl-#{pkg.get_version}.tar.gz"
+  #pkg.url "http://scripts.corp.blizzard.net/curl-8.14.1.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/curl-#{pkg.get_version}.tar.gz"
 
   pkg.build_requires "openssl-#{settings[:openssl_version]}"
