@@ -139,7 +139,7 @@ component 'augeas' do |pkg, settings, platform|
 
 
   pkg.configure do
-    ["./configure #{extra_config_flags} --prefix=#{settings[:prefix]} #{settings[:host]} --disable-static"]
+    ["./configure #{extra_config_flags} --prefix=#{settings[:prefix]} #{settings[:host]}"]
   end
 
   pkg.build do
