@@ -4,8 +4,8 @@
 #   https://github.com/aws/aws-sdk-ruby/blob/version-3/gems/aws-sdk-core/CHANGELOG.md
 #####   
 component "rubygem-aws-sdk-core" do |pkg, settings, platform|
-  pkg.version "3.209.1"
-  pkg.md5sum "7444e5ca941b52a4487c502bf0e80bd9"
+  pkg.version '3.232.0'
+  pkg.sha256sum '05291ae0da4fb69e9b6494fcc2d839584e8345714a93cd01f0f1bf11475619f2'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

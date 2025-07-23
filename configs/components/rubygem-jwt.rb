@@ -2,6 +2,11 @@
 # Component release information:
 #   https://rubygems.org/gems/jwt
 #   https://github.com/jwt/ruby-jwt/blob/v3.1.2/CHANGELOG.md
+# Notes:
+#   This seems to only be for the bundled gcloud_inventory module
+#   in Bolt, which itself has a dependency of ~> 2.2.1. So probably
+#   this isn't even having the effect we want. Should take a look to
+#   see if we should just remove this component.
 #####
 component "rubygem-jwt" do |pkg, settings, platform|
   pkg.version "2.7.1"

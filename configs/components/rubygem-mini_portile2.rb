@@ -4,8 +4,8 @@
 #   https://github.com/flavorjones/mini_portile/blob/main/CHANGELOG.md
 #####
 component 'rubygem-mini_portile2' do |pkg, _settings, _platform|
-  pkg.version '2.8.8'
-  pkg.sha256sum '8e47136cdac04ce81750bb6c09733b37895bf06962554e4b4056d78168d70a75'
+  pkg.version '2.8.9'
+  pkg.sha256sum '0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

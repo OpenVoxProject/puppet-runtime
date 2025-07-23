@@ -5,8 +5,8 @@
 #   https://github.com/rubyzip/rubyzip/blob/master/Changelog.md
 #####
 component 'rubygem-rubyzip' do |pkg, settings, platform|
-  pkg.version '2.3.2'
-  pkg.md5sum 'd8396c7f2cefde071353f2a09ee7d2f6'
+  pkg.version '3.0.2'
+  pkg.sha256sum '30f75c0b631e23c0891453acbcc019bc1496cd44f4a3ade4ff76bc09a595cfa6'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

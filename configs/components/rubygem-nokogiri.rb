@@ -4,8 +4,8 @@
 #   https://nokogiri.org/CHANGELOG.html
 #####
 component 'rubygem-nokogiri' do |pkg, settings, _platform|
-  pkg.version '1.18.7'
-  pkg.sha256sum '6b63ff5defe48f30d1d3b3122f65255ca91df2caf5378c6e0482ce73ff46fb31'
+  pkg.version '1.18.9'
+  pkg.sha256sum 'ac5a7d93fd0e3cef388800b037407890882413feccca79eb0272a2715a82fa33'
 
   cflags = platform.is_macos? ? settings[:cflags] + '--with-cflags="-Wno-incompatible-function-pointer-types"' : ''
   settings["#{pkg.get_name}_gem_install_options".to_sym] = "--platform=ruby -- \

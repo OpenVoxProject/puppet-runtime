@@ -4,13 +4,8 @@
 #   https://github.com/weppos/publicsuffix-ruby/blob/main/CHANGELOG.md
 #####
 component 'rubygem-public_suffix' do |pkg, settings, platform|
-  if settings[:ruby_version].to_f >= 3.2
-    pkg.version '6.0.1'
-    pkg.md5sum '12ec93094a3467364c8c6ee5a6e8325a'
-  else
-    pkg.version '5.1.1'
-    pkg.md5sum '0895274ce1ffdadffcd979ced832b851'
-  end
+  pkg.version '6.0.2'
+  pkg.sha256sum 'bfa7cd5108066f8c9602e0d6d4114999a5df5839a63149d3e8b0f9c1d3558394'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

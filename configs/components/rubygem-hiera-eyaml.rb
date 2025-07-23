@@ -4,8 +4,8 @@
 #   https://github.com/voxpupuli/hiera-eyaml/blob/master/CHANGELOG.md
 #####
 component 'rubygem-hiera-eyaml' do |pkg, settings, platform|
-  pkg.version '4.2.0'
-  pkg.sha256sum '9285e71bb4861d81cb48f961330ea45126d3a9fe88e8310ddbe7bdc2161ff4b3'
+  pkg.version '4.3.0'
+  pkg.sha256sum '19eba2ea9d70b2d56de064df9e3242860d8070d47ff9c9a6348b7fe94708ab0a'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

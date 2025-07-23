@@ -5,7 +5,7 @@
 #   https://github.com/savonrb/nori/blob/main/CHANGELOG.md
 #####
 component 'rubygem-nori' do |pkg, settings, platform|
-  if settings[:ruby_version].to_f >= 3.2
+  if settings[:ruby_version].to_f >= 3.0
     pkg.version '2.7.1'
     pkg.md5sum '83952a081b5e86d5aa62943ca9ccf312'
   else
