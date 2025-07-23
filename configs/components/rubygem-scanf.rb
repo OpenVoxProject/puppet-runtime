@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/scanf
+#   https://github.com/ruby/scanf/releases
+#####
 component "rubygem-scanf" do |pkg, settings, platform|
   pkg.version '1.0.0'
   pkg.md5sum "6a48b02b5d7109331afa8bd9d55a802e"

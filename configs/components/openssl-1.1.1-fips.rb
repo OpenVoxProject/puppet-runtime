@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://github.com/openssl/openssl/releases
+# Notes:
+#   This is very, very old and only used for fips. If OpenVox
+#   does a FIPS build, we should replace this.
+#####
 component 'openssl-1.1.1-fips' do |pkg, settings, platform|
   pkg.version '1.1.1k-6'
   pkg.sha256sum 'da536944410a0cbf5c0b6ee0b8f3ec62a9121be3b72bf2819bb4395a761662aa'

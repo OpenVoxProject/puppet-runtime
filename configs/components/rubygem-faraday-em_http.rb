@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-em_http
+#   https://github.com/lostisland/faraday-em_http/releases
+#####
 component 'rubygem-faraday-em_http' do |pkg, settings, platform|
   pkg.version '1.0.0'
   pkg.md5sum '4b14f4a6132802f235f79e8ab987e3c2'

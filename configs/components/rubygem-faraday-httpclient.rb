@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-httpclient
+#   https://github.com/lostisland/faraday-httpclient/releases
+#####
 component 'rubygem-faraday-httpclient' do |pkg, settings, platform|
   pkg.version '1.0.1'
   pkg.md5sum '97c44d6016b1db347252b54a57f3e424'

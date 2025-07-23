@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://gitlab.gnome.org/GNOME/libxml2/-/releases
+#   https://github.com/GNOME/libxml2/tags
+#####
 component "libxml2" do |pkg, settings, platform|
   pkg.version '2.13.8'
   pkg.sha256sum '277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a'

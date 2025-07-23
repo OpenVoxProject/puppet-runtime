@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-retry
+#   https://github.com/lostisland/faraday-retry/releases
+#####
 component 'rubygem-faraday-retry' do |pkg, settings, platform|
   pkg.version '1.0.3'
   pkg.md5sum '77177d55f1b8df8a3dcb06aab3e03389'

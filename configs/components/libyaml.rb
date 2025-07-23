@@ -1,3 +1,6 @@
+#####
+# Component release information: https://github.com/yaml/libyaml/releases
+#####
 component 'libyaml' do |pkg, settings, platform|
   pkg.version '0.2.5'
   pkg.md5sum 'bb15429d8fb787e7d3f1c83ae129a999'

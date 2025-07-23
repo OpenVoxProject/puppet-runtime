@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://github.com/git/git/tags
+#   https://github.com/git/git/tree/master/Documentation/RelNotes
+#####
 component "git" do |pkg, settings, platform|
   if platform.is_windows?
     pkg.version "2.49.0"

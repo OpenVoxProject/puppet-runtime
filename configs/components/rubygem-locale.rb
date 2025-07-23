@@ -1,3 +1,9 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/locale
+#   https://github.com/ruby-gettext/locale/releases
+#   (Not up to date) https://github.com/ruby-gettext/locale/blob/master/ChangeLog
+#####
 component "rubygem-locale" do |pkg, settings, platform|
   pkg.version "2.1.4"
   pkg.md5sum "c324a7f34b94044f8d38eabff159de62"

@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://github.com/openssl/openssl/releases
+# Notes:
+#   This is very, very old and only used for windowsfips (is actually 1.0.2).
+#   If OpenVox does a Windows FIPS build, we should replace this.
+#####
 component 'openssl-fips-2.0.16' do |pkg, settings, platform|
   pkg.md5sum '55ef09f12bb199d47e6a84e79fb959d7'
   pkg.url 'https://www.openssl.org/source/openssl-fips-2.0.16.tar.gz'

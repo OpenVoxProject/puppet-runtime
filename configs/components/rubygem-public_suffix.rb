@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/public_suffix
+#   https://github.com/weppos/publicsuffix-ruby/blob/main/CHANGELOG.md
+#####
 component 'rubygem-public_suffix' do |pkg, settings, platform|
   if settings[:ruby_version].to_f >= 3.2
     pkg.version '6.0.1'

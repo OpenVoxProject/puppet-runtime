@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/net-ssh
+#   https://github.com/net-ssh/net-ssh/blob/master/CHANGES.txt
+#####
 component "rubygem-net-ssh" do |pkg, settings, platform|
   # Projects may define a :rubygem_net_ssh_version setting, or we use 6.1.0 by default:
   version = settings[:rubygem_net_ssh_version] || '6.1.0'

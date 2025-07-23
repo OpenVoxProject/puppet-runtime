@@ -1,3 +1,11 @@
+#####
+# Component release information:
+#   https://www.gnu.org/software/readline/
+#   https://tiswww.case.edu/php/chet/readline/CHANGES
+# Notes:
+#   2023-07-23: Quite out of date, latest is 8.3. Need to evaluate if the
+#               new version breaks anything.
+#####
 component "readline" do |pkg, settings, platform|
   pkg.version "8.1.2"
   pkg.md5sum "12819fa739a78a6172400f399ab34f81"

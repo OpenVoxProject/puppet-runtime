@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://github.com/openssl/openssl/releases
+# Notes:
+#   This is a default version used when an OpenSSL version is not specified.
+#   Should no longer be used and probably should be removed.
+#####
 component 'openssl' do |pkg, settings, platform|
   pkg.version '1.1.1w'
   pkg.sha256sum 'cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8'

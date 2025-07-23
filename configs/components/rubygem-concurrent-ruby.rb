@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/concurrent-ruby
+#   https://github.com/ruby-concurrency/concurrent-ruby/blob/master/CHANGELOG.md
+#####
 component 'rubygem-concurrent-ruby' do |pkg, settings, platform|
   # Projects may define a :rubygem_concurrent_ruby_version setting
   version = settings[:rubygem_concurrent_ruby_version] || '1.2.3'

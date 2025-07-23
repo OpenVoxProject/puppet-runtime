@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/gettext
+#   https://github.com/ruby-gettext/gettext/releases
+#####
 component "rubygem-gettext" do |pkg, settings, platform|
   version = settings[:rubygem_gettext_version] || '3.4.9'
   pkg.version version

@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/thor
+#   https://github.com/rails/thor/releases
+#####
 component 'rubygem-thor' do |pkg, settings, platform|
   pkg.version '1.2.2'
   pkg.md5sum 'cafae723e9fc9ab9bc834471cee2a906'

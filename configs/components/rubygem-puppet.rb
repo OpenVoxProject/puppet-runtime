@@ -1,3 +1,10 @@
+#####
+# Component release information (lol):
+#   https://rubygems.org/gems/puppet
+#   https://github.com/puppetlabs/puppet/releases
+# Notes:
+#   To be replaced with openvox
+#####
 component 'rubygem-puppet' do |pkg, settings, platform|
   # Projects may define a :rubygem_puppet_version setting, or we use this
   # version by default

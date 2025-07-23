@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/r10k
+#   https://github.com/puppetlabs/r10k/blob/main/CHANGELOG.mkd
+#####
 component 'rubygem-r10k' do |pkg, settings, platform|
   version = settings[:rubygem_r10k_version] || '3.16.2'
 

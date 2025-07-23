@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://github.com/ruby/ruby/releases
+#   https://www.ruby-lang.org/en/downloads/releases/
+# Notes:
+#   The file name of the ruby component must match the ruby_version
+#####
 component 'ruby-2.7.8' do |pkg, settings, platform|
   pkg.version '2.7.8'
   pkg.sha256sum 'c2dab63cbc8f2a05526108ad419efa63a67ed4074dbbcf9fc2b1ca664cb45ba0'

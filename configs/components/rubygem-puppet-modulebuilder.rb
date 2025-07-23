@@ -1,3 +1,9 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/puppet-modulebuilder
+#   https://github.com/puppetlabs/puppet-modulebuilder/releases
+#   https://github.com/puppetlabs/puppet-modulebuilder/blob/main/CHANGELOG.md
+#####
 component 'rubygem-puppet-modulebuilder' do |pkg, settings, platform|
   pkg.version '1.0.0'
   pkg.sha256sum 'cf9d9e8146aeae780b7c61f30847a4cb631debcf708c21281976d5ed79820cfd'

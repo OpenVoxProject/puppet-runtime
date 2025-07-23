@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/winrm
+#   https://github.com/WinRb/WinRM/releases
+#####
 component 'rubygem-winrm' do |pkg, settings, platform|
   if settings[:ruby_version].to_f >= 3.2
     pkg.version '2.3.9'

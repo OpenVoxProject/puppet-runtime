@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/net-scp
+#   https://github.com/net-ssh/net-scp/tags
+#####
 component 'rubygem-net-scp' do |pkg, settings, platform|
   pkg.version '4.0.0'
   pkg.md5sum 'a97dcd90f88ec481fdf81b53cfc93285'
