@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/multi_json
+#   https://github.com/sferik/multi_json/blob/main/CHANGELOG.md
+#####
 component "rubygem-multi_json" do |pkg, settings, platform|
   pkg.version '1.15.0'
   pkg.md5sum '06f0ae43e84ec7b9357f4095f8417cd5'

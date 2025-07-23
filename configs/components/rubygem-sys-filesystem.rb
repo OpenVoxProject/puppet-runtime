@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/sys-filesystem
+#   https://github.com/djberg96/sys-filesystem/blob/main/CHANGES.md
+#####
 component 'rubygem-sys-filesystem' do |pkg, settings, platform|
   # 1.5.x removes support for Solaris
   pkg.version '1.4.5'

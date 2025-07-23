@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/deep_merge
+#   https://github.com/danielsdeleo/deep_merge/blob/master/CHANGELOG
+#####
 component "rubygem-deep_merge" do |pkg, settings, platform|
   # Projects may define a :rubygem_deep_merge_version setting, or we use 1.0.1 by default:
   version = settings[:rubygem_deep_merge_version] || '1.0.1'

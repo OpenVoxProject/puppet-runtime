@@ -1,8 +1,12 @@
+#####
+# Component release information: https://github.com/boostorg/boost/releases
+# Notes:
+#   Updated to 1.82 for Windows because we have to in order to compile it
+#   under modern Cygwin, and el10 also has problems with the old 1.73.
+#   However, later versions (at least 1.87) break pxp-agent. Do not bother updating
+#   this component. We will remove it when we remove pxp-agent.
+#####
 component "boost" do |pkg, settings, platform|
-  # Source-Related Metadata
-  # Updated to 1.82 for Windows because we have to in order to compile it
-  # under modern Cygwin, and el10 also has problems with the old 1.73.
-  # However, later versions (at least 1.87) break pxp-agent.
   pkg.version "1.82.0"
   pkg.md5sum "f7050f554a65f6a42ece221eaeec1660"
 

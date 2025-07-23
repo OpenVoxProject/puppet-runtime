@@ -1,7 +1,11 @@
-# This file is a basis for multiple versions/targets of ruby-augeas.
-# It should not be included as a component; Instead other components should
-# load it with instance_eval. See ruby-x.y-augeas.rb configs.
-#
+#####
+# Component release information:
+#   https://github.com/hercules-team/ruby-augeas/releases
+# Notes:
+#   This file is a basis for multiple versions/targets of ruby-augeas.
+#   It should not be included as a component; Instead other components should
+#   load it with instance_eval. See ruby-x.y-augeas.rb configs.
+#####
 
 pkg.add_source("file://resources/patches/augeas/ruby-augeas-0.5.0-patch_c_extension.patch")
 

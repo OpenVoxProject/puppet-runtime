@@ -1,3 +1,6 @@
+#####
+# Component release information: https://github.com/hercules-team/augeas/releases
+#####
 component 'augeas' do |pkg, settings, platform|
   # Projects may define an :augeas_version setting, or we use 1.8.1 by default:
   version = settings[:augeas_version] || '1.14.1'

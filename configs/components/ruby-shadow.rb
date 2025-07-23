@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://github.com/apalmblad/ruby-shadow/tags
+#   https://rubygems.org/gems/ruby-shadow
+#####
 component "ruby-shadow" do |pkg, settings, platform|
   pkg.url "https://github.com/apalmblad/ruby-shadow"
   pkg.ref "refs/tags/2.5.0"

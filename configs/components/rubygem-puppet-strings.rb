@@ -1,3 +1,9 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/puppet-strings
+#   https://github.com/puppetlabs/puppet-strings/releases
+#   https://github.com/puppetlabs/puppet-strings/blob/main/CHANGELOG.md
+#####
 component 'rubygem-puppet-strings' do |pkg, settings, platform|
   # 2021.7.x LTS has a jruby that does not work with puppet-strings
   # version 4.y. The 4 series requires ruby >= 2.7

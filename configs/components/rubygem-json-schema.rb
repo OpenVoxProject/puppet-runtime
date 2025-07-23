@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/json-schema
+#   https://github.com/voxpupuli/json-schema//blob/master/CHANGELOG.md
+#####
 component "rubygem-json-schema" do |pkg, settings, platform|
   pkg.version "5.0.1"
   pkg.sha256sum "bef71a82c600a42594911553522e143f7634affc198ed507ef3ded2f920a74a9"

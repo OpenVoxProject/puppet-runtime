@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/gettext-setup
+#   https://github.com/puppetlabs/gettext-setup-gem/tags
+#####
 component "rubygem-gettext-setup" do |pkg, settings, platform|
   version = settings[:rubygem_gettext_setup_version] || '1.1.0'
   pkg.version version

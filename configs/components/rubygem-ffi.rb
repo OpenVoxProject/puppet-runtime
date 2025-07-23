@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/ffi
+#   https://github.com/ffi/ffi/blob/master/CHANGELOG.md
+# Notes:
+#   Read the comments in the code below carefully.
+#####
 component "rubygem-ffi" do |pkg, settings, platform|
   if platform.is_cross_compiled? && (platform.is_linux? || platform.is_solaris?)
     # Installing ffi >= 1.14.0 blows up horribly if we're cross compiling on Linux and Solaris.

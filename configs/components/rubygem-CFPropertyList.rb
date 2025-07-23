@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/CFPropertyList
+#   https://github.com/ckruse/CFPropertyList/tags
+#####
 component 'rubygem-CFPropertyList' do |pkg, settings, platform|
   if settings[:ruby_version].to_f >= 3.2
     pkg.version '3.0.7'

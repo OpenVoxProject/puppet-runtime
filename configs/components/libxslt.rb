@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://gitlab.gnome.org/GNOME/libxslt/-/releases
+#   https://github.com/GNOME/libxslt/tags
+#####
 component "libxslt" do |pkg, settings, platform|
   pkg.version '1.1.43'
   pkg.sha256sum '5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea3303065231a6d403f0183a'

@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/semantic_puppet
+#   https://github.com/puppetlabs/semantic_puppet/blob/main/CHANGELOG.md
+#####
 component "rubygem-semantic_puppet" do |pkg, settings, platform|
   version = settings[:rubygem_semantic_puppet_version] || '1.1.1'
   if platform.is_cross_compiled? && platform.is_solaris?

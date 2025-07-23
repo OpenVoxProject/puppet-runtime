@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-em_synchrony
+#   https://github.com/lostisland/faraday-em_synchrony/releases
+#####
 component 'rubygem-faraday-em_synchrony' do |pkg, settings, platform|
   pkg.version '1.0.0'
   pkg.md5sum '95c919f72c9c13de42cdd19c4caebcc5'

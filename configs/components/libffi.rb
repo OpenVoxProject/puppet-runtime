@@ -1,3 +1,6 @@
+#####
+# Component release information: https://github.com/libffi/libffi/releases
+#####
 component 'libffi' do |pkg, settings, platform|
   pkg.version '3.4.8'
   pkg.sha256sum 'bc9842a18898bfacb0ed1252c4febcc7e78fa139fd27fdc7a3e30d9d9356119b'

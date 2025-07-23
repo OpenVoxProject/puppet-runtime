@@ -1,3 +1,12 @@
+#####
+# Component release information:
+#   http://git.annexia.org/?p=virt-what.git;a=summary
+#   https://people.redhat.com/~rjones/virt-what/files/
+# Notes:
+#   One of the first search results for this is
+#   https://github.com/chuckleb/virt-what, which you
+#   SHOULD NOT USE as this is a fork.
+#####
 component "virt-what" do |pkg, settings, platform|
   pkg.version "1.25"
   pkg.md5sum "2345f1ec5fa0836bff4071659730ac8f"

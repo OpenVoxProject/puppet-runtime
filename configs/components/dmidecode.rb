@@ -1,3 +1,6 @@
+#####
+# Component release information: https://github.com/mirror/dmidecode/tags
+#####
 component 'dmidecode' do |pkg, settings, platform|
   pkg.version '3.6'
   pkg.sha256sum 'e40c65f3ec3dafe31ad8349a4ef1a97122d38f65004ed66575e1a8d575dd8bae'

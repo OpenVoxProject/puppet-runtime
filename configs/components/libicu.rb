@@ -1,3 +1,9 @@
+#####
+# Component release information: https://github.com/unicode-org/icu/releases
+# Notes:
+#   This is incredibly out of date. Need to investigate if we can and should
+#   update it.
+######
 component 'libicu' do |pkg, settings, platform|
   ## SOURCE METADATA
   pkg.version '62.1'

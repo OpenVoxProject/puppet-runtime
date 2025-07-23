@@ -1,7 +1,11 @@
-# This file is a basis for multiple versions/targets of ruby-selinux.
-# It should not be included as a component; Instead other components should
-# load it with instance_eval. See ruby-x.y-selinux.rb configs.
-#
+#####
+# Component release information:
+#   https://github.com/SELinuxProject/selinux/releases
+# Notes:
+#   This file is a basis for multiple versions/targets of ruby-selinux.
+#   It should not be included as a component; Instead other components should
+#   load it with instance_eval. See ruby-x.y-selinux.rb configs.
+#####
 
 pkg.add_source("file://resources/patches/ruby-selinux/selinuxswig_ruby_wrap.patch")
 pkg.add_source("file://resources/patches/ruby-selinux/selinuxswig_ruby_undefining_allocator.patch")

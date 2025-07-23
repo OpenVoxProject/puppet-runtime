@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-net_http_persistent
+#   https://github.com/lostisland/faraday-net_http_persistent/releases
+#####
 component 'rubygem-faraday-net_http_persistent' do |pkg, settings, platform|
   version = settings[:rubygem_faraday_net_http_persistent_version] || '1.2.0'
 

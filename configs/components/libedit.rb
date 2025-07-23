@@ -1,3 +1,10 @@
+#####
+# Component release information: http://thrysoee.dk/editline/
+# Notes:
+#   This is horrifically out of date. But it isn't clear if there are any
+#   security issues with it that require an upgrade, as it is mostly pulling
+#   in changes from the BSD version of libedit. Needs investigation.
+#####
 component 'libedit' do |pkg, settings, platform|
   pkg.version '20150325-3.1'
   pkg.md5sum '43cdb5df3061d78b5e9d59109871b4f6'

@@ -1,3 +1,9 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/puppet_forge
+#   https://github.com/puppetlabs/forge-ruby/releases
+#   https://github.com/puppetlabs/forge-ruby/blob/main/CHANGELOG.md
+#####
 component 'rubygem-puppet_forge' do |pkg, settings, platform|
   version = settings[:rubygem_puppet_forge_version] || '3.2.0'
   pkg.version version

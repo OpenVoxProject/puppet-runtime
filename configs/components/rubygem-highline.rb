@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/highline
+#   https://github.com/JEG2/highline/blob/master/Changelog.md
+#####
 component 'rubygem-highline' do |pkg, settings, _platform|
   if settings[:ruby_version].to_f >= 3.2
     pkg.version '3.1.0'

@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-net_http
+#   https://github.com/lostisland/faraday-net_http/releases
+#####
 component 'rubygem-faraday-net_http' do |pkg, settings, platform|
   version = settings[:rubygem_faraday_net_http_version] || '1.0.2'
 

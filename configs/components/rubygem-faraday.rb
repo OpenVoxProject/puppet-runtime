@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday
+#   https://github.com/lostisland/faraday/releases
+#####
 component 'rubygem-faraday' do |pkg, settings, platform|
   version = settings[:rubygem_faraday_version] || '1.10.3'
 

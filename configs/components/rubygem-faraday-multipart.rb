@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/faraday-multipart
+#   https://github.com/lostisland/faraday-multipart/releases
+#####   
 component 'rubygem-faraday-multipart' do |pkg, settings, platform|
   pkg.version '1.0.4'
   pkg.md5sum '84b6d08b9165737064b3db89c71fb422'

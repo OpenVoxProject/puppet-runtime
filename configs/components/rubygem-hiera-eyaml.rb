@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/hiera-eyaml
+#   https://github.com/voxpupuli/hiera-eyaml/blob/master/CHANGELOG.md
+#####
 component 'rubygem-hiera-eyaml' do |pkg, settings, platform|
   pkg.version '4.2.0'
   pkg.sha256sum '9285e71bb4861d81cb48f961330ea45126d3a9fe88e8310ddbe7bdc2161ff4b3'

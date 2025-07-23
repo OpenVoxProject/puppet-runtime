@@ -1,3 +1,9 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/nori
+#   https://github.com/savonrb/nori/releases
+#   https://github.com/savonrb/nori/blob/main/CHANGELOG.md
+#####
 component 'rubygem-nori' do |pkg, settings, platform|
   if settings[:ruby_version].to_f >= 3.2
     pkg.version '2.7.1'

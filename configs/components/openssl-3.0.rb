@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://github.com/openssl/openssl/releases
+# Notes:
+#   2025-23-07: We are currently staying on the 3.0.x LTS stream. We will
+#   need to move to the 3.5.x LTS stream in the next year.
+#####
 component 'openssl' do |pkg, settings, platform|
   pkg.version '3.0.16'
   pkg.sha256sum '57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86'

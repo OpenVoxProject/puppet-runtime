@@ -1,3 +1,9 @@
+#####
+# Component release information: https://github.com/adoxa/ansicon/releases
+# Notes: 
+#   2025-07-23: the latest is 1.89, but none of the updates are needed
+#   so not bothering for now.
+#####
 component "ansicon" do |pkg, settings, platform|
   pkg.version '1.86'
   pkg.md5sum 'f2e822dc4ad69959d61b6e09d0a56a30'

@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/httpclient
+#   https://github.com/nahi/httpclient/tags
+#####
 component 'rubygem-httpclient' do |pkg, settings, platform|
   pkg.version '2.8.3'
   pkg.md5sum '0d43c4680b56547b942caa0d9fefa8ec'

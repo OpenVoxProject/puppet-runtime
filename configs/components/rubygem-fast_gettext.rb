@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/fast_gettext
+#   https://github.com/grosser/fast_gettext/blob/master/CHANGELOG
+#####
 component "rubygem-fast_gettext" do |pkg, settings, platform|
   version = settings[:rubygem_fast_gettext_version] || '2.4.0'
   pkg.version version

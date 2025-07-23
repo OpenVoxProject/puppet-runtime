@@ -1,3 +1,9 @@
+#####
+# Component release information: https://github.com/curl/curl/releases
+# Notes:
+#   2025-07-23: The latest is 8.15.0, but it contains no security fixes or
+#   relevant improvements for us, so waiting to update until we need to.
+#####
 component 'curl' do |pkg, settings, platform|
   # Projects may define a :curl_version setting
   version = settings[:curl_version] || '8.14.1'

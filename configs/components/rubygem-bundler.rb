@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/bundler
+#   https://github.com/rubygems/rubygems/blob/master/bundler/CHANGELOG.md
+#####
 component "rubygem-bundler" do |pkg, settings, _platform|
   pkg.version '2.3.26'
   pkg.sha256sum '1ee53cdf61e728ad82c6dbff06cfcd8551d5422e88e86203f0e2dbe9ae999e09'

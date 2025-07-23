@@ -1,3 +1,10 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/hocon
+#   https://github.com/puppetlabs/ruby-hocon/tags
+#   (Not up to date) https://github.com/puppetlabs/ruby-hocon/blob/main/HISTORY.md
+#   (Not up to date) https://github.com/puppetlabs/ruby-hocon/releases
+#####
 component "rubygem-hocon" do |pkg, settings, platform|
   version = settings[:rubygem_hocon_version] || '1.3.1'
   pkg.version version

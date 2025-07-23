@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/rexml
+#   https://github.com/ruby/rexml/releases
+#####
 component 'rubygem-rexml' do |pkg, settings, platform|
   pkg.version '3.4.1'
   pkg.sha256sum 'c74527a9a0a04b4ec31dbe0dc4ed6004b960af943d8db42e539edde3a871abca'

@@ -1,3 +1,8 @@
+#####
+# Component release information:
+#   https://rubygems.org/gems/tty-cursor
+#   https://github.com/piotrmurach/tty-cursor/blob/master/CHANGELOG.md
+#####
 component "rubygem-tty-cursor" do |pkg, settings, platform|
   pkg.version "0.7.1"
   pkg.sha256sum "79534185e6a777888d88628b14b6a1fdf5154a603f285f80b1753e1908e0bf48"
