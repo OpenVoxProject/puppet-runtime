@@ -4,13 +4,8 @@
 #   https://github.com/WinRb/WinRM/releases
 #####
 component 'rubygem-winrm' do |pkg, settings, platform|
-  if settings[:ruby_version].to_f >= 3.2
-    pkg.version '2.3.9'
-    pkg.md5sum '3ee81372528048b8305334ab6f36b4e9'
-  else
-    pkg.version '2.3.6'
-    pkg.md5sum 'a99f8e81343f61caa441eb1397a1c6ae'
-  end
+  pkg.version '2.3.9'
+  pkg.sha256sum 'ef6b767c5772d06e186300b506ea5e65afb849904a551f8482a5cfc2a1be5d06'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

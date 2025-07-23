@@ -4,8 +4,8 @@
 #   https://github.com/RubyCrypto/ed25519/blob/main/CHANGES.md
 #####
 component 'rubygem-ed25519' do |pkg, _settings, _platform|
-  pkg.version '1.3.0'
-  pkg.md5sum 'd810e3aa82d0a0fb9b9d7ca6146121e4'
+  pkg.version '1.4.0'
+  pkg.sha256sum '16e97f5198689a154247169f3453ef4cfd3f7a47481fde0ae33206cdfdcac506'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

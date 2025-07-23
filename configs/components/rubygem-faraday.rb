@@ -4,18 +4,8 @@
 #   https://github.com/lostisland/faraday/releases
 #####
 component 'rubygem-faraday' do |pkg, settings, platform|
-  version = settings[:rubygem_faraday_version] || '1.10.3'
-
-  case version
-  when '1.10.3'
-    pkg.version '1.10.3'
-    pkg.md5sum 'c7b56130721c0b055c071bec593e2446'
-  when '2.12.0'
-    pkg.version '2.12.0'
-    pkg.md5sum 'c0248b00a32c46b64cd2a172c96409ec' 
-  else
-    raise "rubygem-faraday version #{version} is not supported"
-  end
+  pkg.version '2.13.3'
+  pkg.sha256sum 'e9571e7a4ada595b385da5fc749edf7b11dc6aa9d98ab63286c3f28dc4ac01b7'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

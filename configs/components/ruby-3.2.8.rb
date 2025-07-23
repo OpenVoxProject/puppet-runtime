@@ -1,4 +1,10 @@
-# The file name of the ruby component must match the ruby_version
+#####
+# Component release information:
+#   https://github.com/ruby/ruby/releases
+#   https://www.ruby-lang.org/en/downloads/releases/
+# Notes:
+#   The file name of the ruby component must match the ruby_version
+#####
 component 'ruby-3.2.8' do |pkg, settings, platform|
   pkg.version '3.2.8'
   # https://www.ruby-lang.org/en/downloads/releases/

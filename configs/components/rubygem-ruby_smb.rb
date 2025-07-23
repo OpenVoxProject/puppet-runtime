@@ -2,6 +2,9 @@
 # Component release information:
 #   https://rubygems.org/gems/ruby_smb
 #   https://github.com/rapid7/ruby_smb/tags
+# Notes:
+#   This is horrifically out of date. Need to try updating it carefully
+#   and make sure this doesn't break Bolt SMB support.
 #####
 component 'rubygem-ruby_smb' do |pkg, settings, platform|
   pkg.version '1.1.0'

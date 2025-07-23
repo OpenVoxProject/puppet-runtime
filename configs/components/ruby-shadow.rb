@@ -2,6 +2,8 @@
 # Component release information:
 #   https://github.com/apalmblad/ruby-shadow/tags
 #   https://rubygems.org/gems/ruby-shadow
+# Notes: 2.5.1 is supposedly a fix to build on Ruby 3, but I don't think we have
+#        a problem here, so leaving it alone.
 #####
 component "ruby-shadow" do |pkg, settings, platform|
   pkg.url "https://github.com/apalmblad/ruby-shadow"
