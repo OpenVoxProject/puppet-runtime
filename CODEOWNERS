@@ -1,7 +1,0 @@
-# This repository is jointly owned by the following teams:
-# * Phoenix (puppet agent)
-# * Bolt
-# * Skeletor (pe-bolt-server)
-# * Tooling/DevX (PDK)
-# * Installer and Management
-* @puppetlabs/phoenix @puppetlabs/bolt @puppetlabs/skeletor @puppetlabs/tooling @puppetlabs/installer-and-management
