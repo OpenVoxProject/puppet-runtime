@@ -59,7 +59,7 @@ component 'curl' do |pkg, settings, platform|
   end
 
   configure_options = []
-  configure_options << "--with-ssl=#{settings[:prefix]} --without-libpsl --disable-static"
+  configure_options << "--with-ssl=#{settings[:prefix]} --without-libpsl"
 
   # OpenSSL version 3.0 & up no longer ships by default the insecure algorithms
   # that curl's ntlm module depends on (md4 & des).
