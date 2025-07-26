@@ -4,8 +4,8 @@
 #   https://github.com/ruby/prime/releases
 #####
 component 'rubygem-prime' do |pkg, settings, platform|
-  pkg.version '0.1.3'
-  pkg.sha256sum 'baf031c50d6ce923594913befc8ac86a3251bffb9d6a5e8b03687962054e53e3'
+  pkg.version '0.1.4'
+  pkg.sha256sum '4d755ebf7c2994a6f3a3fee0d072063be3fff2d4042ebff6cd5eebd4747a225e'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

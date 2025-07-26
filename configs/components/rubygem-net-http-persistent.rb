@@ -4,8 +4,8 @@
 #   https://github.com/drbrain/net-http-persistent/blob/master/History.txt
 #####
 component 'rubygem-net-http-persistent' do |pkg, settings, platform|
-  pkg.version '4.0.4'
-  pkg.md5sum '96df0d7f9801e167827a77dbf44cabf5'
+  pkg.version '4.0.6'
+  pkg.sha256sum '2abb3a04438edf6cb9e0e7e505969605f709eda3e3c5211beadd621a2c84dd5d'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end
