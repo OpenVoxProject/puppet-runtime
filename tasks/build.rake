@@ -17,8 +17,6 @@ namespace :vox do
     engine = platform =~ /^(osx|windows)-/ ? 'local' : 'docker'
     cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine}"
 
-    #cmd = "bundle exec vanagon build #{project} #{platform} 10.133.158.184"
-
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
