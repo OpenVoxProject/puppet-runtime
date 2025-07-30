@@ -25,7 +25,7 @@ if [ -z "$PROJECT_SHORTNAME" ]; then
 fi
 
 RUNTIMEDIR="/opt/puppetlabs/$PROJECT_SHORTNAME/lib"
-sudo mkdir -p "$RUNTIMEDIR"
+mkdir -p "$RUNTIMEDIR"
 
 # Find the .so files we need
 # shellcheck disable=SC2045
