@@ -111,7 +111,7 @@ component "rubygem-ffi" do |pkg, settings, platform|
     pkg.install_file "/opt/csw/lib/libffi.so.6", "#{settings[:libdir]}/libffi.so.6"
   end
 
-  pkg.environment 'PKG_CONFIG_PATH', '/tmp/opt/puppetlabs/puppet/lib/pkgconfig:$(PKG_CONFIG_PATH)'
+  pkg.environment 'PKG_CONFIG_PATH', '/opt/puppetlabs/puppet/lib/pkgconfig:$(PKG_CONFIG_PATH)'
 
   if platform.is_cross_compiled? && !platform.is_macos?
     base_ruby = case platform.name
