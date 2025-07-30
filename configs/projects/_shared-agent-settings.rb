@@ -46,7 +46,7 @@ if platform.is_windows?
   proj.setting(:sysconfdir, File.join("C:", "CommonAppDataFolder", proj.pl_company_id))
   proj.setting(:tmpfilesdir, "C:/Windows/Temp")
 else
-  proj.setting(:install_root, "/tmp/opt/puppetlabs")
+  proj.setting(:install_root, "/opt/puppetlabs")
   if platform.is_macos?
     proj.setting(:sysconfdir, "/private/etc/puppetlabs")
   else
