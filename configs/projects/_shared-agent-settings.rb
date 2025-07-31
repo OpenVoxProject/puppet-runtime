@@ -234,4 +234,5 @@ proj.directory proj.prefix
 proj.directory proj.sysconfdir
 proj.directory proj.link_bindir
 proj.directory proj.libdir
+proj.directory proj.ruby_dir
 proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
