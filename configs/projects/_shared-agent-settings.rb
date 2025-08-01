@@ -75,6 +75,7 @@ if platform.is_windows?
 end
 
 proj.setting(:ruby_dir, proj.prefix)
+proj.setting(:ruby_dir_base, File.join(proj.prefix, proj.libdir, "ruby"))
 proj.setting(:ruby_bindir, proj.bindir)
 
 raise "Couldn't find a :ruby_version setting in the project file" unless proj.ruby_version
@@ -84,6 +85,8 @@ ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)\.(\d+)/, '\1')
 
 proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
 proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
+
+proj.setting(:ruby_dir_base_version, File.join(proj.prefix, proj.libdir, 'ruby', ruby_base_version))
 
 # Cross-compiled Linux platforms
 platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
@@ -234,4 +237,6 @@ proj.directory proj.prefix
 proj.directory proj.sysconfdir
 proj.directory proj.link_bindir
 proj.directory proj.libdir
+proj.directory proj.ruby_dir_base
+proj.directory proj.ruby_dir_base_version
 proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
