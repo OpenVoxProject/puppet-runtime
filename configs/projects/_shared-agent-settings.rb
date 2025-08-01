@@ -88,6 +88,7 @@ proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
 proj.setting(:ruby_dir_base, File.join(proj.libdir, "ruby"))
 proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
 proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
+proj.setting(:rubygems_ssl_dir, File.join(proj.rubygems_dir, 'ssl_certs'))
 
 # Cross-compiled Linux platforms
 platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
@@ -241,4 +242,5 @@ proj.directory proj.libdir
 proj.directory proj.ruby_dir_base
 proj.directory proj.ruby_dir_base_version
 proj.directory proj.rubygems_dir
+proj.directory proj.rubygems_ssl_dir
 proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
