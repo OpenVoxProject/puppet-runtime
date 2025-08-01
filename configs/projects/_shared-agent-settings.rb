@@ -87,6 +87,7 @@ proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
 
 proj.setting(:ruby_dir_base, File.join(proj.libdir, "ruby"))
 proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
+proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
 
 # Cross-compiled Linux platforms
 platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
