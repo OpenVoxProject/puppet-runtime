@@ -9,10 +9,8 @@ namespace :vox do
     if platform =~ /^windows-/
       FileUtils.rm_rf('C:/ProgramFiles64Folder')
     else
-      puts "cleanup on isle 4"
       FileUtils.rm_rf('/opt/puppetlabs')
       FileUtils.rm_rf('/etc/puppetlabs')
-      FileUtils.rm_rf('/tmp/delete_me')
     end
   end
 end
