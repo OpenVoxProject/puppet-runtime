@@ -8,6 +8,9 @@ namespace :vox do
 
     if platform =~ /^windows-/
       FileUtils.rm_rf('C:/ProgramFiles64Folder')
+    elsif platform =~ /^osx-/
+      FileUtils.rm_rf('/opt/puppetlabs')
+      FileUtils.rm_rf('/private/etc/puppetlabs')
     else
       FileUtils.rm_rf('/opt/puppetlabs')
       FileUtils.rm_rf('/etc/puppetlabs')
