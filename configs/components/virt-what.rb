@@ -11,7 +11,10 @@ component "virt-what" do |pkg, settings, platform|
   pkg.version "1.25"
   pkg.md5sum "2345f1ec5fa0836bff4071659730ac8f"
 
-  pkg.url "https://people.redhat.com/~rjones/virt-what/files/virt-what-#{pkg.get_version}.tar.gz"
+  # 2025-08-05: The upstream site was down, so using a mirror here. Revert this back to the
+  # original URL next time we bump this.
+  #pkg.url "https://people.redhat.com/~rjones/virt-what/files/virt-what-#{pkg.get_version}.tar.gz"
+  pkg.url "https://artifacts.voxpupuli.org/components/virt-what-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/virt-what-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-virt-what'

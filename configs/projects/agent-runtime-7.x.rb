@@ -77,6 +77,4 @@ project 'agent-runtime-7.x' do |proj|
     proj.component 'rubygem-nokogiri'
     proj.component 'rubygem-mini_portile2'
   end
-
-  proj.component 'boost' if ENV['NO_PXP_AGENT'].to_s.empty?
 end

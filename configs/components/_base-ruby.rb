@@ -66,13 +66,7 @@ elsif platform.is_windows?
 elsif platform.is_macos?
   pkg.environment 'optflags', settings[:cflags]
   if platform.is_cross_compiled?
-    # Pin to an older version of ruby@2.7 hosted by Puppet as Homebrew
-    # moved its Ruby 2.7 formula from OpenSSL 1.1 to 3.0
-    if ruby_version_y == "2.7"
-      pkg.build_requires "puppetlabs/puppet/ruby@2.7"
-    else
-      pkg.build_requires "ruby@#{ruby_version_y}"
-    end
+    pkg.build_requires "ruby@#{ruby_version_y}"
     pkg.environment 'CC', 'clang -target arm64-apple-macos11' if platform.name =~ /osx-11/
     pkg.environment 'CC', 'clang -target arm64-apple-macos12' if platform.name =~ /osx-12/
   elsif platform.architecture == 'arm64' && platform.os_version.to_i >= 13
@@ -117,61 +111,4 @@ end
 
 pkg.install do
   [ "#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1) install" ]
-end
-
-# For the pdk runtime, the ruby bin directory is different then the main bin
-# directory. In order to run ruby *outside* of the normal pdk.bat then we need
-# to copy all dlls that ruby depends on from the main bin directory to ruby's
-# bin directory. This is because the main bin directory is not in our system
-# PATH and Windows doesn't support RPATH. However, as mentioned in
-# https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order,
-# Windows searches for DLLs in "The folder the calling process was loaded from
-# (the executable's folder)."
-#
-# The agent runtime used to have the same issue prior to puppet 6, for example
-# RE-7593. However, Windows paths were changed to match *nix in puppet 6, see
-# commit 4b9d126dd5b. So only the pdk has this issue.
-if platform.is_windows? && settings[:bindir] != ruby_bindir
-  bindir = settings[:bindir]
-
-  # Ruby 3+
-  if Gem::Version.new(pkg.get_version) >= Gem::Version.new('3.0')
-    pkg.install do
-      [
-        "cp #{settings[:gcc_bindir]}/libssp-0.dll #{ruby_bindir}",
-        "cp #{bindir}/libffi-8.dll #{ruby_bindir}",
-        "cp #{bindir}/libyaml-0-2.dll #{ruby_bindir}"
-      ]
-    end
-  end
-
-  if platform.architecture == "x64"
-    gcc_postfix = 'seh'
-    ssl_postfix = '-x64'
-  else
-    gcc_postfix = 'sjlj'
-    ssl_postfix = ''
-  end
-
-  # OpenSSL
-  if Gem::Version.new(settings[:openssl_version]) >= Gem::Version.new('3.0')
-    ssl_lib = "libssl-3#{ssl_postfix}.dll"
-    crypto_lib = "libcrypto-3#{ssl_postfix}.dll"
-  elsif Gem::Version.new(settings[:openssl_version]) >= Gem::Version.new('1.1.0')
-    ssl_lib = "libssl-1_1#{ssl_postfix}.dll"
-    crypto_lib = "libcrypto-1_1#{ssl_postfix}.dll"
-  else
-    ssl_lib = "ssleay32.dll"
-    crypto_lib = "libeay32.dll"
-  end
-
-  pkg.install do
-    [
-      "cp #{bindir}/libgcc_s_#{gcc_postfix}-1.dll #{ruby_bindir}",
-      "cp #{bindir}/#{ssl_lib} #{ruby_bindir}",
-      "cp #{bindir}/#{crypto_lib} #{ruby_bindir}"
-    ]
-  end
-
-  pkg.directory ruby_dir
 end

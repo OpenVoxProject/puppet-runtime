@@ -1,8 +1,7 @@
 project 'agent-runtime-main' do |proj|
 
   # Set preferred component versions if they differ from defaults:
-  proj.setting :ruby_version, '3.2.8'
-  proj.setting :rubygem_deep_merge_version, '1.2.2'
+  proj.setting :ruby_version, '3.2' # Leave the .Z out for Ruby 3.2
   proj.setting :rubygem_highline_version, '3.0.1'
   proj.setting :rubygem_hocon_version, '1.4.0'
   proj.setting :rubygem_net_ssh_version, '7.2.3'
@@ -79,12 +78,4 @@ project 'agent-runtime-main' do |proj|
   # Dependencies for gettext for Ruby >= 3.2 (PA-4815)
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-prime'
-
-  # We are currently not building pxp-agent for Windows because it is unused for
-  # OpenVox aside from execution_wrapper which is soon to be replaced, and because
-  # we're having trouble getting things compiled correctly with the modern toolchain.
-  # For a Windows, only build these if BUILD_WINDOWS_PXP_AGENT is set.
-  # For other platforms, build these unless NO_PXP_AGENT is set.
-  build_for_pxp_agent = platform.is_windows? ? !ENV['BUILD_WINDOWS_PXP_AGENT'].to_s.empty? : ENV['NO_PXP_AGENT'].to_s.empty?
-  proj.component 'boost' if build_for_pxp_agent
 end

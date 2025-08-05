@@ -38,7 +38,7 @@ component "ruby-shadow" do |pkg, settings, platform|
     ruby = File.join(settings[:ruby_bindir], 'ruby')
   end
 
-  matchdata = platform.settings[:ruby_version].match(/(\d+)\.(\d+)\.\d+/)
+  matchdata = platform.settings[:ruby_version].match(/(\d+)\.(\d+)(\.\d+)?/)
   ruby_major_version = matchdata[1].to_i
   if ruby_major_version >= 3
     base = "resources/patches/ruby_32"
