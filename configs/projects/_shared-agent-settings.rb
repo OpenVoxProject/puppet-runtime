@@ -208,11 +208,6 @@ end
 
 proj.timeout 7200 if platform.is_windows?
 
-# These are the boost libraries we care about for OpenFact and friends
-proj.setting(:boost_libs, ["chrono", "date_time", "filesystem", "locale", "log", "program_options",
-                           "random", "regex", "system", "thread"])
-proj.setting(:boost_link_option, "link=shared")
-
 # Most branches of puppet-agent use these openssl flags in addition to the defaults in configs/components/openssl.rb -
 # Individual projects can override these if necessary.
 proj.setting(:openssl_extra_configure_flags, [
