@@ -1,33 +1,20 @@
-# The file name of the ruby component must match the ruby_version
-component 'ruby-3.2.8' do |pkg, settings, platform|
-  pkg.version '3.2.8'
-  # https://www.ruby-lang.org/en/downloads/releases/
-  pkg.sha256sum '77acdd8cfbbe1f8e573b5e6536e03c5103df989dc05fa68c70f011833c356075'
+#####
+# Component release information:
+#   https://github.com/ruby/ruby/releases
+#   https://www.ruby-lang.org/en/downloads/releases/
+# Notes:
+#   The file name of the ruby component must match the ruby_version
+#####
+component 'ruby-3.2' do |pkg, settings, platform|
+  pkg.version '3.2.9'
+  pkg.sha256sum 'abbad98db9aeb152773b0d35868e50003b8c467f3d06152577c4dfed9d88ed2a'
+
+  ruby_dir = settings[:ruby_dir]
+  ruby_bindir = settings[:ruby_bindir]
+  host_ruby = settings[:host_ruby]
 
   # rbconfig-update is used to munge rbconfigs after the fact.
   pkg.add_source("file://resources/files/ruby/rbconfig-update.rb")
-
-  # PDK packages multiple rubies and we need to tweak some settings
-  # if this is not the *primary* ruby.
-  if pkg.get_version !~ /3\.2/ && pkg.get_version != settings[:ruby_version]
-    # not primary ruby
-
-    # ensure we have config for this ruby
-    unless settings.key?(:additional_rubies) && settings[:additional_rubies].key?(pkg.get_version)
-      raise "missing config for additional ruby #{pkg.get_version}"
-    end
-
-    ruby_settings = settings[:additional_rubies][pkg.get_version]
-
-    ruby_dir = ruby_settings[:ruby_dir]
-    ruby_bindir = ruby_settings[:ruby_bindir]
-    host_ruby = ruby_settings[:host_ruby]
-  else
-    # primary ruby
-    ruby_dir = settings[:ruby_dir]
-    ruby_bindir = settings[:ruby_bindir]
-    host_ruby = settings[:host_ruby]
-  end
 
   # Most ruby configuration happens in the base ruby config:
   instance_eval File.read('configs/components/_base-ruby.rb')
