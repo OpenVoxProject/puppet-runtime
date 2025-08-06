@@ -9,7 +9,7 @@
 component "pl-ruby-patch" do |pkg, settings, platform|
   if platform.is_cross_compiled?
 
-    ruby_version_y = settings[:ruby_version].gsub(/(\d+)\.(\d+)\.(\d+)/, '\1.\2')
+    ruby_version_y = settings[:ruby_version].gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
 
     pkg.add_source("file://resources/files/ruby/patch-hostruby.rb")
 
