@@ -1,17 +1,53 @@
-def current_version
-  @current_version ||= File.read(File.expand_path('../CHANGELOG.md', __dir__)).match(/^## \[([^\]]+)\]/) { |match| match[1] }
-rescue Errno::ENOENT
-  puts 'Cannot find current version from CHANGELOG.md.  Ignored'
-  @current_version = ''
-end
+class Version
+  attr_reader :date, :x, :raw
 
-def next_version
-  today_prefix = Time.now.utc.strftime('%Y-%m-%d')
+  def initialize(v)
+    @raw = v
 
-  if current_version.start_with?(today_prefix)
-    current_version.next
-  else
-    "#{today_prefix}-1"
+    if (m = v.match(%r{\A(?<date>\d{4}-\d{2}-\d{2})-(?<x>\d+)\z}))
+      @date = m['date']
+      @x = m['x'].to_i
+    else
+      @date = nil
+      @x = 1
+    end
+  end
+
+  def self.load_from_changelog
+    changelog = File.expand_path('../CHANGELOG.md', __dir__)
+    version = File.read(changelog).match(/^## \[([^\]]+)\]/) { |match| match[1] }
+    new(version)
+  rescue Errno::ENOENT
+    new('')
+  end
+
+  def to_s
+    if malformed?
+      raw
+    else
+      "#{date}-#{x}"
+    end
+  end
+
+  def next!
+    if date == today
+      @x += 1
+    else
+      @date = today
+      @x = 1
+    end
+
+    self
+  end
+
+  private
+
+  def malformed?
+    date.nil?
+  end
+
+  def today
+    Time.now.strftime('%Y-%m-%d')
   end
 end
 
@@ -22,12 +58,12 @@ end
 
 desc 'Get the current version of the project'
 task 'vox:version:current' do
-  puts current_version
+  puts Version.load_from_changelog
 end
 
 desc 'Get the next version of the project'
 task 'vox:version:next' do
-  puts next_version
+  puts Version.load_from_changelog.next!
 end
 
 begin
@@ -41,7 +77,7 @@ begin
     config.project = "puppet-runtime"
     config.exclude_labels = %w[dependencies duplicate question invalid wontfix wont-fix modulesync skip-changelog]
     config.since_tag = "202501080"
-    config.future_release = next_version
+    config.future_release = Version.load_from_changelog.next!.to_s
   end
 rescue LoadError
   task :changelog do
