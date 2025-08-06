@@ -16,6 +16,9 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: read # minimal required permissions to clone repo
+
 jobs:
   build:
     uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@main'
