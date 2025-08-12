@@ -1,6 +1,7 @@
 --- a/SPECS/openssl.spec	2019-05-11 00:45:45.000000000 +0000
 +++ b/SPECS/openssl.spec	2020-01-13 15:16:29.224852120 +0000
 @@ -83,16 +83,23 @@
+ Patch75: openssl-1.1.1-tls13-curves.patch
  Patch81: openssl-1.1.1-read-buff.patch
  Patch82: openssl-1.1.1-cve-2022-0778.patch
 +Patch100: openssl-1.1.1-force-fips-on-init.patch
