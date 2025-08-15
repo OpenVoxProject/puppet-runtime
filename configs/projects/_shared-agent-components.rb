@@ -21,9 +21,9 @@ if ruby_major_version >= 3
   proj.component 'libyaml'
 end
 
-if proj.openssl_version =~ /^3\./
+if proj.openssl_version =~ /^3\./ # All Ruby 3 builds will use OpenSSL 3, including FIPS
   proj.component "openssl-#{proj.openssl_version}"
-elsif platform.name =~ /^redhatfips-.*/
+elsif platform.name =~ /^redhatfips-.*/ # This is only Ruby 2 builds
   proj.component "openssl-1.1.1-fips"
 else
   proj.component "openssl-fips-2.0.16" if platform.name =~ /windowsfips-/ && proj.openssl_version =~ /1.0.2/

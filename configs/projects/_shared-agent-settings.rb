@@ -147,9 +147,10 @@ proj.setting(:host, host)
 # Load default compiler settings
 instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 
+# Always use OpenSSL 3, even on FIPS, when we're building for Ruby 3
 if ruby_version_x == "3"
   proj.setting(:openssl_version, '3.0')
-elsif platform.name =~ /^redhatfips-/
+elsif platform.name =~ /^redhatfips-/ # This is only Ruby 2 builds
   proj.setting(:openssl_version, '1.1.1-fips')
 elsif platform.name =~ /^windowsfips-/
   proj.setting(:openssl_version, '1.0.2')
