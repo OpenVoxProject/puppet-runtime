@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025-08-21-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-08-21-1) (2025-08-21)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-10-1...2025-08-21-1)
+
+**Merged pull requests:**
+
+- Update dmidecode download URL to non-mirror site [f6fc726](https://github.com/OpenVoxProject/puppet-runtime/commit/f6fc726b0e2e92a02140aa859cd1bb873da7d127)
+- Add Ubuntu 25.04 [\#46](https://github.com/OpenVoxProject/puppet-runtime/pull/46) ([genebean](https://github.com/genebean))
+- Some notes to make it clear what OpenSSL is being used [\#45](https://github.com/OpenVoxProject/puppet-runtime/pull/45) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025-08-10-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-08-10-1) (2025-08-10)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/202508061...2025-08-10-1)
