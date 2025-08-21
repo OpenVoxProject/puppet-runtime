@@ -46,7 +46,7 @@ elsif platform.name.start_with?('ubuntu-24')
   pkg.sha256sum '9a3a3705ac13a2ccca2de6d652b6356fead10f36fb33115c185c5ccdf29eec19'
   pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
   pkg.build_requires 'python3-setuptools'
-elsif platform.name.start_with?('el-10')
+elsif platform.name =~ /el-10|ubuntu-25.04/
   # SELinux 3.7 is the minimum version available in RHEL 10 repos
   pkg.version '3.7'
   pkg.sha256sum 'ea03f42d13a4f95757997dba8cf0b26321fac5d2f164418b4cc856a92d2b17bd'
