@@ -79,7 +79,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
   special_flags = " --prefix=#{ruby_dir} --with-opt-dir=#{settings[:prefix]} "
 
   cflags = settings[:cflags]
-  if platform.is_debian? && platform.os_version.to_i >= 13
+  if (platform.is_debian? && platform.os_version.to_i >= 13) || (platform.is_ubuntu? && platform.os_version =~ /25.04/)
     # A problem with --enable-dtrace, which I suspect may be because of GCC on the Trixie image.
     # Check if this is still needed next time we bump Ruby and/or bump the Debian 13
     # container to the release version.
