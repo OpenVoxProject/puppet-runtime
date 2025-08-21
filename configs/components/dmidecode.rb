@@ -6,7 +6,7 @@ component 'dmidecode' do |pkg, settings, platform|
   pkg.sha256sum 'e40c65f3ec3dafe31ad8349a4ef1a97122d38f65004ed66575e1a8d575dd8bae'
 
   pkg.apply_patch 'resources/patches/dmidecode/dmidecode-install-to-bin.patch'
-  pkg.url "http://download.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
+  pkg.url "http://download-mirror.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
   pkg.mirror "#{settings[:buildsources_url]}/dmidecode-#{pkg.get_version}.tar.xz"
 
   pkg.environment "LDFLAGS", settings[:ldflags]
