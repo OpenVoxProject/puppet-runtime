@@ -85,6 +85,11 @@ ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1')
 proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
 proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
 
+proj.setting(:ruby_dir_base, File.join(proj.libdir, "ruby"))
+proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
+proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
+proj.setting(:rubygems_ssl_dir, File.join(proj.rubygems_dir, 'ssl_certs'))
+
 # Cross-compiled Linux platforms
 platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
 platform_triple = "powerpc64le-suse-linux" if platform.architecture == "ppc64le" && platform.name =~ /^sles-/
@@ -229,4 +234,9 @@ proj.directory proj.install_root
 proj.directory proj.prefix
 proj.directory proj.sysconfdir
 proj.directory proj.link_bindir
+proj.directory proj.libdir
+proj.directory proj.ruby_dir_base
+proj.directory proj.ruby_dir_base_version
+proj.directory proj.rubygems_dir
+proj.directory proj.rubygems_ssl_dir
 proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
