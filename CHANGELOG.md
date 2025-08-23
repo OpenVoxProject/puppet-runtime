@@ -1,13 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025-08-23-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-08-23-1) (2025-08-23)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-21-1...2025-08-23-1)
+
+**Merged pull requests:**
+
+- Remove EOL platforms and bump puppet-ca-bundle [\#49](https://github.com/OpenVoxProject/puppet-runtime/pull/49) ([nmburgan](https://github.com/nmburgan))
+- Update webrick [\#48](https://github.com/OpenVoxProject/puppet-runtime/pull/48) ([binford2k](https://github.com/binford2k))
+- OSX non-root user build changes [\#44](https://github.com/OpenVoxProject/puppet-runtime/pull/44) ([shaun-rutherford](https://github.com/shaun-rutherford))
+
 ## [2025-08-21-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-08-21-1) (2025-08-21)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-10-1...2025-08-21-1)
 
 **Merged pull requests:**
 
-- Update dmidecode download URL to non-mirror site [f6fc726](https://github.com/OpenVoxProject/puppet-runtime/commit/f6fc726b0e2e92a02140aa859cd1bb873da7d127)
 - Add Ubuntu 25.04 [\#46](https://github.com/OpenVoxProject/puppet-runtime/pull/46) ([genebean](https://github.com/genebean))
 - Some notes to make it clear what OpenSSL is being used [\#45](https://github.com/OpenVoxProject/puppet-runtime/pull/45) ([nmburgan](https://github.com/nmburgan))
 
