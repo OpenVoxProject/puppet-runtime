@@ -36,6 +36,7 @@ env:
   # https://github.com/boto/boto3/issues/4398#issuecomment-2619946229
   AWS_REQUEST_CHECKSUM_CALCULATION: "WHEN_REQUIRED"
   AWS_RESPONSE_CHECKSUM_VALIDATION: "WHEN_REQUIRED"
+  VANAGON_LOCATION: https://github.com/shaun-rutherford/vanagon#cleanup
 
 jobs:
   set-matrix:
@@ -112,8 +113,6 @@ jobs:
           brew install awscli
 
       - name: Run build script
-        env:
-          VANAGON_LOCATION: https://github.com/shaun-rutherford/vanagon#cleanup
         run: |
           rm -rf output
           bundle exec rake vox:build['${{ inputs.project_name }}','${{ matrix.platform }}']
