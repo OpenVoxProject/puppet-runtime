@@ -1,0 +1,120 @@
+# GitHub standard runners:
+#  macos-13 = osx-13-x86_64
+#  macos-14 = osx-14-arm64
+#  macos-15 = osx-15-arm64
+# GitHub large runners (requires team/enterprise GitHub org):
+#  macos-13-xlarge = osx-13-arm64
+#  macos-14-large = osx-14-x86_64
+#  macos-15-large = osx-15-x86_64
+name: Build an OpenVox vanagon project
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Tag to build'
+        required: true
+      project_name:
+        description: 'The vanagon project to build'
+        required: false
+        default: 'agent-runtime-main'
+      platform_list:
+        description: 'A comma-separated list of platforms to build for. Do not include spaces. If not provided, will use the default list of macOS platforms.'
+        required: false
+        type: string
+        default: 'osx-13-x86_64,osx-14-x86_64,osx-14-arm64,osx-15-x86_64,osx-15-arm64'
+
+permissions:
+  contents: read # minimal required permissions to clone repo
+
+env:
+  ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
+  BUCKET_NAME: ${{ secrets.S3_ARTIFACTS_BUCKET_NAME }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  # https://github.com/boto/boto3/issues/4398#issuecomment-2619946229
+  AWS_REQUEST_CHECKSUM_CALCULATION: "WHEN_REQUIRED"
+  AWS_RESPONSE_CHECKSUM_VALIDATION: "WHEN_REQUIRED"
+
+jobs:
+  set-matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      platform_matrix: ${{ steps.set-matrix.outputs.platform_matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          default_list=(
+            'osx-13-x86_64'
+            'osx-14-arm64'
+            'osx-15-arm64'
+            'osx-13-arm64'
+            'osx-14-x86_64'
+            'osx-15-x86_64'
+          )
+          
+          if [[ -n "${{ inputs.platform_list }}" ]]; then
+            IFS=',' read -r -a platforms <<< "${{ inputs.platform_list }}"
+          else
+            platforms=("${default_list[@]}")
+          fi
+
+          # Output as JSON array
+          echo "platform_matrix=$(jq --monochrome-output --compact-output --null-input '$ARGS.positional' --args -- ${platforms[@]})" >> "${GITHUB_OUTPUT}"
+          
+          # Log for debugging
+          echo "Platforms to build: ${platforms[@]}"
+
+  build:
+    needs: set-matrix
+    timeout-minutes: 600
+    if: needs.set-matrix.outputs.platform_matrix != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(needs.set-matrix.outputs.platform_matrix) }}
+        include:
+          # GitHub standard runners
+          - platform: osx-13-x86_64
+            runner: macos-13
+          - platform: osx-14-arm64
+            runner: macos-14
+          - platform: osx-15-arm64
+            runner: macos-15
+          # GitHub large runners (requires team/enterprise GitHub org)
+          - platform: osx-13-arm64
+            runner: macos-13-xlarge
+          - platform: osx-14-x86_64
+            runner: macos-14-large
+          - platform: osx-15-x86_64
+            runner: macos-15-large
+    
+    runs-on: ${{ matrix.runner }}
+    name: Build ${{ inputs.project_name }} on ${{ matrix.platform }}
+    
+    steps:
+      - name: Checkout code at tag
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.9'
+
+      - name: Bundle install
+        run: bundle install --retry=3
+
+      - name: Install Python and awscli
+        run: |
+          brew install awscli
+
+      - name: Run build script
+        run: |
+          rm -rf output
+          bundle exec rake vox:build['${{ inputs.project_name }}','${{ matrix.platform }}']
+
+      - name: Upload output to S3
+        run: bundle exec rake vox:upload['${{ inputs.ref }}','${{ matrix.platform }}']
