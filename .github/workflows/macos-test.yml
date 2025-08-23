@@ -106,7 +106,7 @@ jobs:
           ruby-version: '3.2.9'
 
       - name: Bundle install
-        run: bundle install --retry=3
+        run: bundle install --retry=3 && bundle update
 
       - name: Install Python and awscli
         run: |
