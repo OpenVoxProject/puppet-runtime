@@ -15,11 +15,10 @@ namespace :vox do
     platform = args[:platform]
 
     engine = platform =~ /^(osx|windows)-/ ? 'local' : 'docker'
-    cmd = "VANAGON_LOCATION=https://github.com/shaun-rutherford/vanagon#cleanup bundle exec build #{project} #{platform} --engine #{engine}"
+    cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
-    run_command("VANAGON_LOCATION=https://github.com/shaun-rutherford/vanagon#cleanup bundle install")
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end

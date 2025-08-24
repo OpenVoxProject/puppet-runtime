@@ -9,7 +9,6 @@
 name: Build an OpenVox vanagon project
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       ref:
@@ -36,6 +35,7 @@ env:
   # https://github.com/boto/boto3/issues/4398#issuecomment-2619946229
   AWS_REQUEST_CHECKSUM_CALCULATION: "WHEN_REQUIRED"
   AWS_RESPONSE_CHECKSUM_VALIDATION: "WHEN_REQUIRED"
+  VANAGON_LOCATION: 'https://github.com/shaun-rutherford/vanagon#cleanup'
 
 jobs:
   set-matrix:
