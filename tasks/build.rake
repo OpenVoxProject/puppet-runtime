@@ -19,7 +19,7 @@ namespace :vox do
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
-    run_command("VANAGON_LOCATION=https://github.com/shaun-rutherford/vanagon#cleanup bundle update")
+    run_command("VANAGON_LOCATION=https://github.com/shaun-rutherford/vanagon#cleanup bundle install")
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
