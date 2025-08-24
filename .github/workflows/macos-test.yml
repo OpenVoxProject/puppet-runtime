@@ -6,7 +6,7 @@
 #  macos-13-xlarge = osx-13-arm64
 #  macos-14-large = osx-14-x86_64
 #  macos-15-large = osx-15-x86_64
-name: Build an OpenVox vanagon project
+name: Build MacOS
 
 on:
   workflow_dispatch:
