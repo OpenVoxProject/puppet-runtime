@@ -9,6 +9,8 @@ component 'augeas' do |pkg, settings, platform|
   case version
   when '1.14.1'
     pkg.md5sum 'ac31216268b4b64809afd3a25f2515e5'
+
+    pkg.apply_patch 'resources/patches/augeas/augeas-1.14.1-return_reg_enosys.patch'
   when '1.12.0'
     pkg.md5sum '74f1c7b8550f4e728486091f6b907175'
 
