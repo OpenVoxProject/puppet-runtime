@@ -1,0 +1,51 @@
+diff --git a/src/fa.c b/src/fa.c
+index 66ac70784..4de5675b9 100644
+--- a/src/fa.c
++++ b/src/fa.c
+@@ -3550,6 +3550,8 @@ static struct re *parse_regexp(struct re_parse *parse) {
+     return re;
+ 
+  error:
++    if (re == NULL && parse->error == REG_NOERROR)
++        parse->error = _REG_ENOSYS;
+     re_unref(re);
+     return NULL;
+ }
+diff --git a/src/fa.h b/src/fa.h
+index 1fd754ad0..89c9b17e9 100644
+--- a/src/fa.h
++++ b/src/fa.h
+@@ -81,7 +81,8 @@ extern int fa_minimization_algorithm;
+  *
+  * On success, FA points to the newly allocated automaton constructed for
+  * RE, and the function returns REG_NOERROR. Otherwise, FA is NULL, and the
+- * return value indicates the error.
++ * return value indicates the error. Special value _REG_ENOSYS indicates
++ * fa_compile() couldn't identify the syntax issue with regexp.
+  *
+  * The FA is case sensitive. Call FA_NOCASE to switch it to
+  * case-insensitive.
+diff --git a/tests/fatest.c b/tests/fatest.c
+index 0c9ca7696..6717af8f4 100644
+--- a/tests/fatest.c
++++ b/tests/fatest.c
+@@ -589,6 +589,7 @@ static void testExpandNoCase(CuTest *tc) {
+     const char *p1 = "aB";
+     const char *p2 = "[a-cUV]";
+     const char *p3 = "[^a-z]";
++    const char *wrong_regexp = "{&.{";
+     char *s;
+     size_t len;
+     int r;
+@@ -607,6 +608,11 @@ static void testExpandNoCase(CuTest *tc) {
+     CuAssertIntEquals(tc, 0, r);
+     CuAssertStrEquals(tc, "[^A-Za-z]", s);
+     free(s);
++
++    /* Test that fa_expand_nocase does return _REG_ENOSYS */
++    r = fa_expand_nocase(wrong_regexp, strlen(wrong_regexp), &s, &len);
++    CuAssertIntEquals(tc, _REG_ENOSYS, r);
++    free(s);
+ }
+ 
+ static void testNoCaseComplement(CuTest *tc) {
