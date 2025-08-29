@@ -67,15 +67,17 @@ component 'curl' do |pkg, settings, platform|
     configure_options << "--disable-ntlm"
   end
 
-  extra_cflags = []
-  if platform.is_cross_compiled? && platform.is_macos?
-    extra_cflags << '-mmacosx-version-min=11.0 -arch arm64' if platform.name =~ /osx-11/
-    extra_cflags << '-mmacosx-version-min=12.0 -arch arm64' if platform.name =~ /osx-12/
-  end
-
   if (platform.is_solaris? && platform.os_version == '11') || platform.is_aix?
     # Makefile generation with automatic dependency tracking fails on these platforms
     configure_options << "--disable-dependency-tracking"
+  end
+
+  if platform.is_macos?
+    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
+    pkg.environment 'CFLAGS', settings[:cflags]
+    pkg.environment 'CC', settings[:cc]
+    pkg.environment 'CPPFLAGS', settings[:cppflags]
+    pkg.environment 'CXX', settings[:cxx]
   end
 
   pkg.configure do
@@ -89,7 +91,7 @@ component 'curl' do |pkg, settings, platform|
         --with-ca-bundle=#{settings[:prefix]}/ssl/cert.pem \
         --with-ca-path=#{settings[:prefix]}/ssl/certs \
         --without-nghttp2 \
-        CFLAGS='#{settings[:cflags]} #{extra_cflags.join(" ")}' \
+        CFLAGS='#{settings[:cflags]}' \
         #{settings[:host]}"]
   end
 

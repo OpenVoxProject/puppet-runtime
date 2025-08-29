@@ -3,9 +3,6 @@ require 'fileutils'
 namespace :vox do
   desc 'Build vanagon project with Docker'
   task :build, [:project, :platform] do |_, args|
-    # This is not currently really any different than 'bundle exec build agent-runtime-main <platform> --engine docker',
-    # but adding this machinery so we can make it fancier later and have a common way to build
-    # locally and in an action.
     args.with_defaults(project: 'agent-runtime-main')
     project = args[:project]
 
@@ -13,9 +10,16 @@ namespace :vox do
 
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
+    os, _ver, arch = platform.match(/^(\w+)-([\w|\.]+)-(\w+)$/).captures
+    if os == 'macos'
+      shell = `uname -m`.chomp
+      ruby = `ruby -v`.chomp
+      abort "Detected shell arch: #{shell}. You must run this build from a #{arch} machine or shell. To do this on the current host, run 'arch -#{arch} /bin/bash'" if shell != arch
+      abort "Detected ruby: #{ruby}. You must run this build with a #{arch} Ruby version. To do this on the current host, install Ruby from an #{arch} shell via 'arch -#{arch} /bin/bash'." unless ruby =~ /#{arch}/
+    end
 
-    engine = platform =~ /^(osx|windows)-/ ? 'local' : 'docker'
-    cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine}"
+    engine = platform =~ /^(macos|windows)-/ ? 'local' : 'docker'
+    cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 

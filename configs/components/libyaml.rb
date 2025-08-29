@@ -24,10 +24,8 @@ component 'libyaml' do |pkg, settings, platform|
   elsif platform.is_macos?
     pkg.environment "LDFLAGS", settings[:ldflags]
     pkg.environment "CFLAGS", settings[:cflags]
-    if platform.is_cross_compiled?
-      pkg.environment 'CC', 'clang -target arm64-apple-macos11' if platform.name =~ /osx-11/
-      pkg.environment 'CC', 'clang -target arm64-apple-macos12' if platform.name =~ /osx-12/
-    end
+    pkg.environment 'CC', settings[:cc]
+    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
   elsif platform.is_windows?
     pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(PATH)"
     pkg.environment "LDFLAGS", settings[:ldflags]
