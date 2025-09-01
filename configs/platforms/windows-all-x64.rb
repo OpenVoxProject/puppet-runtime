@@ -1,4 +1,4 @@
-platform "windows-2019-x64" do |plat|
+platform "windows-all-x64" do |plat|
   plat.vmpooler_template "win-2019-x86_64"
   
   # Not currently used
