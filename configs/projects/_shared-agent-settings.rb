@@ -183,19 +183,20 @@ else
 end
 
 if platform.is_macos?
-  # For OS X, we should optimize for an older architecture than Apple
-  # currently ships for; there's a lot of older xeon chips based on
-  # that architecture still in use throughout the Mac ecosystem.
-  # Additionally, OS X doesn't use RPATH for linking. We shouldn't
+  # OS X doesn't use RPATH for linking. We shouldn't
   # define it or try to force it in the linker, because this might
   # break gcc or clang if they try to use the RPATH values we forced.
-  proj.setting(:cppflags, "-I#{proj.includedir}")
+  #
+  # We now target MacOS 13 as the minimum version, and build a binary
+  # that works for all MacOS versions since then, rather than building
+  # separate ones for each version.
+  proj.setting(:deployment_target, '13.0')
+  targeting_flags = "-target #{platform.architecture}-apple-darwin22 -arch #{platform.architecture} -mmacos-version-min=13.0"
+  proj.setting(:cflags, "#{targeting_flags} #{proj.cflags}")
+  proj.setting(:cppflags, "#{targeting_flags} #{proj.cppflags}")
+  proj.setting(:cc, 'clang')
+  proj.setting(:cxx, 'clang++')
   proj.setting(:ldflags, "-L#{proj.libdir}")
-  if platform.architecture == 'arm64'
-    proj.setting(:cflags, "#{proj.cppflags}")
-  else
-    proj.setting(:cflags, "-march=core2 -msse4 #{proj.cppflags}")
-  end
 end
 
 if platform.is_aix?

@@ -1,6 +1,9 @@
 ---
 name: Build puppet-runtime
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -15,15 +18,36 @@ on:
         description: 'A comma-separated list of platforms to build for. Do not include spaces. If not provided, will use the default list of platform supported by OpenVox.'
         required: false
         type: string
+      vanagon_branch:
+        description: 'The branch of the vanagon repository to use'
+        required: false
+        type: string
+        default: 'main'
+      use_dev:
+        description: 'Use the "dev" branch of the shared-actions repo'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read # minimal required permissions to clone repo
 
 jobs:
   build:
+    if: ${{ github.event.inputs.use_dev == 'false' }}
     uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@main'
     with:
       ref: ${{ inputs.ref }}
       project_name: ${{ inputs.project_name }}
       platform_list: ${{ inputs.platform_list }}
+      vanagon_branch: ${{ inputs.vanagon_branch }}
+    secrets: inherit
+  build_dev:
+    if: ${{ github.event.inputs.use_dev == 'true' }}
+    uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@dev'
+    with:
+      ref: ${{ inputs.ref }}
+      project_name: ${{ inputs.project_name }}
+      platform_list: ${{ inputs.platform_list }}
+      vanagon_branch: ${{ inputs.vanagon_branch }}
     secrets: inherit

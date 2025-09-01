@@ -51,11 +51,19 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # ENVIRONMENT, FLAGS
   ####################
 
+  cflags = settings[:cflags]
+  cppflags = settings[:cppflags]
   if platform.is_macos?
-    pkg.environment 'optflags', settings[:cflags]
+    pkg.environment 'optflags', cflags
+    pkg.environment 'CFLAGS', cflags
+    pkg.environment 'CPPFLAGS', cppflags
+    pkg.environment 'LDFLAGS', settings[:ldflags]
+    pkg.environment 'CC', settings[:cc]
+    pkg.environment 'CXX', settings[:cxx]
+    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
   elsif platform.is_windows?
-    optflags = settings[:cflags] + ' -O3'
+    optflags = cflags + ' -O3'
     pkg.environment 'optflags', optflags
     pkg.environment 'CFLAGS', optflags
     pkg.environment 'MAKE', 'make'
@@ -78,12 +86,11 @@ component 'ruby-3.2' do |pkg, settings, platform|
 
   special_flags = " --prefix=#{ruby_dir} --with-opt-dir=#{settings[:prefix]} "
 
-  cflags = settings[:cflags]
   if (platform.is_debian? && platform.os_version.to_i >= 13) || (platform.is_ubuntu? && platform.os_version =~ /25.04/)
     # A problem with --enable-dtrace, which I suspect may be because of GCC on the Trixie image.
     # Check if this is still needed next time we bump Ruby and/or bump the Debian 13
     # container to the release version.
-    cflags += ' -Wno-error=implicit-function-declaration'
+    cflags += ' -Wno-error=implicit-function-declaration '
   end
 
   if settings[:supports_pie]
@@ -144,8 +151,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'aix-7.1-ppc',
     'aix-7.2-ppc',
     'el-7-ppc64le',
-    'osx-11-arm64',
-    'osx-12-arm64',
+    'macos-all-arm64',
+    'macos-all-x86_64',
     'redhatfips-7-x86_64',
     'sles-11-x86_64',
     'sles-12-ppc64le',
@@ -225,7 +232,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
   target_doubles = {
     'powerpc-ibm-aix7.1.0.0' => 'powerpc-aix7.1.0.0',
     'powerpc-ibm-aix7.2.0.0' => 'powerpc-aix7.2.0.0',
-    'aarch64-apple-darwin' => 'arm64-darwin',
     'aarch64-redhat-linux' => 'aarch64-linux',
     'ppc64-redhat-linux' => 'powerpc64-linux',
     'ppc64le-redhat-linux' => 'powerpc64le-linux',
@@ -257,14 +263,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
     rbconfig_changes["CC"] = "gcc"
   elsif platform.is_cross_compiled? || (platform.is_solaris? && platform.architecture != 'sparc')
     # REMIND: why are we overriding rbconfig for solaris intel?
-    if platform.name =~ /osx-11/
-      rbconfig_changes["CC"] = 'clang -target arm64-apple-macos11'
-    elsif platform.name =~ /osx-12/
-      rbconfig_changes["CC"] = 'clang -target arm64-apple-macos12'
-    else
-      rbconfig_changes["CC"] =  'gcc'
-      rbconfig_changes["warnflags"] = "-Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration -Wdeprecated-declarations -Wno-packed-bitfield-compat -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wno-maybe-uninitialized"
-    end
+    rbconfig_changes["CC"] =  'gcc'
+    rbconfig_changes["warnflags"] = "-Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration -Wdeprecated-declarations -Wno-packed-bitfield-compat -Wsuggest-attribute=noreturn -Wsuggest-attribute=format -Wno-maybe-uninitialized"
     if platform.name =~ /el-7-ppc64/
       # EL 7 on POWER will fail with -Wl,--compress-debug-sections=zlib so this
       # will remove that entry
@@ -274,8 +274,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
       # the ancient gcc version on sles-12-ppc64le does not understand -fstack-protector-strong, so remove the `strong` part
       rbconfig_changes["LDFLAGS"] = "-L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector -rdynamic -Wl,-export-dynamic -L/opt/puppetlabs/puppet/lib"
     end
-  elsif platform.is_macos? && platform.architecture == 'arm64' && platform.os_version.to_i >= 13
-    rbconfig_changes["CC"] = 'clang'
+  elsif platform.is_macos?
+    rbconfig_changes["CC"] = "#{settings[:cc]} #{cflags}"
   elsif platform.is_windows?
     if platform.architecture == "x64"
       rbconfig_changes["CC"] = "x86_64-w64-mingw32-gcc"

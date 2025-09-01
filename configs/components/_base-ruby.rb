@@ -65,13 +65,9 @@ elsif platform.is_windows?
   pkg.environment 'CFLAGS', optflags
 elsif platform.is_macos?
   pkg.environment 'optflags', settings[:cflags]
-  if platform.is_cross_compiled?
-    pkg.build_requires "ruby@#{ruby_version_y}"
-    pkg.environment 'CC', 'clang -target arm64-apple-macos11' if platform.name =~ /osx-11/
-    pkg.environment 'CC', 'clang -target arm64-apple-macos12' if platform.name =~ /osx-12/
-  elsif platform.architecture == 'arm64' && platform.os_version.to_i >= 13
-    pkg.environment 'CC', 'clang'
-  end
+  pkg.environment 'CFLAGS', settings[:cflags]
+  pkg.environment 'CC', settings[:cc]
+  pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
 elsif settings[:supports_pie]
   pkg.environment 'LDFLAGS', settings[:ldflags]
   pkg.environment 'optflags', settings[:cflags]

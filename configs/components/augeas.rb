@@ -116,12 +116,9 @@ component 'augeas' do |pkg, settings, platform|
     pkg.environment 'CFLAGS', settings[:cflags]
     pkg.environment 'CPPFLAGS', settings[:cppflags]
     pkg.environment "LDFLAGS", settings[:ldflags]
-    if platform.is_cross_compiled?
-      pkg.environment 'CC', 'clang -target arm64-apple-macos11' if platform.name =~ /osx-11/
-      pkg.environment 'CC', 'clang -target arm64-apple-macos12' if platform.name =~ /osx-12/
-    elsif platform.architecture == 'arm64' && platform.os_version.to_i >= 13
-      pkg.environment 'CC', 'clang'
-    end
+    pkg.environment 'CC', settings[:cc]
+    pkg.environment 'CXX', settings[:cxx]
+    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
   end
 
   if settings[:supports_pie]
@@ -132,7 +129,7 @@ component 'augeas' do |pkg, settings, platform|
 
   # fix libtool linking on big sur
   if platform.is_macos?
-    if platform.os_version.to_i >= 13 && platform.architecture == 'arm64'
+    if platform.architecture == 'arm64'
       pkg.configure { ["/opt/homebrew/bin/autoreconf --force --install"] }
     else
       pkg.configure { ["/usr/local/bin/autoreconf --force --install"] }
