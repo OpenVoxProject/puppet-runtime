@@ -2,7 +2,7 @@
 name: Build puppet-runtime
 
 permissions:
-  contents: read
+  contents: read # minimal required permissions to clone repo
 
 on:
   workflow_dispatch:
@@ -28,9 +28,6 @@ on:
         required: false
         type: boolean
         default: false
-
-permissions:
-  contents: read # minimal required permissions to clone repo
 
 jobs:
   build:
