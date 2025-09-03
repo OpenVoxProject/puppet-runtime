@@ -158,10 +158,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'sles-12-ppc64le',
     'solaris-11-sparc',
     'solaris-113-sparc',
-    'windows-2012r2-x64',
-    'windows-2012r2-x86',
-    'windows-2019-x64',
-    'windowsfips-2012r2-x64',
+    'windows-all-x64',
     'windowsfips-2016-x64'
   ]
 
