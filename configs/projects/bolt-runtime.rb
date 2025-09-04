@@ -120,6 +120,12 @@ project 'bolt-runtime' do |proj|
   proj.component 'rubygem-bcrypt_pbkdf'
   proj.component 'rubygem-ed25519'
 
+  # These gems are still included in Ruby 3.2, but we include them because
+  # OpenFact requires them for Ruby 3.4 support, and Bolt will need to
+  # do the same once we get to Ruby 3.4+ support.
+  proj.component 'rubygem-logger'
+  proj.component 'rubygem-base64'
+
   # Puppet dependencies
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-deep_merge'
