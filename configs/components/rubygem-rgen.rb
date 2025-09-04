@@ -4,8 +4,8 @@
 #   https://github.com/mthiede/rgen/blob/master/CHANGELOG
 #####
 component 'rubygem-rgen' do |pkg, settings, platform|
-  pkg.version '0.9.1'
-  pkg.md5sum 'fafb97eeb3ea5385f70b2ff83af6d8b6'
+  pkg.version '0.10.2'
+  pkg.sha256sum 'd978f84887a0b4815ff3a0e0c4d43a15cdeeac9fd4da02db8ec3ecd0f222f371'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

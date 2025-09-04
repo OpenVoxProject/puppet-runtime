@@ -4,8 +4,8 @@
 #   https://github.com/ruby/rexml/releases
 #####
 component 'rubygem-rexml' do |pkg, settings, platform|
-  pkg.version '3.4.1'
-  pkg.sha256sum 'c74527a9a0a04b4ec31dbe0dc4ed6004b960af943d8db42e539edde3a871abca'
+  pkg.version '3.4.2'
+  pkg.sha256sum '1384268554a37af5da5279431ca3f2f37d46f09ffdd6c95e17cc84c83ea7c417'
 
   settings["#{pkg.get_name}_remove_older_versions".to_sym] = true
 

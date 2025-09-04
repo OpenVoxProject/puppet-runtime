@@ -8,8 +8,8 @@
 #   SHOULD NOT USE as this is a fork.
 #####
 component "virt-what" do |pkg, settings, platform|
-  pkg.version "1.25"
-  pkg.md5sum "2345f1ec5fa0836bff4071659730ac8f"
+  pkg.version '1.27'
+  pkg.sha256sum 'd4d9bd9d4ae59095597443fac663495315c7eb4330b872aa5f062df38ac69bf1'
 
   # 2025-08-05: The upstream site was down, so using a mirror here. Revert this back to the
   # original URL next time we bump this.

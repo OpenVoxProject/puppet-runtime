@@ -4,8 +4,8 @@
 #   https://github.com/ruby/webrick/releases
 #####
 component 'rubygem-webrick' do |pkg, settings, platform|
-  pkg.version '1.8.2'
-  pkg.md5sum 'adbdcb13788330c40b54c1134bf5d7a7'
+  pkg.version '1.9.1'
+  pkg.sha256sum 'b42d3c94f166f3fb73d87e9b359def9b5836c426fc8beacf38f2184a21b2a989'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

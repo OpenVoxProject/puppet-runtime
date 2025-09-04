@@ -6,8 +6,8 @@
 #   need to move to the 3.5.x LTS stream in the next year.
 #####
 component 'openssl' do |pkg, settings, platform|
-  pkg.version '3.0.16'
-  pkg.sha256sum '57e03c50feab5d31b152af2b764f10379aecd8ee92f16c985983ce4a99f7ef86'
+  pkg.version '3.0.17'
+  pkg.sha256sum 'dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce'
   pkg.url "https://github.com/openssl/openssl/releases/download/openssl-#{pkg.get_version}/openssl-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/openssl-#{pkg.get_version}.tar.gz"
 

@@ -5,16 +5,7 @@ project 'bolt-runtime' do |proj|
   proj.setting(:openssl_version, '3.0')
   # Legacy algos must be enabled in OpenSSL >= 3.0 for Bolt's WinRM transport to work.
   proj.setting(:use_legacy_openssl_algos, true)
-  proj.setting(:rubygem_net_ssh_version, '7.2.3')
   proj.setting(:augeas_version, '1.14.1')
-  # TODO: Can runtime projects use these updated versions?
-  proj.setting(:rubygem_deep_merge_version, '1.2.2')
-  proj.setting(:rubygem_puppet_forge_version, '5.0.4')
-  proj.setting(:rubygem_faraday_version, '2.12.0')
-  proj.setting(:rubygem_faraday_net_http_version, '3.3.0')
-  proj.setting(:rubygem_faraday_net_http_persistent_version, '2.3.0')
-  proj.setting(:rubygem_r10k_version, '4.1.0')
-  proj.setting(:rubygem_puppet_version, '8.10.0')
 
   platform = proj.get_platform
 
@@ -128,6 +119,12 @@ project 'bolt-runtime' do |proj|
 
   proj.component 'rubygem-bcrypt_pbkdf'
   proj.component 'rubygem-ed25519'
+
+  # These gems are still included in Ruby 3.2, but we include them because
+  # OpenFact requires them for Ruby 3.4 support, and Bolt will need to
+  # do the same once we get to Ruby 3.4+ support.
+  proj.component 'rubygem-logger'
+  proj.component 'rubygem-base64'
 
   # Puppet dependencies
   proj.component 'rubygem-hocon'

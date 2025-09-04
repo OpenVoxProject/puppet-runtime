@@ -4,8 +4,8 @@
 #   https://github.com/lostisland/faraday-retry/releases
 #####
 component 'rubygem-faraday-retry' do |pkg, settings, platform|
-  pkg.version '1.0.3'
-  pkg.md5sum '77177d55f1b8df8a3dcb06aab3e03389'
+  pkg.version '2.3.2'
+  pkg.sha256sum '2402d2029032ebd238a2046221e67f6ef0da78c5a8ce8cd4f8b9c62e4d6451d1'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

@@ -4,8 +4,8 @@
 #   https://github.com/net-ssh/net-scp/tags
 #####
 component 'rubygem-net-scp' do |pkg, settings, platform|
-  pkg.version '4.0.0'
-  pkg.md5sum 'a97dcd90f88ec481fdf81b53cfc93285'
+  pkg.version '4.1.0'
+  pkg.sha256sum 'a99b0b92a1e5d360b0de4ffbf2dc0c91531502d3d4f56c28b0139a7c093d1a5d'
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

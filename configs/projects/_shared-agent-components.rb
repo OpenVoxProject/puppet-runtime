@@ -62,6 +62,12 @@ proj.component 'rubygem-gettext'
 proj.component 'rubygem-fast_gettext'
 proj.component 'rubygem-ffi'
 
+# These gems are still included in Ruby 3.2, but we include them because
+# OpenFact requires them for Ruby 3.4 support, and the agent will need to
+# do the same once we get to Ruby 3.4+ in OpenVox 9.
+proj.component 'rubygem-logger'
+proj.component 'rubygem-base64'
+
 # We add rexml explicitly in here because even though ruby 3 ships with rexml as its default gem, the version
 # of rexml it ships with contains CVE-2024-41946, CVE-2024-41123, CVE-2024-35176 and CVE-2024-39908.
 # So, we add it here to update to a higher version
