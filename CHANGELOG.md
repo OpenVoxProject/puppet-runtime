@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025-09-04-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-09-04-1) (2025-09-04)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-23-1...2025-09-04-1)
+
+**Merged pull requests:**
+
+- Remove duplicated permissions block in build.yml [\#55](https://github.com/OpenVoxProject/puppet-runtime/pull/55) ([nmburgan](https://github.com/nmburgan))
+- Change windows-2019-x64 -\> windows-all-x64 and fix upload task [\#54](https://github.com/OpenVoxProject/puppet-runtime/pull/54) ([nmburgan](https://github.com/nmburgan))
+- Changes to enable building all MacOS types on any MacOS host [\#53](https://github.com/OpenVoxProject/puppet-runtime/pull/53) ([nmburgan](https://github.com/nmburgan))
+- \[CVE-2025-2588\] patch augeas to return \_REG\_ENOSYS [\#52](https://github.com/OpenVoxProject/puppet-runtime/pull/52) ([binford2k](https://github.com/binford2k))
+- Update components and remove PDK and client tools runtimes [\#35](https://github.com/OpenVoxProject/puppet-runtime/pull/35) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025-08-23-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-08-23-1) (2025-08-23)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-21-1...2025-08-23-1)
