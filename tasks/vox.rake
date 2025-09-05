@@ -4,7 +4,7 @@ class Version
   def initialize(v)
     @raw = v
 
-    if (m = v.match(%r{\A(?<date>\d{4}-\d{2}-\d{2})-(?<x>\d+)\z}))
+    if (m = v.match(%r{\A(?<date>\d{4}[-|\.]\d{2}[-|\.]\d{2})[-|\.](?<x>\d+)\z}))
       @date = m['date']
       @x = m['x'].to_i
     else
@@ -16,6 +16,7 @@ class Version
   def self.load_from_changelog
     changelog = File.expand_path('../CHANGELOG.md', __dir__)
     version = File.read(changelog).match(/^## \[([^\]]+)\]/) { |match| match[1] }
+    version = version.gsub('-', '.')
     new(version)
   rescue Errno::ENOENT
     new('')
@@ -25,7 +26,7 @@ class Version
     if malformed?
       raw
     else
-      "#{date}-#{x}"
+      "#{date}.#{x}"
     end
   end
 
@@ -47,7 +48,7 @@ class Version
   end
 
   def today
-    Time.now.strftime('%Y-%m-%d')
+    Time.now.strftime('%Y.%m.%d')
   end
 end
 
