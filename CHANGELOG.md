@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.09.08.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.09.08.1) (2025-09-08)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-09-04-1...2025.09.08.1)
+
+**Merged pull requests:**
+
+- Roll back fast\_gettext to 2.4.0 [\#59](https://github.com/OpenVoxProject/puppet-runtime/pull/59) ([nmburgan](https://github.com/nmburgan))
+- Change version format to use periods [\#57](https://github.com/OpenVoxProject/puppet-runtime/pull/57) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025-09-04-1](https://github.com/openvoxproject/puppet-runtime/tree/2025-09-04-1) (2025-09-04)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-08-23-1...2025-09-04-1)
