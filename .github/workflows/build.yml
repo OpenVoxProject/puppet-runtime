@@ -43,7 +43,7 @@ jobs:
       project_name: ${{ inputs.project_name }}
       platform_list: ${{ inputs.platform_list }}
       vanagon_branch: ${{ inputs.vanagon_branch }}
-      upload_to_s3: ${{ inputs.upload_to_s3 }}
+      #upload_to_s3: ${{ inputs.upload_to_s3 }}
     secrets: inherit
   build_dev:
     if: ${{ github.event.inputs.use_dev == 'true' }}
