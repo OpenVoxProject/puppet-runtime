@@ -11,12 +11,6 @@ namespace :vox do
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
     os, _ver, arch = platform.match(/^(\w+)-([\w|\.]+)-(\w+)$/).captures
-    if os == 'macos'
-      shell = `uname -m`.chomp
-      ruby = `ruby -v`.chomp
-      abort "Detected shell arch: #{shell}. You must run this build from a #{arch} machine or shell. To do this on the current host, run 'arch -#{arch} /bin/bash'" if shell != arch
-      abort "Detected ruby: #{ruby}. You must run this build with a #{arch} Ruby version. To do this on the current host, install Ruby from an #{arch} shell via 'arch -#{arch} /bin/bash'." unless ruby =~ /#{arch}/
-    end
 
     engine = platform =~ /^(macos|windows)-/ ? 'local' : 'docker'
     cmd = "bundle exec build #{project} #{platform} --engine #{engine}"

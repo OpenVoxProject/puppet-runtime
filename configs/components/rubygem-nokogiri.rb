@@ -21,10 +21,5 @@ component 'rubygem-nokogiri' do |pkg, settings, _platform|
   pkg.environment "GEM_HOME", gem_home
   if platform.is_macos?
     pkg.environment "PKG_CONFIG_PATH", "#{settings[:libdir]}/pkgconfig"
-    if platform.is_cross_compiled?
-      pkg.install do
-        "rm -r #{gem_home}/gems/nokogiri-#{pkg.get_version}/ext/nokogiri/tmp"
-      end
-    end
   end
 end

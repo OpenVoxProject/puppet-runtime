@@ -63,15 +63,11 @@ if platform.is_solaris?
 elsif platform.is_cross_compiled?
   if platform.is_linux? || platform.is_macos?
     pkg.environment "RUBY", host_ruby
-    pkg.environment 'CC', 'clang -target arm64-apple-macos11' if platform.name =~ /osx-11/
-    pkg.environment 'CC', 'clang -target arm64-apple-macos12' if platform.name =~ /osx-12/
     ruby = "#{host_ruby} -r#{settings[:datadir]}/doc/rbconfig-#{ruby_version}-orig.rb"
     pkg.environment "LDFLAGS", settings[:ldflags]
   end
 elsif platform.is_macos?
-  if platform.architecture == 'arm64'
-    pkg.environment "PATH", "$(PATH):/opt/homebrew/bin"
-  end
+  pkg.environment "PATH", "$(PATH):/opt/homebrew/bin:/usr/local/bin"
   pkg.environment 'CC', settings[:cc]
   pkg.environment 'CFLAGS', settings[:cflags]
   pkg.environment "LDFLAGS", settings[:ldflags]

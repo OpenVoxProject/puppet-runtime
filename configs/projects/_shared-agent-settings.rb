@@ -95,7 +95,6 @@ platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
 platform_triple = "powerpc64le-suse-linux" if platform.architecture == "ppc64le" && platform.name =~ /^sles-/
 platform_triple = "powerpc64le-linux-gnu" if platform.architecture == "ppc64el"
 platform_triple = "arm-linux-gnueabihf" if platform.architecture == "armhf"
-platform_triple = "aarch64-apple-darwin" if platform.is_cross_compiled? && platform.is_macos?
 
 # Ruby's build process needs a functional "baseruby". When native compiling,
 # ruby will build "miniruby" and use that as "baseruby". When cross compiling,
@@ -113,9 +112,6 @@ elsif platform.is_cross_compiled? && (platform.is_linux? || platform.is_solaris?
     proj.setting(:host_ruby, "/opt/pl-build-tools/bin/ruby")
     proj.setting(:host_gem, "/opt/pl-build-tools/bin/gem")
   end
-elsif platform.is_cross_compiled? && platform.is_macos?
-  proj.setting(:host_ruby, "/usr/local/opt/ruby@#{ruby_version_y}/bin/ruby")
-  proj.setting(:host_gem, "/usr/local/opt/ruby@#{ruby_version_y}/bin/gem")
 else
   proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby"))
   proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem"))
@@ -123,8 +119,6 @@ end
 
 if platform.is_cross_compiled_linux?
   host = "--host #{platform_triple}"
-elsif platform.is_cross_compiled? && platform.is_macos?
-  host = "--host aarch64-apple-darwin --build x86_64-apple-darwin --target aarch64-apple-darwin"
 elsif platform.is_solaris?
   if platform.architecture == 'i386'
     platform_triple = "#{platform.architecture}-pc-solaris2.#{platform.os_version}"

@@ -62,11 +62,7 @@ component 'openssl' do |pkg, settings, platform|
     pkg.environment 'CC', settings[:cc]
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
 
-    target = if platform.architecture == "arm64"
-               'darwin64-arm64'
-             else
-               'darwin64-x86_64'
-             end
+    target = "darwin64-#{platform.architecture}"
   elsif platform.is_linux?
     pkg.environment 'PATH', '/opt/pl-build-tools/bin:$(PATH):/usr/local/bin'
 
