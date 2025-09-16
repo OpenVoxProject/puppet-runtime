@@ -130,6 +130,10 @@ component 'openssl' do |pkg, settings, platform|
     configure_flags << 'no-legacy' << 'no-md4'
   end
 
+  if platform.is_macos? && platform.architecture == 'x86_64'
+    configure_flags << 'no-asm'
+  end
+
   # Individual projects may provide their own openssl configure flags:
   project_flags = settings[:openssl_extra_configure_flags] || []
   perl_exec = ''

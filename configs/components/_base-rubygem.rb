@@ -34,6 +34,10 @@ if settings[:ruby_vendordir]
   pkg.environment "RUBYLIB", "#{settings[:ruby_vendordir]}:$(RUBYLIB)"
 end
 
+if platform.is_macos? && platform.architecture == 'x86_64'
+  pkg.environment 'ARCHFLAGS', '-arch x86_64'
+end
+
 pkg.url("https://rubygems.org/downloads/#{name}-#{version}.gem")
 pkg.mirror("#{settings[:buildsources_url]}/#{name}-#{version}.gem")
 

@@ -118,6 +118,9 @@ component 'augeas' do |pkg, settings, platform|
     pkg.environment 'CC', settings[:cc]
     pkg.environment 'CXX', settings[:cxx]
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
+    if platform.architecture == 'x86_64'
+      pkg.environment 'LDFLAGS', "#{settings[:ldflags]} -Wl,-headerpad_max_install_names"
+    end
   end
 
   if settings[:supports_pie]
