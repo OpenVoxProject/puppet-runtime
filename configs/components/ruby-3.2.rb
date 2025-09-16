@@ -146,7 +146,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
   elsif platform.is_macos?
     special_flags += " --with-openssl-dir=#{settings[:prefix]} "
     if platform.architecture == 'x86_64'
-      special_flags += " --disable-jit-support --disable-mjit --disable-yjit "
+      special_flags += " --with-static-linked-ext "
     end
   end
 
