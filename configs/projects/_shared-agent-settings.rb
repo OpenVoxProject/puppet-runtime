@@ -95,7 +95,7 @@ platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
 platform_triple = "powerpc64le-suse-linux" if platform.architecture == "ppc64le" && platform.name =~ /^sles-/
 platform_triple = "powerpc64le-linux-gnu" if platform.architecture == "ppc64el"
 platform_triple = "arm-linux-gnueabihf" if platform.architecture == "armhf"
-platform_triple = "aarch64-apple-darwin" if platform.is_cross_compiled? && platform.is_macos?
+platform_triple = "x86_64-apple-darwin" if platform.is_cross_compiled? && platform.is_macos?
 
 # Ruby's build process needs a functional "baseruby". When native compiling,
 # ruby will build "miniruby" and use that as "baseruby". When cross compiling,
@@ -114,8 +114,15 @@ elsif platform.is_cross_compiled? && (platform.is_linux? || platform.is_solaris?
     proj.setting(:host_gem, "/opt/pl-build-tools/bin/gem")
   end
 elsif platform.is_cross_compiled? && platform.is_macos?
-  proj.setting(:host_ruby, "/usr/local/opt/ruby@#{ruby_version_y}/bin/ruby")
-  proj.setting(:host_gem, "/usr/local/opt/ruby@#{ruby_version_y}/bin/gem")
+  # Running in CI, we use the Ruby set up by the ruby/setup-ruby action and save
+  # the prefix to an env var. When running locally, we use a Homebrew-installed Ruby.
+  if ENV['HOST_RUBY_PREFIX']
+    proj.setting(:host_ruby, File.join(ENV['HOST_RUBY_PREFIX'], "bin", "ruby"))
+    proj.setting(:host_gem, File.join(ENV['HOST_RUBY_PREFIX'], "bin", "gem"))
+  else
+    proj.setting(:host_ruby, "/opt/homebrew/opt/ruby@#{ruby_version_y}/bin/ruby")
+    proj.setting(:host_gem, "/opt/homebrew/opt/ruby@#{ruby_version_y}/bin/gem")
+  end
 else
   proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby"))
   proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem"))
@@ -124,7 +131,7 @@ end
 if platform.is_cross_compiled_linux?
   host = "--host #{platform_triple}"
 elsif platform.is_cross_compiled? && platform.is_macos?
-  host = "--host aarch64-apple-darwin --build x86_64-apple-darwin --target aarch64-apple-darwin"
+  host = "--host x86_64-apple-darwin --build aarch64-apple-darwin --target x86_64-apple-darwin"
 elsif platform.is_solaris?
   if platform.architecture == 'i386'
     platform_triple = "#{platform.architecture}-pc-solaris2.#{platform.os_version}"
@@ -191,11 +198,11 @@ if platform.is_macos?
   # that works for all MacOS versions since then, rather than building
   # separate ones for each version.
   proj.setting(:deployment_target, '13.0')
-  targeting_flags = "-target #{platform.architecture}-apple-darwin22 -arch #{platform.architecture} -mmacos-version-min=13.0"
+  targeting_flags = "-arch #{platform.architecture} -mmacos-version-min=13.0"
   proj.setting(:cflags, "#{targeting_flags} #{proj.cflags}")
   proj.setting(:cppflags, "#{targeting_flags} #{proj.cppflags}")
-  proj.setting(:cc, 'clang')
-  proj.setting(:cxx, 'clang++')
+  proj.setting(:cc, "clang -target #{platform.architecture}-apple-darwin")
+  proj.setting(:cxx, "clang++ -target #{platform.architecture}-apple-darwin")
   proj.setting(:ldflags, "-L#{proj.libdir}")
 end
 

@@ -128,11 +128,7 @@ component 'augeas' do |pkg, settings, platform|
 
   # fix libtool linking on big sur
   if platform.is_macos?
-    if platform.architecture == 'arm64'
-      pkg.configure { ["/opt/homebrew/bin/autoreconf --force --install"] }
-    else
-      pkg.configure { ["/usr/local/bin/autoreconf --force --install"] }
-    end
+    pkg.configure { ["/opt/homebrew/bin/autoreconf --force --install"] }
   end
 
 

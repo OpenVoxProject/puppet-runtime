@@ -99,6 +99,10 @@ elsif GEM_VERSION <= Gem::Version.new('3.5.16')
   regexp  = /Shellwords\.split\(Gem\.ruby\)/
   replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
   builder = 'rubygems/ext/builder.rb'
+elsif GEM_VERSION <= Gem::Version.new('3.8')
+  regexp  = /shellsplit\(Gem\.ruby\)/
+  replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
+  builder = 'rubygems/ext/builder.rb'
 else
   raise "We don't know how to patch rubygems #{GEM_VERSION}"
 end

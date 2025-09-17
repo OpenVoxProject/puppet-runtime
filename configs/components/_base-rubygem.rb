@@ -21,6 +21,15 @@ if platform.is_windows?
   pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):$(shell cygpath -u #{settings[:bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0:$(PATH)"
 end
 
+if platform.is_macos?
+  pkg.environment 'CC', settings[:cc]
+  pkg.environment 'CXX', settings[:cxx]
+  pkg.environment 'LDFLAGS', settings[:ldflags]
+  pkg.environment 'CPPFLAGS', settings[:cppflags]
+  pkg.environment 'CFLAGS', settings[:cflags]
+  pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
+end
+
 # When cross-compiling, we can't use the rubygems we just built.
 # Instead we use the host gem installation and override GEM_HOME. Yay?
 pkg.environment "GEM_HOME", settings[:gem_home]
