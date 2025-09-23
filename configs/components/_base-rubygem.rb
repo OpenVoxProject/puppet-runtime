@@ -15,6 +15,7 @@ unless version && !version.empty?
 end
 
 pkg.build_requires "runtime-#{settings[:runtime_project]}"
+pkg.build_requires "ruby-#{settings[:ruby_version]}"
 pkg.build_requires "pl-ruby-patch" if platform.is_cross_compiled?
 
 if platform.is_windows?
