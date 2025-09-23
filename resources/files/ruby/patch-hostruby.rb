@@ -20,7 +20,11 @@ end
 # target ruby versions (what we're trying to build)
 target_ruby_version = ARGV[0]
 target_triple = ARGV[1]
-target_api_version = target_ruby_version.gsub(/\.\d*$/, '.0')
+target_api_version =  if target_ruby_version.match(/\d\.\d\.\d{1,2}/)
+                        target_ruby_version.gsub(/\.\d*$/, '.0')
+                      else
+                        "#{target_ruby_version}.0"
+                      end
 
 # host ruby (the ruby we execute to build the target)
 host_rubylibdir = RbConfig::CONFIG['rubylibdir']
