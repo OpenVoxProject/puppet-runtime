@@ -16,7 +16,20 @@ namespace :vox do
     cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
-
-    run_command(cmd, silent: false, print_command: true, report_status: true)
+    libdir = `ruby -e "require 'rbconfig'; puts RbConfig::CONFIG['rubylibdir']"`.chomp
+    begin
+      run_command(cmd, silent: false, print_command: true, report_status: true)
+    ensure
+      # During the build process for macos-all-x86_64, we patch two files in the
+      # host ruby installation. If we don't revert those changes, subsequent tasks
+      # like uploading to S3 wil fail.
+      if platform == 'macos-all-x86_64'
+        puts 'Reverting changes to host ruby installation...'
+        ['rubygems/ext/builder.rb', 'rubygems/basic_specification.rb'].each do |f|
+          FileUtils.rm_f("#{libdir}/#{f}")
+          FileUtils.mv("#{libdir}/#{f}.orig", "#{libdir}/#{f}")
+        end
+      end
+    end
   end
 end
