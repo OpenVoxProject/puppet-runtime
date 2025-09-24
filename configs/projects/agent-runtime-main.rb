@@ -67,12 +67,6 @@ project 'agent-runtime-main' do |proj|
     proj.component 'rubygem-sys-filesystem'
   end
 
-  # Nokogiri and dependencies to improve macOS performance (PUP-11332)
-  if platform.is_macos?
-    proj.component 'rubygem-nokogiri'
-    proj.component 'rubygem-mini_portile2'
-  end
-
   # Dependencies for gettext for Ruby >= 3.2 (PA-4815)
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-prime'

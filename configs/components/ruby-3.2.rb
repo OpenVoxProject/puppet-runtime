@@ -27,6 +27,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
 
   if platform.is_cross_compiled?
     pkg.apply_patch "#{base}/rbinstall_gem_path.patch"
+    pkg.apply_patch "#{base}/target_rbconfig.patch"
   end
 
   if platform.is_aix?
@@ -62,6 +63,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
     pkg.environment 'CXX', settings[:cxx]
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
+    pkg.environment 'CROSS_COMPILING', 'true' if platform.is_cross_compiled?
   elsif platform.is_windows?
     optflags = cflags + ' -O3'
     pkg.environment 'optflags', optflags
@@ -118,11 +120,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
     # This normalizes the build string to something like AIX 7.1.0.0 rather
     # than AIX 7.1.0.2 or something
     special_flags += " --build=#{settings[:platform_triple]} "
-  elsif platform.is_cross_compiled? && platform.is_macos?
-    # When the target arch is aarch64, ruby incorrectly selects the 'ucontext' coroutine
-    # implementation instead of 'arm64', so specify 'amd64' explicitly
-    # https://github.com/ruby/ruby/blob/c9c2245c0a25176072e02db9254f0e0c84c805cd/configure.ac#L2329-L2330
-    special_flags += " --with-coroutine=arm64 "
   elsif platform.is_solaris? && platform.architecture == "sparc"
     unless platform.is_cross_compiled?
       # configure seems to enable dtrace because the executable is present,
@@ -230,6 +227,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'powerpc-ibm-aix7.1.0.0' => 'powerpc-aix7.1.0.0',
     'powerpc-ibm-aix7.2.0.0' => 'powerpc-aix7.2.0.0',
     'aarch64-redhat-linux' => 'aarch64-linux',
+    'x86_64-apple-darwin' => 'x86_64-darwin',
     'ppc64-redhat-linux' => 'powerpc64-linux',
     'ppc64le-redhat-linux' => 'powerpc64le-linux',
     'powerpc64le-suse-linux' => 'powerpc64le-linux',
@@ -258,6 +256,9 @@ component 'ruby-3.2' do |pkg, settings, platform|
   rbconfig_changes = {}
   if platform.is_aix?
     rbconfig_changes["CC"] = "gcc"
+  elsif platform.is_macos? && platform.is_cross_compiled?
+    rbconfig_changes["CC"] = settings[:cc]
+    rbconfig_changes["CXX"] = settings[:cxx]
   elsif platform.is_cross_compiled? || (platform.is_solaris? && platform.architecture != 'sparc')
     # REMIND: why are we overriding rbconfig for solaris intel?
     rbconfig_changes["CC"] =  'gcc'
@@ -271,8 +272,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
       # the ancient gcc version on sles-12-ppc64le does not understand -fstack-protector-strong, so remove the `strong` part
       rbconfig_changes["LDFLAGS"] = "-L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector -rdynamic -Wl,-export-dynamic -L/opt/puppetlabs/puppet/lib"
     end
-  elsif platform.is_macos?
-    rbconfig_changes["CC"] = "#{settings[:cc]} #{cflags}"
   elsif platform.is_windows?
     if platform.architecture == "x64"
       rbconfig_changes["CC"] = "x86_64-w64-mingw32-gcc"
@@ -302,8 +301,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
     pkg.install do
       [
         "#{host_ruby} ../rbconfig-update.rb \"#{rbconfig_changes.to_s.gsub('"', '\"')}\" #{rbconfig_topdir}",
-        "cp original_rbconfig.rb #{settings[:datadir]}/doc/rbconfig-#{pkg.get_version}-orig.rb",
-        "cp new_rbconfig.rb #{rbconfig_topdir}/rbconfig.rb",
+        "cp original_rbconfig.rb #{settings[:datadir]}/doc/rbconfig-3.2-orig.rb",
+        "sudo cp new_rbconfig.rb #{rbconfig_topdir}/rbconfig.rb",
       ]
     end
   end

@@ -12,6 +12,8 @@ component 'rubygem-highline' do |pkg, settings, _platform|
     pkg.sha256sum 'd63d7f472f8ffaa143725161ae6fb06895b5cb7527e0b4dac5ad1e4902c80cb9'
   end
 
+  # Requires 'reline', part of the Ruby standard library as of 3.2
+
   instance_eval File.read('configs/components/_base-rubygem.rb')
 
   # Overwrite the base rubygem's default GEM_HOME with the vendor gem directory
