@@ -77,6 +77,16 @@ component 'curl' do |pkg, settings, platform|
     pkg.environment 'CXX', settings[:cxx]
   end
 
+  gssapi='--without-gssapi'
+  if platform.is_deb?
+    requires "libkrb5-dev"
+    gssapi='--with-gssapi=/usr'
+  end
+  if platform.is_rpm?
+    pkg.build_requires "krb5-devel"
+    gssapi='--with-gssapi=/usr'
+  end
+
   pkg.configure do
     ["CPPFLAGS='#{settings[:cppflags]}' \
       LDFLAGS='#{ldflags}' \
@@ -85,6 +95,7 @@ component 'curl' do |pkg, settings, platform|
         --enable-threaded-resolver \
         --disable-ldap \
         --disable-ldaps \
+        #{gssapi} \
         --with-ca-bundle=#{settings[:prefix]}/ssl/cert.pem \
         --with-ca-path=#{settings[:prefix]}/ssl/certs \
         --without-nghttp2 \
