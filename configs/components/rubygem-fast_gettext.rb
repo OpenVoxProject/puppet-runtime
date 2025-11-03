@@ -6,8 +6,11 @@
 #   relies on gettext-setup, which pins fast_gettext ~> 2.1.
 #####
 component "rubygem-fast_gettext" do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
+  # PINNED
   pkg.version '2.4.0'
   pkg.sha256sum 'fd26c4c406aa10be34f0fd2847ce3ffdc1e9d9798de87538594757bbb9175fbf'
+  ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

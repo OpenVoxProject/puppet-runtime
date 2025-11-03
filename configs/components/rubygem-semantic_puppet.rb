@@ -3,16 +3,11 @@
 #   https://rubygems.org/gems/semantic_puppet
 #   https://github.com/puppetlabs/semantic_puppet/blob/main/CHANGELOG.md
 #####
-component "rubygem-semantic_puppet" do |pkg, settings, platform|
-  if platform.is_cross_compiled? && platform.is_solaris?
-    # solaris 10/11 sparc are failing in agent-runtime-7.x installing semantic_puppet because the gem requires ruby >= 2.7.0
-    # when cross compiling on sparc, we use ancient pl-ruby or equivalent. For these older platforms, use older semantic_puppet
-    pkg.version = '1.0.4'
-    pkg.sha256sum '5d8380bf733c1552ef77e06a7c44a6d5b48def7d390ecf3bd71cad477f5ce13d'
-  else
-    pkg.version '1.1.1'
-    pkg.sha256sum '15ff5b48d7f856549eb66b927a8894d3668b211970c9d7dc07dd4db57f5c7a96'
-  end
+component 'rubygem-semantic_puppet' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
+  pkg.version '1.1.1'
+  pkg.sha256sum '15ff5b48d7f856549eb66b927a8894d3668b211970c9d7dc07dd4db57f5c7a96'
+  ### End automated maintenance section ###
   
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

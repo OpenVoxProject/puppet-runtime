@@ -9,8 +9,11 @@
 #               in the agent before bumping this.
 #####
 component 'rubygem-puppet_forge' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
+  # PINNED
   pkg.version '5.0.4'
   pkg.md5sum '04a2ca2f027ed41d9142ced587b71bd7'
+  ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

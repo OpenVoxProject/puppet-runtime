@@ -3,9 +3,11 @@
 #   https://rubygems.org/gems/gettext
 #   https://github.com/ruby-gettext/gettext/releases
 #####
-component "rubygem-gettext" do |pkg, settings, platform|
+component 'rubygem-gettext' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
   pkg.version '3.5.1'
   pkg.sha256sum '03ec7f71ea7e2cf1fdcd5e08682e98b81601922fdbee890b7bc6f63b0e1a512a'
+  ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 
