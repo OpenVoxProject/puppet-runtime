@@ -5,116 +5,42 @@
 # Notes:
 #   Read the comments in the code below carefully.
 #####
-component "rubygem-ffi" do |pkg, settings, platform|
-  if platform.is_cross_compiled? && (platform.is_linux? || platform.is_solaris?)
-    # Installing ffi >= 1.14.0 blows up horribly if we're cross compiling on Linux and Solaris.
-    # This is because we're using old rubies (2.1 and 2.0) to install gems which do not have
-    # methods like `append_ldflags`.
-    # (see https://github.com/ffi/ffi/commit/3aa6b25f5423a64ad4afa7f2a5a5855483bae3c2)
-    #
-    # A more long term solution would be to update the host rubies on those
-    # platforms to something newer (preferably the same API version as the ruby
-    # we're building for). We can probably avoid this until we start shipping Ruby 3.
-    pkg.version '1.13.1'
-    pkg.sha256sum '4e15f52ee45af7c5674d656041855448adbb5022618be252cd602d81b8e2978a'
-  else
-    pkg.version '1.17.2'
-    pkg.sha256sum '297235842e5947cc3036ebe64077584bff583cd7a4e94e9a02fdec399ef46da6'
-  end
+component 'rubygem-ffi' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
+  pkg.version '1.17.2'
+  pkg.sha256sum '297235842e5947cc3036ebe64077584bff583cd7a4e94e9a02fdec399ef46da6'
+  ### End automated maintenance section ###
 
-  rb_major_minor_version = settings[:ruby_version].to_f
-
-  # Windows versions of the FFI gem have custom filenames, so we overwite the
-  # defaults that _base-rubygem provides here, just for Windows for Ruby < 3.2
-  if platform.is_windows? && rb_major_minor_version < 3.2
-    # Pin this if lower than Ruby 2.7
-    pkg.version '1.9.25' if rb_major_minor_version < 2.7
-
-    instance_eval File.read('configs/components/_base-rubygem.rb')
-
-    # Vanagon's `pkg.mirror` is additive, and the _base_rubygem sets the
-    # non-Windows gem as the first mirror, which is incorrect. We need to unset
-    # the list of mirrors before adding the Windows-appropriate ones here:
-    @component.mirrors = []
-    # Same for install steps:
-    @component.install = []
-
-    if platform.architecture == "x64"
-      # NOTE: make sure to verify the shas for the x64-mingw32 gem!
-      case pkg.get_version
-      when '1.9.25'
-        pkg.sha256sum '5473ac958b78f271f53e9a88197c35cd3e990fbe625d21e525c56d62ae3750da'
-      when '1.17.2'
-        pkg.sha256sum 'c67b84b1bd54b680bcc23b516e87c96b4585cad3ca9e0afea953c9a9cb90243d'
-      end
-
-      pkg.url "https://rubygems.org/downloads/ffi-#{pkg.get_version}-x64-mingw32.gem"
-      pkg.mirror "#{settings[:buildsources_url]}/ffi-#{pkg.get_version}-x64-mingw32.gem"
-    else
-      # Note make sure to verify the shas from the x86-mingw32 gem!
-      case pkg.get_version
-      when '1.9.25'
-        pkg.sha256sum '43d357732a6a0e3e41dc7e28a9c9c5112ac66f4a6ed9e1de40afba9ffcb836c1'
-      when '1.17.2'
-        pkg.sha256sum '5052e800045e95acdcd2c404777d5296751e66553c12ff4bf20f29ddcc9e4139'
-      end
-
-      pkg.url "https://rubygems.org/downloads/ffi-#{pkg.get_version}-x86-mingw32.gem"
-      pkg.mirror "#{settings[:buildsources_url]}/ffi-#{pkg.get_version}-x86-mingw32.gem"
-    end
-
-    pkg.install do
-      "#{settings[:gem_install]} ffi-#{pkg.get_version}-#{platform.architecture}-mingw32.gem"
-    end
-  else
-    # Prior to ruby 3.2, both ruby and the ffi gem vendored a version of libffi.
-    # If libffi happened to be installed in /usr/lib, then the ffi gem preferred
-    # that instead of building libffi itself. To ensure consistency, we use
-    # --disable-system-libffi so that the ffi gem *always* builds libffi, then
-    # builds the ffi_c native extension and links it against libffi.so.
-    #
-    # In ruby 3.2 and up, libffi is no longer vendored. So we created a separate
-    # libffi vanagon component which is built before ruby. The ffi gem still
-    # vendors libffi, so we use the --enable-system-libffi option to ensure the ffi
-    # gem *always* uses the libffi.so we already built. Note the term "system" is
-    # misleading, because we override PKG_CONFIG_PATH below so that our libffi.so
-    # is preferred, not the one in /usr/lib.
-    settings["#{pkg.get_name}_gem_install_options".to_sym] =
-      if rb_major_minor_version > 2.7
-        "-- --enable-system-libffi"
-      else
-        "-- --disable-system-libffi"
-      end
-    instance_eval File.read('configs/components/_base-rubygem.rb')
-  end
+  # Prior to ruby 3.2, both ruby and the ffi gem vendored a version of libffi.
+  # If libffi happened to be installed in /usr/lib, then the ffi gem preferred
+  # that instead of building libffi itself. To ensure consistency, we use
+  # --disable-system-libffi so that the ffi gem *always* builds libffi, then
+  # builds the ffi_c native extension and links it against libffi.so.
+  #
+  # In ruby 3.2 and up, libffi is no longer vendored. So we created a separate
+  # libffi vanagon component which is built before ruby. The ffi gem still
+  # vendors libffi, so we use the --enable-system-libffi option to ensure the ffi
+  # gem *always* uses the libffi.so we already built. Note the term "system" is
+  # misleading, because we override PKG_CONFIG_PATH below so that our libffi.so
+  # is preferred, not the one in /usr/lib.
+  settings["#{pkg.get_name}_gem_install_options".to_sym] = "-- --enable-system-libffi"
+  instance_eval File.read('configs/components/_base-rubygem.rb')
 
   # due to contrib/make_sunver.pl missing on solaris 11 we cannot compile libffi, so we provide the opencsw library
   pkg.environment "CPATH", "/opt/csw/lib/libffi-3.2.1/include" if platform.name =~ /solaris-11/ && (platform.is_cross_compiled? || platform.architecture != 'sparc')
   pkg.environment "MAKE", platform[:make] if platform.is_solaris?
 
-  if platform.is_cross_compiled_linux?
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH)"
-  elsif platform.is_solaris?
-    if settings[:ruby_version] =~ /3\.\d+\.\d+/
-      if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-        pkg.environment "PATH", "#{settings[:ruby_bindir]}:$(PATH)"
-      else
-        pkg.environment "PATH", "/opt/csw/bin:/opt/pl-build-tools/bin:$(PATH)"
-      end
+  if platform.is_solaris?
+    if !platform.is_cross_compiled? && platform.architecture == 'sparc'
+      pkg.environment "PATH", "#{settings[:ruby_bindir]}:$(PATH)"
     else
-      pkg.environment "PATH", "/opt/pl-build-tools/bin:/opt/csw/bin:$(PATH)"
+      pkg.environment "PATH", "/opt/csw/bin:$(PATH)"
     end
-    elsif platform.is_aix?
-      pkg.environment 'PATH', '/opt/freeware/bin:/opt/pl-build-tools/bin:$(PATH)'
-    elsif platform.name == 'sles-11-x86_64'
-      pkg.environment 'PATH', '/opt/pl-build-tools/bin:$(PATH)'
+  elsif platform.is_aix?
+    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
   end
 
-  # With Ruby 3.2 on Solaris-11 we install OpenSCW's libffi, no need to copy over the system libffi
-  if platform.name =~ /solaris-11-i386/ && rb_major_minor_version < 3.2
-    pkg.install_file "/usr/lib/libffi.so.5.0.10", "#{settings[:libdir]}/libffi.so"
-  elsif platform.name =~ /solaris-10-i386/
-    # If we ever support Solaris-11 on Ruby 3.2, then we won't want to do this
+  if platform.name =~ /solaris-10-i386/
     pkg.install_file "/opt/csw/lib/libffi.so.6", "#{settings[:libdir]}/libffi.so.6"
   end
 
@@ -125,6 +51,8 @@ component "rubygem-ffi" do |pkg, settings, platform|
                 when /solaris-10/
                   "/opt/csw/lib/ruby/2.0.0"
                 else
+                  # Change this someday if we ever end up cross compiling OpenVox on Linux
+                  # as we won't be using pl-build-tools there
                   "/opt/pl-build-tools/lib/ruby/2.1.0"
                 end
 

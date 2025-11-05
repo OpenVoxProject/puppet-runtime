@@ -5,9 +5,11 @@
 #   (Not up to date) https://github.com/puppetlabs/ruby-hocon/blob/main/HISTORY.md
 #   (Not up to date) https://github.com/puppetlabs/ruby-hocon/releases
 #####
-component "rubygem-hocon" do |pkg, settings, platform|
+component 'rubygem-hocon' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
   pkg.version '1.4.0'
-  pkg.sha256sum "e71023ed7c56ae780ec34c0ce7789a233bcead08c045d50bc7b3af40f5afcd80"
+  pkg.sha256sum 'e71023ed7c56ae780ec34c0ce7789a233bcead08c045d50bc7b3af40f5afcd80'
+  ### End automated maintenance section ###
   
   instance_eval File.read('configs/components/_base-rubygem.rb')
 

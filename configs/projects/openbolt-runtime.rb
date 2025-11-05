@@ -1,9 +1,9 @@
-project 'bolt-runtime' do |proj|
+project 'openbolt-runtime' do |proj|
   # Used in component configurations to conditionally include dependencies
-  proj.setting(:runtime_project, 'bolt')
+  proj.setting(:runtime_project, 'openbolt')
   proj.setting(:ruby_version, '3.2') # Leave the .Z out for Ruby 3.2
   proj.setting(:openssl_version, '3.0')
-  # Legacy algos must be enabled in OpenSSL >= 3.0 for Bolt's WinRM transport to work.
+  # Legacy algos must be enabled in OpenSSL >= 3.0 for OpenBolt's WinRM transport to work.
   proj.setting(:use_legacy_openssl_algos, true)
   proj.setting(:augeas_version, '1.14.1')
 
@@ -13,48 +13,53 @@ project 'bolt-runtime' do |proj|
   proj.generate_archives true
   proj.generate_packages false
 
-  proj.description "The Bolt runtime contains third-party components needed for Bolt standalone packaging"
-  proj.license "See components"
-  proj.vendor "Vox Pupuli <openvox@voxpupuli.org>"
-  proj.homepage "https://github.com/OpenVoxProject"
-  proj.identifier "org.voxpupuli"
+  proj.description 'The OpenBolt runtime contains third-party components needed for OpenBolt standalone packaging'
+  proj.license 'See components'
+  proj.vendor 'Vox Pupuli <openvox@voxpupuli.org>'
+  proj.homepage 'https://github.com/OpenVoxProject'
+  proj.identifier 'org.voxpupuli'
 
   if platform.is_windows?
-    proj.setting(:company_id, "PuppetLabs")
-    proj.setting(:product_id, "Bolt")
-    if platform.architecture == "x64"
-      proj.setting(:base_dir, "ProgramFiles64Folder")
+    proj.setting(:company_id, 'VoxPupuli')
+    proj.setting(:pl_company_id, 'PuppetLabs')
+    proj.setting(:product_id, 'OpenBolt')
+    proj.setting(:pl_product_id, 'Bolt')
+    if platform.architecture == 'x64'
+      proj.setting(:base_dir, 'ProgramFiles64Folder')
     else
-      proj.setting(:base_dir, "ProgramFilesFolder")
+      proj.setting(:base_dir, 'ProgramFilesFolder')
     end
     # We build for windows not in the final destination, but in the paths that correspond
     # to the directory ids expected by WIX. This will allow for a portable installation (ideally).
-    proj.setting(:prefix, File.join("C:", proj.base_dir, proj.company_id, proj.product_id))
+    proj.setting(:prefix, File.join('C:', proj.base_dir, proj.company_id, proj.product_id))
   else
-    proj.setting(:prefix, "/opt/puppetlabs/bolt")
+    proj.setting(:prefix, '/opt/puppetlabs/bolt')
   end
 
   proj.setting(:ruby_dir, proj.prefix)
   proj.setting(:bindir, File.join(proj.prefix, 'bin'))
   proj.setting(:ruby_bindir, proj.bindir)
   proj.setting(:libdir, File.join(proj.prefix, 'lib'))
-  proj.setting(:includedir, File.join(proj.prefix, "include"))
-  proj.setting(:datadir, File.join(proj.prefix, "share"))
-  proj.setting(:mandir, File.join(proj.datadir, "man"))
+  proj.setting(:includedir, File.join(proj.prefix, 'include'))
+  proj.setting(:datadir, File.join(proj.prefix, 'share'))
+  proj.setting(:mandir, File.join(proj.datadir, 'man'))
 
   if platform.is_windows?
-    proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby.exe"))
-    proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem.bat"))
+    proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby.exe'))
+    proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem.bat'))
 
     # For windows, we need to ensure we are building for mingw not cygwin
     platform_triple = platform.platform_triple
     host = "--host #{platform_triple}"
   else
-    proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby"))
-    proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem"))
+    proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby'))
+    proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem'))
   end
 
   ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
+  ruby_version_y = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
+  ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1')
+
   proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
   proj.setting(:gem_install, "#{proj.host_gem} install --no-document --local --bindir=#{proj.ruby_bindir}")
 
@@ -63,35 +68,31 @@ project 'bolt-runtime' do |proj|
 
   # Define default CFLAGS and LDFLAGS for most platforms, and then
   # tweak or adjust them as needed.
-  proj.setting(:cppflags, "-I#{proj.includedir} -I/opt/pl-build-tools/include")
-  proj.setting(:cflags, "#{proj.cppflags}")
-  proj.setting(:ldflags, "-L#{proj.libdir} -L/opt/pl-build-tools/lib -Wl,-rpath=#{proj.libdir}")
+  proj.setting(:cppflags, "-I#{proj.includedir}")
+  proj.setting(:cflags, proj.cppflags)
+  proj.setting(:ldflags, "-L#{proj.libdir} -Wl,-rpath=#{proj.libdir}")
 
   # Platform specific overrides or settings, which may override the defaults
   if platform.is_windows?
-    arch = platform.architecture == "x64" ? "64" : "32"
-    proj.setting(:gcc_root, "C:/tools/mingw#{arch}")
+    arch = platform.architecture == 'x64' ? '64' : '32'
+    proj.setting(:gcc_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
     proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
-    proj.setting(:tools_root, "C:/tools/pl-build-tools")
-    proj.setting(:cppflags, "-I#{settings[:includedir]}/ruby-2.7.0 -I#{proj.tools_root}/include -I#{proj.gcc_root}/include -I#{proj.includedir}")
+    proj.setting(:tools_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    # If tools_root ever differs from gcc_root again, add it back here.
+    proj.setting(:cppflags, "-I#{proj.gcc_root}/include -I#{proj.gcc_root}/include/readline -I#{proj.includedir}")
     proj.setting(:cflags, "#{proj.cppflags}")
-    proj.setting(:ldflags, "-L#{proj.tools_root}/lib -L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat -Wl,--dynamicbase")
-    proj.setting(:cygwin, "nodosfilewarning winsymlinks:native")
+    proj.setting(:ldflags, "-L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat -Wl,--dynamicbase")
+    proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
   end
 
   if platform.is_macos?
-    proj.setting(:cppflags, "-I#{proj.includedir}")
-    proj.setting(:cflags, proj.cppflags.to_s)
-
-    # For OS X, we should optimize for an older x86 architecture than Apple
-    # currently ships for; there's a lot of older xeon chips based on
-    # that architecture still in use throughout the Mac ecosystem.
-    # Additionally, OS X doesn't use RPATH for linking. We shouldn't
-    # define it or try to force it in the linker, because this might
-    # break gcc or clang if they try to use the RPATH values we forced.
-    proj.setting(:cflags, "-march=core2 -msse4 #{proj.cflags}") unless platform.architecture == 'arm64'
-
-    proj.setting(:ldflags, "-L#{proj.libdir} ")
+    proj.setting(:deployment_target, '13.0')
+    targeting_flags = "-target #{platform.architecture}-apple-darwin22 -arch #{platform.architecture} -mmacos-version-min=13.0"
+    proj.setting(:cflags, "#{targeting_flags} #{proj.cflags}")
+    proj.setting(:cppflags, "#{targeting_flags} #{proj.cppflags}")
+    proj.setting(:cc, 'clang')
+    proj.setting(:cxx, 'clang++')
+    proj.setting(:ldflags, "-L#{proj.libdir}")
   end
 
   # These flags are applied in addition to the defaults in configs/component/openssl.rb.
@@ -113,8 +114,8 @@ project 'bolt-runtime' do |proj|
 
   # Ruby and deps
   proj.component "openssl-#{proj.openssl_version}"
-  proj.component "runtime-bolt"
-  proj.component "puppet-ca-bundle"
+  proj.component 'runtime-openbolt'
+  proj.component 'puppet-ca-bundle'
   proj.component "ruby-#{proj.ruby_version}"
 
   proj.component 'rubygem-bcrypt_pbkdf'

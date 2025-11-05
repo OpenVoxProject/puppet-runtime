@@ -7,8 +7,11 @@
 #               so leaving this at 0.12.1 for now.
 #####
 component 'rubygem-minitar' do |pkg, settings, platform|
+  ### Maintained by update_gems automation ###
+  # PINNED
   pkg.version '0.12.1'
   pkg.md5sum '975dee1dadeb26a2a01105802c3172ab'
+  ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end
