@@ -7,21 +7,17 @@
 #####
 component 'libedit' do |pkg, settings, platform|
   pkg.version '20150325-3.1'
-  pkg.md5sum '43cdb5df3061d78b5e9d59109871b4f6'
+  pkg.sha256sum 'c88a5e4af83c5f40dda8455886ac98923a9c33125699742603a88a0253fcc8c5'
   pkg.url "http://thrysoee.dk/editline/libedit-#{pkg.get_version}.tar.gz"
-  pkg.mirror "#{settings[:buildsources_url]}/libedit-#{pkg.get_version}.tar.gz"
 
-  pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH)"
+  pkg.environment 'PATH', '/opt/pl-build-tools/bin:$(PATH)'
 
-  if platform.is_solaris?
-    pkg.environment "CC", "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc"
-  elsif platform.is_aix?
-    pkg.environment "CC", "/opt/pl-build-tools/bin/gcc"
-    pkg.environment "LDFLAGS", settings[:ldflags]
-  end
-
-  if platform.is_macos?
-    pkg.environment "CFLAGS", settings[:cflags]
+  
+  pkg.environment 'CC', "/opt/pl-build-tools/bin/#{platform.platform_triple}-gcc" if platform.is_solaris?
+  pkg.environment 'CFLAGS', settings[:cflags] if platform.is_macos?
+  if platform.is_aix?
+    pkg.environment 'CC', '/opt/pl-build-tools/bin/gcc'
+    pkg.environment 'LDFLAGS', settings[:ldflags]
   end
 
   pkg.configure do

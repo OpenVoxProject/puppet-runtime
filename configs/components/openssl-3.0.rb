@@ -9,7 +9,6 @@ component 'openssl' do |pkg, settings, platform|
   pkg.version '3.0.17'
   pkg.sha256sum 'dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce'
   pkg.url "https://github.com/openssl/openssl/releases/download/openssl-#{pkg.get_version}/openssl-#{pkg.get_version}.tar.gz"
-  pkg.mirror "#{settings[:buildsources_url]}/openssl-#{pkg.get_version}.tar.gz"
 
   #############################
   # ENVIRONMENT, FLAGS, TARGETS
@@ -48,10 +47,10 @@ component 'openssl' do |pkg, settings, platform|
     pkg.environment 'PATH', '/opt/csw/bin:$(PATH):/usr/local/bin:/usr/ccs/bin:/usr/sfw/bin'
     if !platform.is_cross_compiled? && platform.architecture == 'sparc'
       pkg.environment 'CC', "/opt/pl-build-tools/bin/gcc"
-      gcc_lib = "/opt/pl-build-tools/#{settings[:platform_triple]}/lib"
+      gcc_lib = "/opt/pl-build-tools/#{platform.platform_triple}/lib"
     else
       pkg.environment 'CC', "/opt/csw/bin/gcc"
-      gcc_lib = "/opt/csw/#{settings[:platform_triple]}/lib"
+      gcc_lib = "/opt/csw/#{platform.platform_triple}/lib"
     end
     cflags = "#{settings[:cflags]} -fPIC"
     ldflags = "-R#{gcc_lib} -Wl,-rpath=#{settings[:libdir]} -L#{gcc_lib}"
@@ -130,8 +129,14 @@ component 'openssl' do |pkg, settings, platform|
     configure_flags << 'no-legacy' << 'no-md4'
   end
 
-  # Individual projects may provide their own openssl configure flags:
-  project_flags = settings[:openssl_extra_configure_flags] || []
+  project_flags = [
+    'no-dtls',
+    'no-dtls1',
+    'no-idea',
+    'no-seed',
+    'no-weak-ssl-ciphers',
+    '-DOPENSSL_NO_HEARTBEATS',
+  ]
   perl_exec = ''
   if platform.is_aix?
     perl_exec = '/opt/freeware/bin/perl'
@@ -158,7 +163,7 @@ component 'openssl' do |pkg, settings, platform|
     # See https://github.com/openssl/openssl/issues/513
     # See https://github.com/mingw-w64/mingw-w64/commit/8da1aae7a7ff5bf996878dc8fe30a0e01e210e5a
     pkg.add_source("file://resources/patches/windows/FORCEINLINE-i686-w64-mingw32-winnt.h")
-    build_commands << "#{platform.patch} --dir #{settings[:gcc_root]}/#{settings[:platform_triple]} --strip=2 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../FORCEINLINE-i686-w64-mingw32-winnt.h"
+    build_commands << "#{platform.patch} --dir #{settings[:tools_root]}/#{platform.platform_triple} --strip=2 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../FORCEINLINE-i686-w64-mingw32-winnt.h"
   end
 
   build_commands << "#{platform[:make]} depend"

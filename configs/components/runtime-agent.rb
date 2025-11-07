@@ -25,9 +25,9 @@ component "runtime-agent" do |pkg, settings, platform|
 
   if platform.is_cross_compiled?
     if platform.architecture =~ /aarch64|ppc64$|ppc64le/
-      libdir = File.join("/opt/pl-build-tools", settings[:platform_triple], "lib64")
+      libdir = File.join("/opt/pl-build-tools", platform.platform_triple, "lib64")
     else
-      libdir = File.join("/opt/pl-build-tools", settings[:platform_triple], "lib")
+      libdir = File.join("/opt/pl-build-tools", platform.platform_triple, "lib")
     end
   elsif platform.is_aix?
     if platform.name == "aix-7.1-ppc"

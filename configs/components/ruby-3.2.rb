@@ -93,9 +93,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
     cflags += ' -Wno-error=implicit-function-declaration '
   end
 
-  if settings[:supports_pie]
-    special_flags += " CFLAGS='#{cflags}' LDFLAGS='#{settings[:ldflags]}' CPPFLAGS='#{settings[:cppflags]}' "
-  end
+  special_flags += " CFLAGS='#{cflags}' LDFLAGS='#{settings[:ldflags]}' CPPFLAGS='#{settings[:cppflags]}' "
 
   # Ruby's build process requires a "base" ruby and we need a ruby to install
   # gems into the /opt/puppetlabs/puppet/lib directory.
@@ -117,7 +115,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
   if platform.is_aix?
     # This normalizes the build string to something like AIX 7.1.0.0 rather
     # than AIX 7.1.0.2 or something
-    special_flags += " --build=#{settings[:platform_triple]} "
+    special_flags += " --build=#{platform.platform_triple} "
   elsif platform.is_cross_compiled? && platform.is_macos?
     # When the target arch is aarch64, ruby incorrectly selects the 'ucontext' coroutine
     # implementation instead of 'arm64', so specify 'amd64' explicitly
@@ -243,8 +241,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'x86_64-w64-mingw32' => 'x64-mingw32',
     'i686-w64-mingw32' => 'i386-mingw32'
   }
-  if target_doubles.key?(settings[:platform_triple])
-    rbconfig_topdir = File.join(ruby_dir, 'lib', 'ruby', '3.2.0', target_doubles[settings[:platform_triple]])
+  if target_doubles.key?(platform.platform_triple)
+    rbconfig_topdir = File.join(ruby_dir, 'lib', 'ruby', '3.2.0', target_doubles[platform.platform_triple])
   else
     rbconfig_topdir = "$$(#{ruby_bindir}/ruby -e \"puts RbConfig::CONFIG[\\\"topdir\\\"]\")"
   end
@@ -254,7 +252,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # with native extensions, like ffi, the "host" ruby's mkmf will use the CC,
   # etc specified below. For example, if we're building on mac Intel for ARM,
   # then the CC override allows us to build ffi_c.so for ARM as well. The
-  # "host" ruby is configured in _shared-agent-settings
+  # "host" ruby is configured in project settings.
   rbconfig_changes = {}
   if platform.is_aix?
     rbconfig_changes["CC"] = "gcc"

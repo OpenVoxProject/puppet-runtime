@@ -7,16 +7,15 @@ component 'dmidecode' do |pkg, settings, platform|
 
   pkg.apply_patch 'resources/patches/dmidecode/dmidecode-install-to-bin.patch'
   pkg.url "http://download-mirror.savannah.gnu.org/releases/dmidecode/dmidecode-#{pkg.get_version}.tar.xz"
-  pkg.mirror "#{settings[:buildsources_url]}/dmidecode-#{pkg.get_version}.tar.xz"
 
-  pkg.environment "LDFLAGS", settings[:ldflags]
-  pkg.environment "CFLAGS", settings[:cflags]
+  pkg.environment 'LDFLAGS', settings[:ldflags]
+  pkg.environment 'CFLAGS', settings[:cflags]
 
   if platform.is_cross_compiled?
     # The Makefile doesn't honor environment overrides, so we need to
     # edit it directly for cross-compiling
     pkg.configure do
-      ["sed -i \"s|gcc|/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc|g\" Makefile"]
+      ["sed -i \"s|gcc|/opt/pl-build-tools/bin/#{platform.platform_triple}-gcc|g\" Makefile"]
     end
   end
 
