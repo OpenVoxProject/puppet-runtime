@@ -26,68 +26,51 @@ component 'rubygem-ffi' do |pkg, settings, platform|
   settings["#{pkg.get_name}_gem_install_options".to_sym] = "-- --enable-system-libffi"
   instance_eval File.read('configs/components/_base-rubygem.rb')
 
-  # due to contrib/make_sunver.pl missing on solaris 11 we cannot compile libffi, so we provide the opencsw library
-  pkg.environment "CPATH", "/opt/csw/lib/libffi-3.2.1/include" if platform.name =~ /solaris-11/ && (platform.is_cross_compiled? || platform.architecture != 'sparc')
-  pkg.environment "MAKE", platform[:make] if platform.is_solaris?
-
   if platform.is_solaris?
-    if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-      pkg.environment "PATH", "#{settings[:ruby_bindir]}:$(PATH)"
-    else
-      pkg.environment "PATH", "/opt/csw/bin:$(PATH)"
+    ver, arch = platform.match(/^\w+-(\d+)-(\w+)$/).captures
+    cross = platform.is_cross_compiled?
+
+    pkg.environment "MAKE", platform[:make]
+    pkg.environment "PATH", "/opt/csw/bin:$(PATH)"
+    pkg.environment "PATH", "#{settings[:ruby_bindir]}:$(PATH)" if !cross && arch == 'sparc'
+
+    if ver == '11'
+      # due to contrib/make_sunver.pl missing on solaris 11 we cannot compile libffi, so we provide the opencsw library
+      pkg.environment "CPATH", "/opt/csw/lib/libffi-3.2.1/include" if cross || arch != 'sparc'
+      # With Ruby 3.2 on Solaris-11 we install OpenSCW's libffi, no need to copy over the system libffi
+      pkg.install_file "/usr/lib/libffi.so.5.0.10", "#{settings[:libdir]}/libffi.so" if arch == 'i386' && rb_major_minor_version < 3.2
+      if arch == 'sparc'
+        # force compilation without system libffi in order to have a statically linked ffi_c.so
+        # If we end up building this in the future, replace the paths to pl-build-tools things.
+        sed_exp = 's|CONFIG\["LDFLAGS"\].*|CONFIG["LDFLAGS"] = "-Wl,-rpath-link,/opt/pl-build-tools/sparc-sun-solaris2.11/sysroot/lib:/opt/pl-build-tools/sparc-sun-solaris2.11/sysroot/usr/lib -L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector"|'
+        pkg.configure do
+          [
+            # libtool always uses the system/solaris ld even if we
+            # configure it to use the GNU ld, causing some flag
+            # mismatches, so just temporarily move the system ld
+            # somewhere else
+            %(mv /usr/bin/ld /usr/bin/ld1),
+            %(#{platform[:sed]} -i '#{sed_exp}' /opt/puppetlabs/puppet/share/doc/rbconfig-#{settings[:ruby_version]}-orig.rb)
+          ]
+        end
+        # move ld back after the gem is installed
+        pkg.install { "mv /usr/bin/ld1 /usr/bin/ld" }
+      end
     end
-  elsif platform.is_aix?
-    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
+
+    if ver == '10'
+      if arch == 'sparc'
+        # If we end up building this in the future, replace the paths to pl-build-tools things.
+        sed_exp = 's|CONFIG\["LDFLAGS"\].*|CONFIG["LDFLAGS"] = "-Wl,-rpath-link,/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/lib:/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/usr/lib -L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector"|'
+        pkg.configure do
+          [
+            %(#{platform[:sed]} -i '#{sed_exp}' /opt/puppetlabs/puppet/share/doc/rbconfig-#{settings[:ruby_version]}-orig.rb)
+          ]
+        end
+      end
+    end
   end
 
-  if platform.name =~ /solaris-10-i386/
-    pkg.install_file "/opt/csw/lib/libffi.so.6", "#{settings[:libdir]}/libffi.so.6"
-  end
-
+  pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)' if platform.is_aix?
   pkg.environment 'PKG_CONFIG_PATH', '/opt/puppetlabs/puppet/lib/pkgconfig:$(PKG_CONFIG_PATH)'
-
-  if platform.is_cross_compiled? && !platform.is_macos?
-    base_ruby = case platform.name
-                when /solaris-10/
-                  "/opt/csw/lib/ruby/2.0.0"
-                else
-                  # Change this someday if we ever end up cross compiling OpenVox on Linux
-                  # as we won't be using pl-build-tools there
-                  "/opt/pl-build-tools/lib/ruby/2.1.0"
-                end
-
-    # force compilation without system libffi in order to have a statically linked ffi_c.so
-    if platform.name =~ /solaris-11-sparc/
-      sed_exp = 's|CONFIG\["LDFLAGS"\].*|CONFIG["LDFLAGS"] = "-Wl,-rpath-link,/opt/pl-build-tools/sparc-sun-solaris2.11/sysroot/lib:/opt/pl-build-tools/sparc-sun-solaris2.11/sysroot/usr/lib -L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector"|'
-
-      pkg.configure do
-        [
-          # libtool always uses the system/solaris ld even if we
-          # configure it to use the GNU ld, causing some flag
-          # mismatches, so just temporarily move the system ld
-          # somewhere else
-          %(mv /usr/bin/ld /usr/bin/ld1),
-          %(#{platform[:sed]} -i '#{sed_exp}' /opt/puppetlabs/puppet/share/doc/rbconfig-#{settings[:ruby_version]}-orig.rb)
-        ]
-      end
-
-      # move ld back after the gem is installed
-      pkg.install { "mv /usr/bin/ld1 /usr/bin/ld" }
-
-    elsif platform.name =~ /solaris-10-sparc/
-      sed_exp = 's|CONFIG\["LDFLAGS"\].*|CONFIG["LDFLAGS"] = "-Wl,-rpath-link,/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/lib:/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/usr/lib -L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector"|'
-      pkg.configure do
-        [
-          %(#{platform[:sed]} -i '#{sed_exp}' /opt/puppetlabs/puppet/share/doc/rbconfig-#{settings[:ruby_version]}-orig.rb)
-        ]
-      end
-    end
-
-    # FFI 1.13.1 forced the minimum required ruby version to ~> 2.3
-    # In order to be able to install the gem using pl-ruby(2.1.9)
-    # we need to remove the required ruby version check
-    pkg.configure do
-      %(#{platform[:sed]} -i '0,/ensure_required_ruby_version_met/b; /ensure_required_ruby_version_met/d' #{base_ruby}/rubygems/installer.rb)
-    end
-  end
 end

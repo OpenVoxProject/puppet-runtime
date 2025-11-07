@@ -15,7 +15,6 @@ component "virt-what" do |pkg, settings, platform|
   # original URL next time we bump this.
   #pkg.url "https://people.redhat.com/~rjones/virt-what/files/virt-what-#{pkg.get_version}.tar.gz"
   pkg.url "https://artifacts.voxpupuli.org/components/virt-what-#{pkg.get_version}.tar.gz"
-  pkg.mirror "#{settings[:buildsources_url]}/virt-what-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-virt-what'
 
@@ -37,9 +36,9 @@ component "virt-what" do |pkg, settings, platform|
   end
 
   if platform.is_cross_compiled_linux?
-    host_opt = "--host #{settings[:platform_triple]}"
+    host_opt = "--host #{platform.platform_triple}"
 
-    pkg.environment "PATH" => "/opt/pl-build-tools/bin:$$PATH:#{settings[:bindir]}"
+    pkg.environment "PATH" => "$$PATH:#{settings[:bindir]}"
     pkg.environment "CFLAGS" => settings[:cflags]
     pkg.environment "LDFLAGS" => settings[:ldflags]
   end

@@ -6,7 +6,7 @@
 
 name = pkg.get_name.gsub('rubygem-', '')
 unless name && !name.empty?
-  raise "Rubygem component files that instance_eval _base-rubygem must be named rubygem-<gem-name>.rb"
+  raise 'Rubygem component files that instance_eval _base-rubygem must be named rubygem-<gem-name>.rb'
 end
 
 version = pkg.get_version
@@ -15,27 +15,36 @@ unless version && !version.empty?
 end
 
 pkg.build_requires "runtime-#{settings[:runtime_project]}"
-pkg.build_requires "pl-ruby-patch" if platform.is_cross_compiled?
+pkg.build_requires "ruby-#{settings[:ruby_version]}"
+pkg.build_requires 'pl-ruby-patch' if platform.is_cross_compiled?
 
 if platform.is_windows?
-  pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):$(shell cygpath -u #{settings[:bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0:$(PATH)"
+  pkg.environment 'PATH', "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):$(shell cygpath -u #{settings[:bindir]}):/cygdrive/c/Windows/system32:/cygdrive/c/Windows:/cygdrive/c/Windows/System32/WindowsPowerShell/v1.0:$(PATH)"
+end
+
+if platform.is_macos?
+  pkg.environment 'CC', settings[:cc]
+  pkg.environment 'CXX', settings[:cxx]
+  pkg.environment 'LDFLAGS', settings[:ldflags]
+  pkg.environment 'CPPFLAGS', settings[:cppflags]
+  pkg.environment 'CFLAGS', settings[:cflags]
+  pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
 end
 
 # When cross-compiling, we can't use the rubygems we just built.
 # Instead we use the host gem installation and override GEM_HOME. Yay?
-pkg.environment "GEM_HOME", settings[:gem_home]
-pkg.environment "GEM_PATH", settings[:gem_home]
+pkg.environment 'GEM_HOME', settings[:gem_home]
+pkg.environment 'GEM_PATH', settings[:gem_home]
 
 # PA-25 in order to install gems in a cross-compiled environment we need to
 # set RUBYLIB to include puppet and hiera, so that their gemspecs can resolve
 # hiera/version and puppet/version requires. Without this the gem install
 # will fail by blowing out the stack.
 if settings[:ruby_vendordir]
-  pkg.environment "RUBYLIB", "#{settings[:ruby_vendordir]}:$(RUBYLIB)"
+  pkg.environment 'RUBYLIB', "#{settings[:ruby_vendordir]}:$(RUBYLIB)"
 end
 
 pkg.url("https://rubygems.org/downloads/#{name}-#{version}.gem")
-pkg.mirror("#{settings[:buildsources_url]}/#{name}-#{version}.gem")
 
 # If a gem needs more command line options to install set the :gem_install_options
 # in its component file rubygem-<compoment>, before the instance_eval of this file.

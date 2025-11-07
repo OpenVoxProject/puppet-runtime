@@ -8,6 +8,8 @@
 component 'ruby-3.2' do |pkg, settings, platform|
   pkg.version '3.2.9'
   pkg.sha256sum 'abbad98db9aeb152773b0d35868e50003b8c467f3d06152577c4dfed9d88ed2a'
+  ruby_version_y = pkg.get_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
+  pkg.url "https://cache.ruby-lang.org/pub/ruby/#{ruby_version_y}/ruby-#{pkg.get_version}.tar.gz"
 
   ruby_dir = settings[:ruby_dir]
   ruby_bindir = settings[:ruby_bindir]
@@ -16,8 +18,72 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # rbconfig-update is used to munge rbconfigs after the fact.
   pkg.add_source("file://resources/files/ruby/rbconfig-update.rb")
 
-  # Most ruby configuration happens in the base ruby config:
-  instance_eval File.read('configs/components/_base-ruby.rb')
+  ####################
+  # BUILD REQUIREMENTS
+  ####################
+
+  pkg.build_requires "openssl-#{settings[:openssl_version]}"
+  pkg.build_requires "runtime-#{settings[:runtime_project]}" if platform.is_aix? || platform.is_solaris? || platform.is_cross_compiled_linux?
+  pkg.build_requires 'readline' if platform.is_aix?
+  pkg.build_requires 'libedit' if platform.name =~ /^solaris-10-sparc/
+
+  #############
+  # ENVIRONMENT
+  #############
+
+  pkg.environment 'CROSS_COMPILING', 'true' if platform.is_cross_compiled?
+  # Remove the default -O2 if it exists since we'll pick our own optimization level later
+  cflags = settings[:cflags].gsub("-O2", '')
+  cppflags = settings[:cppflags]
+  ldflags = settings[:ldflags]
+  optimization_level = 2
+  if platform.is_macos?
+    pkg.environment 'CC', settings[:cc]
+    pkg.environment 'CXX', settings[:cxx]
+    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
+    pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
+  elsif platform.is_windows?
+    pkg.environment 'PATH', "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:tools_root]}/bin):$(shell cygpath -u #{settings[:tools_root]}/include):$(shell cygpath -u #{settings[:bindir]}):$(shell cygpath -u #{settings[:ruby_bindir]}):$(shell cygpath -u #{settings[:includedir]}):$(PATH)"
+    pkg.environment 'CYGWIN', settings[:cygwin]
+    cppflags += ' -DFD_SETSIZE=2048 '
+    optimization_level = 3
+    pkg.environment 'MAKE', 'make'
+  elsif platform.is_aix?
+    pkg.environment 'CC', '/opt/freeware/bin/gcc'
+    ldflags += " -Wl,-bmaxdata:0x80000000 "
+    # When using the default -ggdb3 I was seeing linker errors like, so use -g0 instead:
+    #
+    # ld: 0711-759 INTERNAL ERROR: Source file dwarf.c, line 528.
+    #   Depending on where this product was acquired, contact your service
+    #   representative or the approved supplier.
+    #   collect2: error: ld returned 16 exit status
+    cflags += " -fPIC -g0 "
+    optimization_level = 2
+  elsif platform.is_solaris?
+    pkg.environment 'PATH', "#{settings[:bindir]}:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin:$(PATH)"
+    pkg.environment 'CC', '/opt/csw/bin/gcc'
+    pkg.environment 'LD', '/opt/csw/bin/gld'
+    pkg.environment 'AR', '/opt/csw/bin/gar'
+    ldflags += " -Wl,-rpath=#{settings[:libdir]} "
+    # ./configure uses /bin/sh as the default shell when running config.sub on Solaris 10;
+    # This doesn't work and halts the configure process. Set CONFIG_SHELL to force use of bash:
+    pkg.environment 'CONFIG_SHELL', '/bin/bash' if platform.os_version == '10'
+    optimization_level = 1
+  elsif platform.is_cross_compiled_linux?
+    pkg.environment 'PATH', "#{settings[:bindir]}:$(PATH)"
+    ldflags += " -Wl,-rpath=#{settings[:libdir]} "
+  end
+  if (platform.is_debian? && platform.os_version.to_i >= 13) || (platform.is_ubuntu? && platform.os_version =~ /25.04/)
+    # A problem with --enable-dtrace, which I suspect may be because of GCC on the Trixie image.
+    # Check if this is still needed next time we bump Ruby and/or bump the Debian 13
+    # container to the release version.
+    cflags += ' -Wno-error=implicit-function-declaration '
+  end
+  cflags = "#{cflags} -O#{optimization_level}"
+  pkg.environment 'CFLAGS', cflags
+  pkg.environment 'CPPFLAGS', cppflags
+  pkg.environment 'LDFLAGS', ldflags
+  pkg.environment 'optflags', cflags
 
   #########
   # PATCHES
@@ -27,11 +93,10 @@ component 'ruby-3.2' do |pkg, settings, platform|
 
   if platform.is_cross_compiled?
     pkg.apply_patch "#{base}/rbinstall_gem_path.patch"
+    pkg.apply_patch "#{base}/target_rbconfig.patch"
   end
 
-  if platform.is_aix?
-    pkg.apply_patch "#{base}/reline_disable_terminfo.patch"
-  end
+  pkg.apply_patch "#{base}/reline_disable_terminfo.patch" if platform.is_aix?
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
@@ -41,61 +106,22 @@ component 'ruby-3.2' do |pkg, settings, platform|
     pkg.apply_patch "#{base}/revert_ruby_utf8_default_encoding.patch"
   end
 
-  if platform.is_fips?
-    # This is needed on Ruby < 3.3 until the fix is backported (if ever)
-    # See: https://bugs.ruby-lang.org/issues/20000
-    pkg.apply_patch "#{base}/openssl3_fips.patch"
-  end
+  # This is needed on Ruby < 3.3 until the fix is backported (if ever)
+  # See: https://bugs.ruby-lang.org/issues/20000
+  pkg.apply_patch "#{base}/openssl3_fips.patch" if platform.is_fips?
 
-  ####################
-  # ENVIRONMENT, FLAGS
-  ####################
-
-  cflags = settings[:cflags]
-  cppflags = settings[:cppflags]
-  if platform.is_macos?
-    pkg.environment 'optflags', cflags
-    pkg.environment 'CFLAGS', cflags
-    pkg.environment 'CPPFLAGS', cppflags
-    pkg.environment 'LDFLAGS', settings[:ldflags]
-    pkg.environment 'CC', settings[:cc]
-    pkg.environment 'CXX', settings[:cxx]
-    pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
-    pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
-  elsif platform.is_windows?
-    optflags = cflags + ' -O3'
-    pkg.environment 'optflags', optflags
-    pkg.environment 'CFLAGS', optflags
-    pkg.environment 'MAKE', 'make'
-  elsif platform.is_cross_compiled?
-    pkg.environment 'CROSS_COMPILING', 'true'
-  elsif platform.is_aix?
-    # When using the default -ggdb3 I was seeing linker errors like, so use -g0 instead:
-    #
-    # ld: 0711-759 INTERNAL ERROR: Source file dwarf.c, line 528.
-    #   Depending on where this product was acquired, contact your service
-    #   representative or the approved supplier.
-    #   collect2: error: ld returned 16 exit status
-
-    pkg.environment 'optflags', "-O2 -fPIC -g0 "
-  elsif platform.is_solaris?
-    pkg.environment 'optflags', '-O1'
-  else
-    pkg.environment 'optflags', '-O2'
-  end
-
-  special_flags = " --prefix=#{ruby_dir} --with-opt-dir=#{settings[:prefix]} "
-
-  if (platform.is_debian? && platform.os_version.to_i >= 13) || (platform.is_ubuntu? && platform.os_version =~ /25.04/)
-    # A problem with --enable-dtrace, which I suspect may be because of GCC on the Trixie image.
-    # Check if this is still needed next time we bump Ruby and/or bump the Debian 13
-    # container to the release version.
-    cflags += ' -Wno-error=implicit-function-declaration '
-  end
-
-  if settings[:supports_pie]
-    special_flags += " CFLAGS='#{cflags}' LDFLAGS='#{settings[:ldflags]}' CPPFLAGS='#{settings[:cppflags]}' "
-  end
+  #############
+  # CONFIGURE FLAGS
+  #############
+  # Pretty sure we don't need to be specifiy the flag vars again,
+  # but leaving it in until it can be checked.
+  flags = [
+    "--prefix=#{ruby_dir}",
+    "--with-opt-dir=#{settings[:prefix]}",
+    "CFLAGS='#{cflags}'",
+    "LDFLAGS='#{ldflags}'",
+    "CPPFLAGS='#{cppflags}'"
+  ]
 
   # Ruby's build process requires a "base" ruby and we need a ruby to install
   # gems into the /opt/puppetlabs/puppet/lib directory.
@@ -108,54 +134,27 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # is in the PATH, as it's probably too old to build ruby 3.2. And we don't
   # want to use/maintain pl-ruby if we don't have to. Instead set baseruby to
   # "no" which will force ruby to build and use miniruby.
-  if platform.is_cross_compiled?
-    special_flags += " --with-baseruby=#{host_ruby} "
-  else
-    special_flags += " --with-baseruby=no "
-  end
+  flags << (platform.is_cross_compiled? ? "--with-baseruby=#{host_ruby}" : "--with-baseruby=no")
 
   if platform.is_aix?
     # This normalizes the build string to something like AIX 7.1.0.0 rather
     # than AIX 7.1.0.2 or something
-    special_flags += " --build=#{settings[:platform_triple]} "
-  elsif platform.is_cross_compiled? && platform.is_macos?
-    # When the target arch is aarch64, ruby incorrectly selects the 'ucontext' coroutine
-    # implementation instead of 'arm64', so specify 'amd64' explicitly
-    # https://github.com/ruby/ruby/blob/c9c2245c0a25176072e02db9254f0e0c84c805cd/configure.ac#L2329-L2330
-    special_flags += " --with-coroutine=arm64 "
+    flags << "--build=#{platform.platform_triple}"
   elsif platform.is_solaris? && platform.architecture == "sparc"
-    unless platform.is_cross_compiled?
-      # configure seems to enable dtrace because the executable is present,
-      # explicitly disable it and don't enable it below
-      special_flags += " --enable-dtrace=no "
-    end
-    special_flags += "--enable-close-fds-by-recvmsg-with-peek "
-
+    flags << platform.is_cross_compiled? ? "" : "--enable-dtrace=no"
+    flags << "--enable-close-fds-by-recvmsg-with-peek"
   elsif platform.is_windows?
-    # ruby's configure script guesses the build host is `cygwin`, because we're using
-    # cygwin opensshd & bash. So mkmf will convert compiler paths, e.g. -IC:/... to
-    # cygwin paths, -I/cygdrive/c/..., which confuses mingw-w64. So specify the build
-    # target explicitly.
-    special_flags += " CPPFLAGS='-DFD_SETSIZE=2048' debugflags=-g "
-
-    if platform.architecture == "x64"
-      special_flags += " --build x86_64-w64-mingw32 "
-    else
-      special_flags += " --build i686-w64-mingw32 "
-    end
+    flags << "--build x86_64-w64-mingw32"
   elsif platform.is_macos?
-    special_flags += " --with-openssl-dir=#{settings[:prefix]} "
+    flags << "--with-openssl-dir=#{settings[:prefix]}"
   end
 
   without_dtrace = [
-    'aix-7.1-ppc',
     'aix-7.2-ppc',
     'el-7-ppc64le',
     'macos-all-arm64',
     'macos-all-x86_64',
     'redhatfips-7-x86_64',
-    'sles-11-x86_64',
-    'sles-12-ppc64le',
     'solaris-11-sparc',
     'solaris-113-sparc',
     'windows-all-x64',
@@ -163,21 +162,15 @@ component 'ruby-3.2' do |pkg, settings, platform|
   ]
 
   unless without_dtrace.include? platform.name
-    special_flags += ' --enable-dtrace '
+    flags << '--enable-dtrace'
   end
 
   ###########
   # CONFIGURE
   ###########
 
-  # TODO: Remove this once PA-1607 is resolved.
-  # TODO: Can we use native autoconf? The dependencies seemed a little too extensive
   if platform.is_aix?
-    if platform.name == 'aix-7.1-ppc'
-      pkg.configure { ["/opt/pl-build-tools/bin/autoconf"] }
-    else
-      pkg.configure { ["/opt/freeware/bin/autoconf"] }
-    end
+    pkg.configure { ["/opt/freeware/bin/autoconf"] }
   else
     pkg.configure { ["bash autogen.sh"] }
   end
@@ -189,7 +182,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
         --disable-install-doc \
         --disable-install-rdoc \
         #{settings[:host]} \
-        #{special_flags}"
+        #{flags.join(' ')}"
     ]
   end
 
@@ -206,9 +199,21 @@ component 'ruby-3.2' do |pkg, settings, platform|
     end
   end
 
+  #######
+  # BUILD
+  #######
+
+  pkg.build do
+    "#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"
+  end
+
   #########
   # INSTALL
   #########
+
+  pkg.install do
+    [ "#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1) install" ]
+  end
 
   if platform.is_windows?
     # Ruby 3.2 copies bin/gem to $ruby_bindir/gem.cmd, but generates bat files for
@@ -226,10 +231,19 @@ component 'ruby-3.2' do |pkg, settings, platform|
     pkg.install_file File.join(settings[:gcc_bindir], "libssp-0.dll"), File.join(settings[:bindir], "libssp-0.dll")
   end
 
+  ### Rbconfig Patching ###
+  # When cross compiling or building on non-linux, we sometimes need to patch
+  # the rbconfig.rb in the "host" ruby so that later when we try to build gems
+  # with native extensions, like ffi, the "host" ruby's mkmf will use the CC,
+  # etc specified below. For example, if we're building on mac Intel for ARM,
+  # then the CC override allows us to build ffi_c.so for ARM as well. The
+  # "host" ruby is configured in project settings.
+
   target_doubles = {
     'powerpc-ibm-aix7.1.0.0' => 'powerpc-aix7.1.0.0',
     'powerpc-ibm-aix7.2.0.0' => 'powerpc-aix7.2.0.0',
     'aarch64-redhat-linux' => 'aarch64-linux',
+    'x86_64-apple-darwin' => 'x86_64-darwin', # Added for x86_64 crosscompile on arm64. Remove if we build natively in the future.
     'ppc64-redhat-linux' => 'powerpc64-linux',
     'ppc64le-redhat-linux' => 'powerpc64le-linux',
     'powerpc64le-suse-linux' => 'powerpc64le-linux',
@@ -243,21 +257,18 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'x86_64-w64-mingw32' => 'x64-mingw32',
     'i686-w64-mingw32' => 'i386-mingw32'
   }
-  if target_doubles.key?(settings[:platform_triple])
-    rbconfig_topdir = File.join(ruby_dir, 'lib', 'ruby', '3.2.0', target_doubles[settings[:platform_triple]])
+  if target_doubles.key?(platform.platform_triple)
+    rbconfig_topdir = File.join(ruby_dir, 'lib', 'ruby', '3.2.0', target_doubles[platform.platform_triple])
   else
     rbconfig_topdir = "$$(#{ruby_bindir}/ruby -e \"puts RbConfig::CONFIG[\\\"topdir\\\"]\")"
   end
 
-  # When cross compiling or building on non-linux, we sometimes need to patch
-  # the rbconfig.rb in the "host" ruby so that later when we try to build gems
-  # with native extensions, like ffi, the "host" ruby's mkmf will use the CC,
-  # etc specified below. For example, if we're building on mac Intel for ARM,
-  # then the CC override allows us to build ffi_c.so for ARM as well. The
-  # "host" ruby is configured in _shared-agent-settings
   rbconfig_changes = {}
   if platform.is_aix?
     rbconfig_changes["CC"] = "gcc"
+  elsif platform.is_macos? && platform.is_cross_compiled?
+    rbconfig_changes["CC"] = settings[:cc]
+    rbconfig_changes["CXX"] = settings[:cxx]
   elsif platform.is_cross_compiled? || (platform.is_solaris? && platform.architecture != 'sparc')
     # REMIND: why are we overriding rbconfig for solaris intel?
     rbconfig_changes["CC"] =  'gcc'
@@ -267,18 +278,9 @@ component 'ruby-3.2' do |pkg, settings, platform|
       # will remove that entry
       # Matches both endians
       rbconfig_changes["DLDFLAGS"] = "-Wl,-rpath=/opt/puppetlabs/puppet/lib -L/opt/puppetlabs/puppet/lib  -Wl,-rpath,/opt/puppetlabs/puppet/lib"
-    elsif platform.name =~ /sles-12-ppc64le/
-      # the ancient gcc version on sles-12-ppc64le does not understand -fstack-protector-strong, so remove the `strong` part
-      rbconfig_changes["LDFLAGS"] = "-L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector -rdynamic -Wl,-export-dynamic -L/opt/puppetlabs/puppet/lib"
     end
-  elsif platform.is_macos?
-    rbconfig_changes["CC"] = "#{settings[:cc]} #{cflags}"
   elsif platform.is_windows?
-    if platform.architecture == "x64"
-      rbconfig_changes["CC"] = "x86_64-w64-mingw32-gcc"
-    else
-      rbconfig_changes["CC"] = "i686-w64-mingw32-gcc"
-    end
+    rbconfig_changes["CC"] = "x86_64-w64-mingw32-gcc"
   end
 
   pkg.add_source("file://resources/files/ruby_vendor_gems/operating_system.rb")
@@ -303,7 +305,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
       [
         "#{host_ruby} ../rbconfig-update.rb \"#{rbconfig_changes.to_s.gsub('"', '\"')}\" #{rbconfig_topdir}",
         "cp original_rbconfig.rb #{settings[:datadir]}/doc/rbconfig-#{pkg.get_version}-orig.rb",
-        "cp new_rbconfig.rb #{rbconfig_topdir}/rbconfig.rb",
+        "sudo cp new_rbconfig.rb #{rbconfig_topdir}/rbconfig.rb",
       ]
     end
   end
