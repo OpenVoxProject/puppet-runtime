@@ -148,7 +148,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
   end
 
   without_dtrace = [
-    'aix-7.1-ppc',
     'aix-7.2-ppc',
     'el-7-ppc64le',
     'macos-all-arm64',
@@ -173,11 +172,7 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # TODO: Remove this once PA-1607 is resolved.
   # TODO: Can we use native autoconf? The dependencies seemed a little too extensive
   if platform.is_aix?
-    if platform.name == 'aix-7.1-ppc'
-      pkg.configure { ["/opt/pl-build-tools/bin/autoconf"] }
-    else
-      pkg.configure { ["/opt/freeware/bin/autoconf"] }
-    end
+    pkg.configure { ["/opt/freeware/bin/autoconf"] }
   else
     pkg.configure { ["bash autogen.sh"] }
   end
@@ -227,7 +222,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
   end
 
   target_doubles = {
-    'powerpc-ibm-aix7.1.0.0' => 'powerpc-aix7.1.0.0',
     'powerpc-ibm-aix7.2.0.0' => 'powerpc-aix7.2.0.0',
     'aarch64-redhat-linux' => 'aarch64-linux',
     'ppc64-redhat-linux' => 'powerpc64-linux',
