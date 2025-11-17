@@ -211,6 +211,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
   proj.component 'rubygem-puppet'
+  proj.component 'rubygem-getoptlong'
   proj.component 'rubygem-facter'
   proj.component 'rubygem-puppet_forge'
   proj.component 'rubygem-puppet-resource_api'
