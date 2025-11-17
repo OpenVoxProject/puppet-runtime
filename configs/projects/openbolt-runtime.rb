@@ -196,6 +196,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-ffi'
   proj.component 'rubygem-gssapi'
   proj.component 'rubygem-gyoku'
+  proj.component 'rubygem-rexml'
   proj.component 'rubygem-hiera'
   proj.component 'rubygem-httpclient'
   proj.component 'rubygem-mutex_m'
