@@ -5,8 +5,15 @@
 #####   
 component 'rubygem-aws-sdk-core' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
-  pkg.version '3.232.0'
-  pkg.sha256sum '05291ae0da4fb69e9b6494fcc2d839584e8345714a93cd01f0f1bf11475619f2'
+  pkg.version '3.237.0'
+  pkg.sha256sum '9a8b14167a75be07ba7cfd9d27075aa12f1ed897d6eaed808a1c6a20963af32b'
+  pkg.build_requires 'rubygem-aws-eventstream'
+  pkg.build_requires 'rubygem-aws-partitions'
+  pkg.build_requires 'rubygem-aws-sigv4'
+  pkg.build_requires 'rubygem-base64'
+  pkg.build_requires 'rubygem-bigdecimal'
+  pkg.build_requires 'rubygem-jmespath'
+  pkg.build_requires 'rubygem-logger'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
