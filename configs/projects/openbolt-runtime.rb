@@ -149,6 +149,7 @@ project 'openbolt-runtime' do |proj|
   # faraday and its dependencies
   proj.component 'rubygem-faraday'
   proj.component 'rubygem-faraday-em_http'
+  proj.component 'rubygem-em-http-request'
   proj.component 'rubygem-faraday-em_synchrony'
   proj.component 'rubygem-faraday-excon'
   proj.component 'rubygem-faraday-httpclient'
