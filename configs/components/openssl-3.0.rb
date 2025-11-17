@@ -34,8 +34,6 @@ component 'openssl' do |pkg, settings, platform|
 
     target = platform.architecture == 'x64' ? 'mingw64' : 'mingw'
   elsif platform.is_aix?
-    raise "openssl-3.0 is not supported on older AIX" if platform.name == 'aix-7.1-ppc'
-
     # REMIND: why not PATH?
     pkg.environment 'CC', '/opt/freeware/bin/gcc'
 

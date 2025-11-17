@@ -190,13 +190,8 @@ if platform.is_macos?
   proj.setting(:ldflags, "-L#{proj.libdir}")
 end
 
-if platform.is_aix?
-  if platform.name == 'aix-7.1-ppc'
-    proj.setting(:ldflags, "-Wl,-brtl -L#{proj.libdir} -L/opt/pl-build-tools/lib")
-  else
-    proj.setting(:ldflags, "-Wl,-brtl -L#{proj.libdir}")
-  end
-end
+
+proj.setting(:ldflags, "-Wl,-brtl -L#{proj.libdir}") if platform.is_aix?
 
 if platform.is_solaris?
   proj.identifier 'voxpupuli.org'

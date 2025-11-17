@@ -20,11 +20,7 @@ ruby_bindir ||= settings[:ruby_bindir]
 #############
 
 if platform.is_aix?
-  if platform.name == 'aix-7.1-ppc'
-    pkg.environment "CC", "/opt/pl-build-tools/bin/gcc"
-  else
-    pkg.environment "CC", "/opt/freeware/bin/gcc"
-  end
+  pkg.environment "CC", "/opt/freeware/bin/gcc"
   pkg.environment 'LDFLAGS', "#{settings[:ldflags]} -Wl,-bmaxdata:0x80000000"
 elsif platform.is_solaris?
   if !platform.is_cross_compiled? && platform.architecture == 'sparc'
@@ -73,11 +69,7 @@ pkg.build_requires "openssl-#{settings[:openssl_version]}"
 
 if platform.is_aix?
   pkg.build_requires "runtime-#{settings[:runtime_project]}"
-  if platform.name == 'aix-7.1-ppc'
-    pkg.build_requires "libedit"
-  else
-    pkg.build_requires "readline"
-  end
+  pkg.build_requires "readline"
 elsif platform.is_solaris?
   pkg.build_requires "runtime-#{settings[:runtime_project]}"
   pkg.build_requires "libedit" if platform.name =~ /^solaris-10-sparc/

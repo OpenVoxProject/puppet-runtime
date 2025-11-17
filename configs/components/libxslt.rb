@@ -14,11 +14,7 @@ component "libxslt" do |pkg, settings, platform|
   pkg.build_requires "libxml2"
 
   if platform.is_aix?
-    if platform.name == 'aix-7.1-ppc'
-      pkg.environment "PATH", "/opt/pl-build-tools/bin:/opt/freeware/bin:$(PATH)"
-    else
-      pkg.environment "PATH", "/opt/freeware/bin:$(PATH)"
-    end
+    pkg.environment "PATH", "/opt/freeware/bin:$(PATH)"
   elsif platform.is_cross_compiled_linux?
     pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
     pkg.environment "CFLAGS", settings[:cflags]
