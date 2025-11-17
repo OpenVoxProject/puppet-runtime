@@ -12,7 +12,7 @@ component 'rubygem-jwt' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '2.7.1'
-  pkg.md5sum 'd3a7ba14444b03f91c7d36b61519fe17'
+  pkg.sha256sum '07357cd2f180739b2f8184eda969e252d850ac996ed0a23f616e8ff0a90ae19b'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
