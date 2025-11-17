@@ -159,6 +159,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-net-http'
   proj.component 'rubygem-faraday-net_http_persistent'
   proj.component 'rubygem-faraday-patron'
+  proj.component 'rubygem-patron'
   proj.component 'rubygem-faraday-rack'
   proj.component 'rubygem-faraday-retry'
   proj.component 'rubygem-faraday-follow_redirects'
