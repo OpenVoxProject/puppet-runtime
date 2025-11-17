@@ -155,6 +155,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-json'
   proj.component 'rubygem-faraday-em_http'
   proj.component 'rubygem-em-http-request'
+  proj.component 'rubygem-em-socksify'
   proj.component 'rubygem-cookiejar'
   proj.component 'rubygem-faraday-em_synchrony'
   proj.component 'rubygem-faraday-excon'
