@@ -10,7 +10,7 @@ component 'rubygem-minitar' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '0.12.1'
-  pkg.md5sum '975dee1dadeb26a2a01105802c3172ab'
+  pkg.sha256sum '3a1dbbae8c4c8e67ab8e3951ba36cb93b844c225b29f83e3b90f48226f3d6038'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
