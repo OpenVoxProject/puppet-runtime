@@ -63,6 +63,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-racc'
   proj.component 'rubygem-hiera-eyaml'
   proj.component 'rubygem-highline'
+  proj.component 'rubygem-reline'
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-locale'
   proj.component 'rubygem-logger'
