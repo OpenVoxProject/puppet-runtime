@@ -6,8 +6,6 @@ require 'uri'
 require 'net/http'
 require 'rubygems/version'
 require 'rubygems/requirement'
-require 'colorize'
-require 'tty-table'
 require 'set'
 
 # ----- Constants -----
@@ -47,6 +45,9 @@ end
 
 # ----- Table and progress output -----
 def color_status(s)
+  # Put this here so that things don't blow up for other tasks
+  # if the development bundle isn't installed.
+  require 'colorize'
   case s
   when 'UP TO DATE' then s.green
   when 'UPDATED'    then s.yellow
@@ -58,6 +59,9 @@ def color_status(s)
 end
 
 def print_table(headers, rows)
+  # Put this here so that things don't blow up for other tasks
+  # if the development bundle isn't installed.
+  require 'tty-table'
   comp_w, status_w, version_w = 50, 12, 32
   deps_w = [MAX_TABLE_WIDTH - (comp_w + status_w + version_w + 13), 10].max
   table = TTY::Table.new headers, rows

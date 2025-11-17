@@ -20,7 +20,11 @@ end
 # target ruby versions (what we're trying to build)
 target_ruby_version = ARGV[0]
 target_triple = ARGV[1]
-target_api_version = target_ruby_version.gsub(/\.\d*$/, '.0')
+target_api_version =  if target_ruby_version.match(/\d\.\d\.\d{1,2}/)
+                        target_ruby_version.gsub(/\.\d*$/, '.0')
+                      else
+                        "#{target_ruby_version}.0"
+                      end
 
 # host ruby (the ruby we execute to build the target)
 host_rubylibdir = RbConfig::CONFIG['rubylibdir']
@@ -97,6 +101,10 @@ elsif GEM_VERSION <= Gem::Version.new('3.5.16')
   # $ git show v3.5.10:lib/rubygems/ext/builder.rb
   #     cmd = Shellwords.split(Gem.ruby)
   regexp  = /Shellwords\.split\(Gem\.ruby\)/
+  replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
+  builder = 'rubygems/ext/builder.rb'
+elsif GEM_VERSION <= Gem::Version.new('3.8')
+  regexp  = /shellsplit\(Gem\.ruby\)/
   replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
   builder = 'rubygems/ext/builder.rb'
 else

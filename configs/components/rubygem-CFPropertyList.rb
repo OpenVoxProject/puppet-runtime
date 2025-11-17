@@ -10,6 +10,7 @@ component 'rubygem-CFPropertyList' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   pkg.version '3.0.7'
   pkg.md5sum 'ed89ce5e7074a6f8e8b8e744eaf014d0'
+  pkg.build_requires 'rubygem-rexml'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

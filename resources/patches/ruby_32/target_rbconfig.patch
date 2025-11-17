@@ -1,0 +1,32 @@
+From 7cbe54714ca1b9112e278d2d605cd049a065707e Mon Sep 17 00:00:00 2001
+From: Yuta Saito <kateinoigakukun@gmail.com>
+Date: Tue, 18 Jun 2024 10:19:52 +0900
+Subject: [PATCH] extmk.rb: define Gem.target_rbconfig not to break
+ `Gem::Platform.local`
+
+---
+ ext/extmk.rb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/ext/extmk.rb b/ext/extmk.rb
+index 2f76e174d5..8b6b365a99 100755
+--- a/ext/extmk.rb
++++ b/ext/extmk.rb
+@@ -2,7 +2,13 @@
+ # -*- mode: ruby; coding: us-ascii -*-
+ # frozen_string_literal: false
+ 
+-module Gem; end # only needs Gem::Platform
++module Gem
++  # Used by Gem::Platform.local
++  def self.target_rbconfig
++    RbConfig::CONFIG
++  end
++end
++# only needs Gem::Platform
+ require 'rubygems/platform'
+ 
+ # :stopdoc:
+-- 
+2.51.0
+

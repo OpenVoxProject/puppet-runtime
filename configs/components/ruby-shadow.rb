@@ -8,13 +8,7 @@ component "ruby-shadow" do |pkg, settings, platform|
   pkg.ref "refs/tags/2.5.1"
 
   pkg.build_requires "ruby-#{settings[:ruby_version]}"
-  if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-    pkg.environment "PATH", "$(PATH):/opt/pl-build-tools/bin:/usr/ccs/bin:/usr/sfw/bin"
-  elsif platform.name == 'sles-11-x86_64'
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH)"
-  else
-    pkg.environment "PATH", "$(PATH):/usr/ccs/bin:/usr/sfw/bin"
-  end
+  pkg.environment "PATH", "$(PATH):/usr/ccs/bin:/usr/sfw/bin"
 
   pkg.environment "CONFIGURE_ARGS", '--vendor'
 

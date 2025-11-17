@@ -10,6 +10,7 @@ component "rubygem-fast_gettext" do |pkg, settings, platform|
   # PINNED
   pkg.version '2.4.0'
   pkg.sha256sum 'fd26c4c406aa10be34f0fd2847ce3ffdc1e9d9798de87538594757bbb9175fbf'
+  pkg.build_requires 'rubygem-prime'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

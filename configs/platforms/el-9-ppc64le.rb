@@ -13,4 +13,5 @@ platform 'el-9-ppc64le' do |plat|
   )
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
   plat.install_build_dependencies_with "dnf install -y --allowerasing "
+  plat.platform_triple 'powerpc64le-redhat-linux'
 end
