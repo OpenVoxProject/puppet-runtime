@@ -8,6 +8,9 @@ component 'rubygem-puppet-strings' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   pkg.version '5.0.0'
   pkg.sha256sum '9f93221dab4d9c7441d0c7e4d9b5066e65dc325209487e6638b5cb3b7056fa8b'
+  pkg.build_requires 'rubygem-puppet'
+  pkg.build_requires 'rubygem-rgen'
+  pkg.build_requires 'rubygem-yard'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
