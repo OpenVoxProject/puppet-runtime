@@ -144,6 +144,7 @@ project 'openbolt-runtime' do |proj|
 
   # hiera-eyaml and its dependencies
   proj.component 'rubygem-highline'
+  proj.component 'rubygem-reline'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-hiera-eyaml'
 
