@@ -4,8 +4,8 @@
 #   https://github.com/GNOME/libxml2/tags
 #####
 component "libxml2" do |pkg, settings, platform|
-  pkg.version '2.14.5'
-  pkg.sha256sum '03d006f3537616833c16c53addcdc32a0eb20e55443cba4038307e3fa7d8d44b'
+  pkg.version '2.15.1'
+  pkg.sha256sum 'c008bac08fd5c7b4a87f7b8a71f283fa581d80d80ff8d2efd3b26224c39bc54c'
 
   libxml2_version_y = pkg.get_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
   pkg.url "https://download.gnome.org/sources/libxml2/#{libxml2_version_y}/libxml2-#{pkg.get_version}.tar.xz"
