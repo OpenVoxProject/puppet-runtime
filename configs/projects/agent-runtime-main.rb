@@ -60,6 +60,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-ffi'
   proj.component 'rubygem-gettext'
+  proj.component 'rubygem-racc'
   proj.component 'rubygem-hiera-eyaml'
   proj.component 'rubygem-highline'
   proj.component 'rubygem-hocon'
