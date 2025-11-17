@@ -71,6 +71,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-prime'
+  proj.component 'rubygem-forwardable'
   proj.component 'rubygem-semantic_puppet'
   proj.component 'rubygem-scanf'
   proj.component 'rubygem-text'
