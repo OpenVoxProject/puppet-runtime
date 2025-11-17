@@ -153,7 +153,6 @@ component 'ruby-3.2' do |pkg, settings, platform|
     'macos-all-arm64',
     'macos-all-x86_64',
     'redhatfips-7-x86_64',
-    'sles-11-x86_64',
     'sles-12-ppc64le',
     'solaris-11-sparc',
     'solaris-113-sparc',

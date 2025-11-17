@@ -3,17 +3,7 @@ component "runtime-agent" do |pkg, settings, platform|
   pkg.environment "PROJECT_SHORTNAME", "puppet"
   pkg.add_source "file://resources/files/runtime/runtime.sh"
 
-  if platform.name =~ /sles-11-x86_64/
-    if settings[:ruby_version] =~ /2.7/
-      pkg.install do
-        "zypper install -y pl-gcc=4.8.2-1"
-      end
-    else
-      pkg.install do
-        "zypper install -y pl-gcc8"
-      end
-    end
-  elsif platform.is_macos? && platform.is_cross_compiled?
+  if platform.is_macos? && platform.is_cross_compiled?
     if settings[:ruby_version] =~ /^3\./
       pkg.install do
         # These are dependencies of ruby@3.x, remove symlinks from /usr/local
@@ -65,7 +55,7 @@ component "runtime-agent" do |pkg, settings, platform|
     pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4.dll", "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
   elsif platform.is_solaris? ||
-        platform.name =~ /el-[56]|redhatfips-7|sles-(:?11)/
+        platform.name =~ /redhatfips-7/
     pkg.install do
       "bash runtime.sh #{libdir} puppet"
     end
