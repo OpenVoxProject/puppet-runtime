@@ -2,8 +2,8 @@
 # Component release information: https://github.com/curl/curl/releases
 #####
 component 'curl' do |pkg, settings, platform|
-  pkg.version '8.15.0'
-  pkg.sha256sum 'd85cfc79dc505ff800cb1d321a320183035011fa08cb301356425d86be8fc53c'
+  pkg.version '8.17.0'
+  pkg.sha256sum 'e8e74cdeefe5fb78b3ae6e90cd542babf788fa9480029cfcee6fd9ced42b7910'
 
   pkg.url "https://curl.se/download/curl-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/curl-#{pkg.get_version}.tar.gz"
@@ -29,20 +29,6 @@ component 'curl' do |pkg, settings, platform|
     ldflags = "-L#{settings[:libdir]}"
   else
     pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
-  end
-
-  # Following lines should we removed once we drop curl 7
-  if version.start_with?('7')
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-27535.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-28319.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-32001.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-38545.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-38546.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2023-46218.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2024-2004.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2024-2398.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2024-7264.patch'
-    pkg.apply_patch 'resources/patches/curl/CVE-2024-8096.patch'
   end
 
   configure_options = []
