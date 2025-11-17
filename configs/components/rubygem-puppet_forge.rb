@@ -12,7 +12,11 @@ component 'rubygem-puppet_forge' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '5.0.4'
-  pkg.md5sum '04a2ca2f027ed41d9142ced587b71bd7'
+  pkg.sha256sum '0638c7b23165e0641e74edd11a9877d934ec7e7b3196382382f7561b62fec534'
+  pkg.build_requires 'rubygem-faraday'
+  pkg.build_requires 'rubygem-faraday-follow_redirects'
+  pkg.build_requires 'rubygem-minitar'
+  pkg.build_requires 'rubygem-semantic_puppet'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
