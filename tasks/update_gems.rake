@@ -228,6 +228,7 @@ def process_component(path, gemname)
     version:       ver_col,
     deps_added:    newly_added.map { |n| "rubygem-#{n}" },
     missing:       missing,
+    gem_deps:      new_deps,
     path:          path,
     old_version:   current_version,
     new_version:   target_version,
@@ -281,6 +282,63 @@ def create_component_file(path, gemname, version, sha, deps = [])
   File.write(path, content, encoding: 'UTF-8')
 end
 
+# Build a map of "rubygem-foo" => ["rubygem-bar", "rubygem-baz", ...]
+# based on component metadata (after components and any new ones are in place).
+def build_component_dependency_map(results, added)
+  existing_components = Dir[COMPONENT_GLOB].map { |p| File.basename(p, '.rb') }
+  deps_map = Hash.new { |h, k| h[k] = [] }
+
+  results.each do |r|
+    component_name = "rubygem-#{r[:name]}"
+    (r[:gem_deps] || []).each do |gem_dep|
+      dep_component = "rubygem-#{gem_dep}"
+      deps_map[component_name] << dep_component if existing_components.include?(dep_component)
+    end
+  end
+
+  added.each do |info|
+    component_name = "rubygem-#{info[:name]}"
+    (info[:deps] || []).each do |gem_dep|
+      dep_component = "rubygem-#{gem_dep}"
+      deps_map[component_name] << dep_component if existing_components.include?(dep_component)
+    end
+  end
+
+  deps_map.each_value(&:uniq!)
+  deps_map
+end
+
+# Ensure that for every project that references a component, the project also
+# references all of that component's dependencies as components.
+def ensure_projects_have_component_deps(component_deps_map)
+  issues = []
+  processed_pairs = {}
+
+  component_deps_map.each do |component, deps|
+    deps.each do |dep|
+      key = "#{component}->#{dep}"
+      next if processed_pairs[key]
+      processed_pairs[key] = true
+
+      changed_files = update_projects_for_added(component, dep)
+      next if changed_files.empty?
+
+      changed_files.each do |proj_path|
+        project_name = File.basename(proj_path, '.rb')
+        git_commit_file(proj_path, "#{project_name}: Add #{dep} component")
+        issues << {
+          project:      project_name,
+          project_path: proj_path,
+          component:    component,
+          missing_dep:  dep
+        }
+      end
+    end
+  end
+
+  issues
+end
+
 def update_all_components_and_projects
   results = []
   added   = []
@@ -324,7 +382,7 @@ def update_all_components_and_projects
     deps = nil
 
     unless File.exist?(dep_path)
-      progress_print("Creating component #{added_dep} (required by #{existing_gem})")
+      progress_print("Creating component rubygem-#{added_dep} (required by #{existing_gem})")
       m    = get_metadata(name: added_dep, platforms: ['ruby'])
       ver  = m['version']
       sha  = m['shas']['ruby']
@@ -353,10 +411,17 @@ def update_all_components_and_projects
   end
 
   progress_clear
-  [results, added]
+
+  # After all components and new components have been created, build the
+  # component dependency map and ensure every project includes all required
+  # component dependencies.
+  component_deps_map = build_component_dependency_map(results, added)
+  project_issues     = ensure_projects_have_component_deps(component_deps_map)
+
+  [results, added, project_issues]
 end
 
-def output_json(results, added)
+def output_json(results, added, project_issues)
   puts JSON.pretty_generate(
     ruby_version_used_for_checks: TARGET_RUBY_VER,
     results: results.map { |r|
@@ -370,11 +435,19 @@ def output_json(results, added)
     },
     added: added.map { |info|
       { name: info[:name], version: info[:version], deps: info[:deps] }
+    },
+    project_dependency_fixes: project_issues.map { |i|
+      {
+        project:                 i[:project],
+        project_path:            git_relative_path(i[:project_path]),
+        component:               i[:component],
+        missing_dependency_added: i[:missing_dep]
+      }
     }
   )
 end
 
-def output_table(results, added)
+def output_table(results, added, project_issues)
   headers = ['Component', 'Status', 'Version update', 'Dependencies added']
   rows = results.map do |r|
     [
@@ -393,16 +466,25 @@ def output_table(results, added)
     ]
   end
   print_table(headers, rows)
+
+  unless project_issues.empty?
+    puts
+    puts 'Project dependency fixes:'
+    project_issues.group_by { |i| i[:project] }.each do |project, list|
+      deps_list = list.map { |i| "#{i[:component]} -> #{i[:missing_dep]}" }.uniq
+      puts "  #{project}: #{deps_list.join(', ')}"
+    end
+  end
 end
 
 namespace :vox do
   desc 'Update rubygem components and print a summary table or JSON of changes'
   task :update_gems do
-    results, added = update_all_components_and_projects
+    results, added, project_issues = update_all_components_and_projects
     if !(ARGV & ['--json', '-j', '--format=json']).empty?
-      output_json(results, added)
+      output_json(results, added, project_issues)
     else
-      output_table(results, added)
+      output_table(results, added, project_issues)
     end
   end
 end
