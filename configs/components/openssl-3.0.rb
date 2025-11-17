@@ -6,8 +6,8 @@
 #   need to move to the 3.5.x LTS stream in the next year.
 #####
 component 'openssl' do |pkg, settings, platform|
-  pkg.version '3.0.17'
-  pkg.sha256sum 'dfdd77e4ea1b57ff3a6dbde6b0bdc3f31db5ac99e7fdd4eaf9e1fbb6ec2db8ce'
+  pkg.version '3.0.18'
+  pkg.sha256sum 'd80c34f5cf902dccf1f1b5df5ebb86d0392e37049e5d73df1b3abae72e4ffe8b'
   pkg.url "https://github.com/openssl/openssl/releases/download/openssl-#{pkg.get_version}/openssl-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/openssl-#{pkg.get_version}.tar.gz"
 
@@ -15,7 +15,7 @@ component 'openssl' do |pkg, settings, platform|
   # ENVIRONMENT, FLAGS, TARGETS
   #############################
 
-  if platform.name =~ /^(el-|redhat-|redhatfips-|fedora-)/
+  if platform.name =~ /^(amazon-|el-|redhat-|redhatfips-|fedora-)/
     pkg.build_requires 'perl-core'
   elsif platform.is_solaris?
     # perl is installed in platform definition
