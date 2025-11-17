@@ -133,6 +133,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-text'
   proj.component 'rubygem-locale'
   proj.component 'rubygem-gettext'
+  proj.component 'rubygem-racc'
   proj.component 'rubygem-prime'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-scanf'
