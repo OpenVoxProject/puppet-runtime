@@ -9,7 +9,7 @@ component 'rubygem-rubyntlm' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '0.6.3'
-  pkg.md5sum 'e1f7477acf8a7d3effb2a3fb931aa84c'
+  pkg.sha256sum '5b321456dba3130351f7451f8669f1afa83a0d26fd63cdec285b7b88e667102d'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
