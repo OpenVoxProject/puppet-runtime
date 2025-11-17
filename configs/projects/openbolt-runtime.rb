@@ -190,6 +190,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-gyoku'
   proj.component 'rubygem-hiera'
   proj.component 'rubygem-httpclient'
+  proj.component 'rubygem-mutex_m'
   proj.component 'rubygem-jmespath'
   proj.component 'rubygem-jwt'
   proj.component 'rubygem-little-plugger'
