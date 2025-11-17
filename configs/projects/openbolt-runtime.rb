@@ -166,6 +166,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-aws-eventstream'
   proj.component 'rubygem-aws-partitions'
   proj.component 'rubygem-aws-sdk-core'
+  proj.component 'rubygem-bigdecimal'
   proj.component 'rubygem-aws-sdk-ec2'
   proj.component 'rubygem-aws-sigv4'
   proj.component 'rubygem-bindata'
