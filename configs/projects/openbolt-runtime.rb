@@ -135,6 +135,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-gettext'
   proj.component 'rubygem-racc'
   proj.component 'rubygem-prime'
+  proj.component 'rubygem-forwardable'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-scanf'
   proj.component 'rubygem-semantic_puppet'
