@@ -2,18 +2,8 @@
 # Component release information: https://github.com/curl/curl/releases
 #####
 component 'curl' do |pkg, settings, platform|
-  # Projects may define a :curl_version setting
-  version = settings[:curl_version] || '8.15.0'
-  pkg.version version
-
-  case version
-  when '7.88.1'
-    pkg.sha256sum 'cdb38b72e36bc5d33d5b8810f8018ece1baa29a8f215b4495e495ded82bbf3c7'
-  when '8.15.0'
-    pkg.sha256sum 'd85cfc79dc505ff800cb1d321a320183035011fa08cb301356425d86be8fc53c'
-  else
-    raise "curl version #{version} has not been configured; Cannot continue."
-  end
+  pkg.version '8.15.0'
+  pkg.sha256sum 'd85cfc79dc505ff800cb1d321a320183035011fa08cb301356425d86be8fc53c'
 
   pkg.url "https://curl.se/download/curl-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/curl-#{pkg.get_version}.tar.gz"
