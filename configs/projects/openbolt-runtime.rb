@@ -241,6 +241,11 @@ project 'openbolt-runtime' do |proj|
 
   # What to include in package?
   proj.directory proj.prefix
+  proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
+  proj.directory proj.libdir
+  proj.directory proj.includedir
+  proj.directory proj.datadir
+  proj.directory proj.mandir
 
   # Export the settings for the current project and platform as yaml during builds
   proj.publish_yaml_settings
