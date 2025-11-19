@@ -1,13 +1,13 @@
-platform "solaris-11-i386" do |plat|
+platform 'solaris-11-i386' do |plat|
   plat.inherit_from_default
-  plat.make "gmake"
+  plat.make 'gmake'
 
-  packages = %w(
+  packages = %w[
     pl-binutils-i386
     pl-cmake
     pl-gcc-i386
     pl-pkg-config
-  )
+  ]
 
   plat.provision_with("pkg install #{packages.join(' ')}")
 
@@ -43,5 +43,5 @@ basedir=default" > /var/tmp/vanagon-noask;
   pkgadd -n -a /var/tmp/vanagon-noask -d http://get.opencsw.org/now all
   /opt/csw/bin/pkgutil --config=/var/tmp/vanagon-pkgutil.conf -y -i libffi_dev autoconf gcc4core CSWxz-5.2.8,REV=2022.11.16 || exit 1;
   ntpdate pool.ntp.org]
-  plat.output_dir File.join("solaris", "11", "PC1")
+  plat.output_dir File.join('solaris', '11', 'PC1')
 end

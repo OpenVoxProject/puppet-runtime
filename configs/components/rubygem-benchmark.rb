@@ -2,7 +2,7 @@
 # Component release information:
 #   https://rubygems.org/gems/benchmark
 #####
-component 'rubygem-benchmark' do |pkg, settings, platform|
+component 'rubygem-benchmark' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '0.5.0'
   pkg.sha256sum 'd4ef40037bba27f03b28013e219b950b82bace296549ec15a78016552f8d2cce'

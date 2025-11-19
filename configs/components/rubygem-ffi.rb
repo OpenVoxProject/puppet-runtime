@@ -23,37 +23,38 @@ component 'rubygem-ffi' do |pkg, settings, platform|
   # gem *always* uses the libffi.so we already built. Note the term "system" is
   # misleading, because we override PKG_CONFIG_PATH below so that our libffi.so
   # is preferred, not the one in /usr/lib.
-  settings["#{pkg.get_name}_gem_install_options".to_sym] = "-- --enable-system-libffi"
+  settings["#{pkg.get_name}_gem_install_options".to_sym] = '-- --enable-system-libffi'
   instance_eval File.read('configs/components/_base-rubygem.rb')
 
   # due to contrib/make_sunver.pl missing on solaris 11 we cannot compile libffi, so we provide the opencsw library
-  pkg.environment "CPATH", "/opt/csw/lib/libffi-3.2.1/include" if platform.name =~ /solaris-11/ && (platform.is_cross_compiled? || platform.architecture != 'sparc')
-  pkg.environment "MAKE", platform[:make] if platform.is_solaris?
+  if platform.name =~ /solaris-11/ && (platform.is_cross_compiled? || platform.architecture != 'sparc')
+    pkg.environment 'CPATH',
+                    '/opt/csw/lib/libffi-3.2.1/include'
+  end
+  pkg.environment 'MAKE', platform[:make] if platform.is_solaris?
 
   if platform.is_solaris?
     if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-      pkg.environment "PATH", "#{settings[:ruby_bindir]}:$(PATH)"
+      pkg.environment 'PATH', "#{settings[:ruby_bindir]}:$(PATH)"
     else
-      pkg.environment "PATH", "/opt/csw/bin:$(PATH)"
+      pkg.environment 'PATH', '/opt/csw/bin:$(PATH)'
     end
   elsif platform.is_aix?
     pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
   end
 
-  if platform.name =~ /solaris-10-i386/
-    pkg.install_file "/opt/csw/lib/libffi.so.6", "#{settings[:libdir]}/libffi.so.6"
-  end
+  pkg.install_file '/opt/csw/lib/libffi.so.6', "#{settings[:libdir]}/libffi.so.6" if platform.name =~ /solaris-10-i386/
 
   pkg.environment 'PKG_CONFIG_PATH', '/opt/puppetlabs/puppet/lib/pkgconfig:$(PKG_CONFIG_PATH)'
 
   if platform.is_cross_compiled? && !platform.is_macos?
     base_ruby = case platform.name
                 when /solaris-10/
-                  "/opt/csw/lib/ruby/2.0.0"
+                  '/opt/csw/lib/ruby/2.0.0'
                 else
                   # Change this someday if we ever end up cross compiling OpenVox on Linux
                   # as we won't be using pl-build-tools there
-                  "/opt/pl-build-tools/lib/ruby/2.1.0"
+                  '/opt/pl-build-tools/lib/ruby/2.1.0'
                 end
 
     # force compilation without system libffi in order to have a statically linked ffi_c.so
@@ -72,7 +73,7 @@ component 'rubygem-ffi' do |pkg, settings, platform|
       end
 
       # move ld back after the gem is installed
-      pkg.install { "mv /usr/bin/ld1 /usr/bin/ld" }
+      pkg.install { 'mv /usr/bin/ld1 /usr/bin/ld' }
 
     elsif platform.name =~ /solaris-10-sparc/
       sed_exp = 's|CONFIG\["LDFLAGS"\].*|CONFIG["LDFLAGS"] = "-Wl,-rpath-link,/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/lib:/opt/pl-build-tools/sparc-sun-solaris2.10/sysroot/usr/lib -L. -Wl,-rpath=/opt/puppetlabs/puppet/lib -fstack-protector"|'

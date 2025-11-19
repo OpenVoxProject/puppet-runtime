@@ -1,12 +1,12 @@
-platform "solaris-11-sparc" do |plat|
+platform 'solaris-11-sparc' do |plat|
   plat.inherit_from_default
-  
+
   packages = [
-    "pl-binutils-sparc",
-    "pl-cmake",
-    "pl-gcc-sparc",
-    "pl-pkg-config",
-    "pl-ruby"
+    'pl-binutils-sparc',
+    'pl-cmake',
+    'pl-gcc-sparc',
+    'pl-pkg-config',
+    'pl-ruby'
   ]
 
   plat.provision_with("pkg install #{packages.join(' ')}")

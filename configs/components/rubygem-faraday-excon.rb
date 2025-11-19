@@ -4,7 +4,7 @@
 #   https://github.com/excon/faraday-excon/tags
 #   https://github.com/excon/faraday-excon/releases
 #####
-component 'rubygem-faraday-excon' do |pkg, settings, platform|
+component 'rubygem-faraday-excon' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '2.4.0'
   pkg.sha256sum '2a07ff3583468468eb62325c6263d0b2dd39282a8de7dc35908d782de531c8f6'

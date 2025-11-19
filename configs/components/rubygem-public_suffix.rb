@@ -4,7 +4,7 @@
 #   https://github.com/weppos/publicsuffix-ruby/blob/main/CHANGELOG.md
 # Notes: 2025-11-17 - Pinned to < 7 until the addressable gem updates its dependency
 #####
-component 'rubygem-public_suffix' do |pkg, settings, platform|
+component 'rubygem-public_suffix' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '6.0.2'

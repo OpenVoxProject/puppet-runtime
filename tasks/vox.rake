@@ -1,10 +1,10 @@
 class Version
   attr_reader :date, :x, :raw
 
-  def initialize(v)
-    @raw = v
+  def initialize(value)
+    @raw = value
 
-    if (m = v.match(%r{\A(?<date>\d{4}[-|\.]\d{2}[-|\.]\d{2})[-|\.](?<x>\d+)\z}))
+    if (m = value.match(%r{\A(?<date>\d{4}[-|.]\d{2}[-|.]\d{2})[-|.](?<x>\d+)\z}))
       @date = m['date']
       @x = m['x'].to_i
     else
@@ -68,22 +68,23 @@ task 'vox:version:next' do
 end
 
 begin
-  require "github_changelog_generator/task"
+  require 'github_changelog_generator/task'
   GitHubChangelogGenerator::RakeTask.new :changelog do |config|
     config.header = <<~HEADER.chomp
-    # Changelog
-    All notable changes to this project will be documented in this file.
+      # Changelog
+      All notable changes to this project will be documented in this file.
     HEADER
-    config.user = "openvoxproject"
-    config.project = "puppet-runtime"
+    config.user = 'openvoxproject'
+    config.project = 'puppet-runtime'
     config.exclude_labels = %w[dependencies duplicate question invalid wontfix wont-fix modulesync skip-changelog]
-    config.since_tag = "202501080"
+    config.since_tag = '202501080'
     config.future_release = Version.load_from_changelog.next!.to_s
   end
 rescue LoadError
   task :changelog do
-    abort("Run `bundle install --with release` to install the `github_changelog_generator` gem.")
+    abort('Run `bundle install --with release` to install the `github_changelog_generator` gem.')
   end
 end
 
+desc 'Prepare the changelog for a new release'
 task 'release:prepare': :changelog

@@ -2,7 +2,7 @@
 # Component release information:
 #   https://rubygems.org/gems/em-http-request
 #####
-component 'rubygem-em-http-request' do |pkg, settings, platform|
+component 'rubygem-em-http-request' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '1.1.7'
   pkg.sha256sum '16fbc72b2a6e20c804c564ac5d12e98668c6fcef8c3b1dd2387dff505f2efdab'

@@ -8,27 +8,28 @@ component 'libyaml' do |pkg, settings, platform|
   pkg.mirror "#{settings[:buildsources_url]}/yaml-#{pkg.get_version}.tar.gz"
 
   if platform.is_aix?
-    pkg.environment "PATH", "/opt/freeware/bin:$(PATH)"
+    pkg.environment 'PATH', '/opt/freeware/bin:$(PATH)'
   elsif platform.is_cross_compiled_linux?
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
-    pkg.environment "CFLAGS", settings[:cflags]
-    pkg.environment "LDFLAGS", settings[:ldflags]
+    pkg.environment 'PATH', "/opt/pl-build-tools/bin:$(PATH):#{settings[:bindir]}"
+    pkg.environment 'CFLAGS', settings[:cflags]
+    pkg.environment 'LDFLAGS', settings[:ldflags]
   elsif platform.is_solaris?
-    pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH):/usr/local/bin:/usr/ccs/bin:/usr/sfw/bin:#{settings[:bindir]}"
-    pkg.environment "CFLAGS", "#{settings[:cflags]} -std=c99"
-    pkg.environment "LDFLAGS", settings[:ldflags]
+    pkg.environment 'PATH',
+                    "/opt/pl-build-tools/bin:$(PATH):/usr/local/bin:/usr/ccs/bin:/usr/sfw/bin:#{settings[:bindir]}"
+    pkg.environment 'CFLAGS', "#{settings[:cflags]} -std=c99"
+    pkg.environment 'LDFLAGS', settings[:ldflags]
   elsif platform.is_macos?
-    pkg.environment "LDFLAGS", settings[:ldflags]
-    pkg.environment "CFLAGS", settings[:cflags]
+    pkg.environment 'LDFLAGS', settings[:ldflags]
+    pkg.environment 'CFLAGS', settings[:cflags]
     pkg.environment 'CC', settings[:cc]
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
   elsif platform.is_windows?
-    pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(PATH)"
-    pkg.environment "LDFLAGS", settings[:ldflags]
-    pkg.environment "CFLAGS", settings[:cflags]
+    pkg.environment 'PATH', "$(shell cygpath -u #{settings[:gcc_bindir]}):$(PATH)"
+    pkg.environment 'LDFLAGS', settings[:ldflags]
+    pkg.environment 'CFLAGS', settings[:cflags]
   else
-    pkg.environment "LDFLAGS", settings[:ldflags]
-    pkg.environment "CFLAGS", settings[:cflags]
+    pkg.environment 'LDFLAGS', settings[:ldflags]
+    pkg.environment 'CFLAGS', settings[:cflags]
   end
 
   pkg.build_requires "runtime-#{settings[:runtime_project]}"

@@ -51,3 +51,6 @@ jobs:
           if [ $stat -eq 1 ]; then
             false
           fi
+
+      - name: Run rubocop
+        run: bundle exec rubocop

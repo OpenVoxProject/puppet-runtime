@@ -7,26 +7,22 @@
 #   https://github.com/chuckleb/virt-what, which you
 #   SHOULD NOT USE as this is a fork.
 #####
-component "virt-what" do |pkg, settings, platform|
+component 'virt-what' do |pkg, settings, platform|
   pkg.version '1.27'
   pkg.sha256sum 'd4d9bd9d4ae59095597443fac663495315c7eb4330b872aa5f062df38ac69bf1'
 
   # 2025-08-05: The upstream site was down, so using a mirror here. Revert this back to the
   # original URL next time we bump this.
-  #pkg.url "https://people.redhat.com/~rjones/virt-what/files/virt-what-#{pkg.get_version}.tar.gz"
+  # pkg.url "https://people.redhat.com/~rjones/virt-what/files/virt-what-#{pkg.get_version}.tar.gz"
   pkg.url "https://artifacts.voxpupuli.org/components/virt-what-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/virt-what-#{pkg.get_version}.tar.gz"
 
   pkg.replaces 'pe-virt-what'
 
   # Run-time requirements
-  unless platform.is_deb?
-    requires "util-linux"
-  end
+  requires 'util-linux' unless platform.is_deb?
 
-  if platform.is_rpm?
-    pkg.build_requires "util-linux"
-  end
+  pkg.build_requires 'util-linux' if platform.is_rpm?
 
   if platform.is_linux?
     if platform.architecture =~ /ppc64le$/
@@ -39,9 +35,9 @@ component "virt-what" do |pkg, settings, platform|
   if platform.is_cross_compiled_linux?
     host_opt = "--host #{settings[:platform_triple]}"
 
-    pkg.environment "PATH" => "/opt/pl-build-tools/bin:$$PATH:#{settings[:bindir]}"
-    pkg.environment "CFLAGS" => settings[:cflags]
-    pkg.environment "LDFLAGS" => settings[:ldflags]
+    pkg.environment 'PATH' => "/opt/pl-build-tools/bin:$$PATH:#{settings[:bindir]}"
+    pkg.environment 'CFLAGS' => settings[:cflags]
+    pkg.environment 'LDFLAGS' => settings[:ldflags]
   end
 
   pkg.configure do

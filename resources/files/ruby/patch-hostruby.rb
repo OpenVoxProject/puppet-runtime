@@ -9,11 +9,11 @@ require 'rbconfig'
 require 'tempfile'
 
 if ARGV.length < 2
-  warn <<USAGE
-USAGE: patch-hostruby.rb <target_ruby_version> <target_triple>
+  warn <<~USAGE
+    USAGE: patch-hostruby.rb <target_ruby_version> <target_triple>
 
-example: patch-hostruby.rb 3.2.2 arm64-darwin
-USAGE
+    example: patch-hostruby.rb 3.2.2 arm64-darwin
+  USAGE
   exit(1)
 end
 
@@ -32,7 +32,7 @@ def rewrite(file)
   # so rename doesn't cross filesystems
   tmpfile = Tempfile.new(File.basename(file), File.dirname(file))
   begin
-    File.open("#{file}.orig", "w") do |orig|
+    File.open("#{file}.orig", 'w') do |orig|
       File.open(file, 'r').readlines.each do |line|
         orig.write(line)
         yield line
@@ -55,13 +55,13 @@ end
 # was, that way we can easily append to it. And since it's in a double quoted string, it's escaped
 # as `\\&`
 #
-if GEM_VERSION <= Gem::Version.new('2.0.0')
+if Gem::Version.new('2.0.0') >= GEM_VERSION
   # $ git show v2.0.0:lib/rubygems/ext/ext_conf_builder.rb
   #   cmd = "#{Gem.ruby} #{File.basename extension}"
   regexp  = /{Gem\.ruby}/
   replace = "\\& -r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb"
   builder = 'rubygems/ext/ext_conf_builder.rb'
-elsif GEM_VERSION < Gem::Version.new('3.0.0') # there weren't any tags between >= 2.7.11 and < 3.0.0
+elsif Gem::Version.new('3.0.0') > GEM_VERSION # there weren't any tags between >= 2.7.11 and < 3.0.0
   # $ git show v2.0.1:lib/rubygems/ext/ext_conf_builder.rb
   #   cmd = [Gem.ruby, File.basename(extension), *args].join ' '
   #
@@ -70,7 +70,7 @@ elsif GEM_VERSION < Gem::Version.new('3.0.0') # there weren't any tags between >
   regexp  = /Gem\.ruby/
   replace = "\\&, '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
   builder = 'rubygems/ext/ext_conf_builder.rb'
-elsif GEM_VERSION <= Gem::Version.new('3.4.8')
+elsif Gem::Version.new('3.4.8') >= GEM_VERSION
   # $ git show v3.0.0:lib/rubygems/ext/ext_conf_builder.rb
   #   cmd = Gem.ruby.shellsplit << "-I" << File.expand_path("../../..", __FILE__) <<
   #
@@ -79,7 +79,7 @@ elsif GEM_VERSION <= Gem::Version.new('3.4.8')
   regexp  = /Gem\.ruby\.shellsplit/
   replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
   builder = 'rubygems/ext/ext_conf_builder.rb'
-elsif GEM_VERSION <= Gem::Version.new('3.4.14')
+elsif Gem::Version.new('3.4.14') >= GEM_VERSION
   # NOTE: rubygems 3.4.9 moved the code to builder.rb
   #
   # $ git show v3.4.9:lib/rubygems/ext/builder.rb
@@ -90,7 +90,7 @@ elsif GEM_VERSION <= Gem::Version.new('3.4.14')
   regexp  = /Gem\.ruby\.shellsplit/
   replace = "\\& << '-r/opt/puppetlabs/puppet/share/doc/rbconfig-#{target_ruby_version}-orig.rb'"
   builder = 'rubygems/ext/builder.rb'
-elsif GEM_VERSION <= Gem::Version.new('3.5.16')
+elsif Gem::Version.new('3.5.16') >= GEM_VERSION
   # $ git show v3.4.9:lib/rubygems/ext/builder.rb
   #     cmd = Shellwords.split(Gem.ruby)
   #
@@ -111,9 +111,7 @@ raise "We can't patch #{builder} because it doesn't exist" unless File.exist?(bu
 # hook rubygems builder so it loads our rbconfig when building native gems
 patched = false
 rewrite(builder) do |line|
-  if line.gsub!(regexp, replace)
-    patched = true
-  end
+  patched = true if line.gsub!(regexp, replace)
 end
 
 raise "Failed to patch rubygems hook, because we couldn't match #{regexp} in #{builder}" unless patched
@@ -129,17 +127,15 @@ if RUBY_PLATFORM !~ /solaris2\.10$/ || RUBY_VERSION != '2.0.0'
   api_version_patched = false
   spec_file = "#{host_rubylibdir}/rubygems/basic_specification.rb"
   rewrite(spec_file) do |line|
-    if line.gsub!(/Gem::Platform\.local\.to_s/, "'#{target_triple}'")
-      triple_patched = true
-    end
-    if line.gsub!(/Gem\.extension_api_version/, "'#{target_api_version}'")
-      api_version_patched = true
-    end
+    triple_patched = true if line.gsub!(/Gem::Platform\.local\.to_s/, "'#{target_triple}'")
+    api_version_patched = true if line.gsub!(/Gem\.extension_api_version/, "'#{target_api_version}'")
   end
 
   raise "Failed to patch '#{target_triple}' in #{spec_file}" unless triple_patched
+
   puts "Patched '#{target_triple}' in #{spec_file}"
 
   raise "Failed to patch '#{target_api_version}' in #{spec_file}" unless api_version_patched
+
   puts "Patched '#{target_api_version}' in #{spec_file}"
 end

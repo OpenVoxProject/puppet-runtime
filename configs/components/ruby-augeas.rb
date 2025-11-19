@@ -1,8 +1,7 @@
-  #####
-  # Component release information:
-  #   https://github.com/hercules-team/ruby-augeas/releases
-  # Notes: 2025-11-17 - Using 0.5.0 due to issues with 0.6.0 on some platforms.
-  #####
+#####
+# Component release information:
+#   https://github.com/hercules-team/ruby-augeas/releases
+#####
 component 'ruby-augeas' do |pkg, settings, platform|
   pkg.version '0.6.0'
   pkg.sha256sum '98158a54c655b4823439b4bd38609f01e0b912a3d1453144082b8a5f43b0c4dc'
@@ -24,14 +23,14 @@ component 'ruby-augeas' do |pkg, settings, platform|
   if platform.is_solaris?
     pkg.environment 'RUBY', settings[:host_ruby] if platform.is_cross_compiled?
 
-    if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-      ruby = File.join(settings[:ruby_bindir], 'ruby')
-    else
-      # This should really only be done when cross compiling but
-      # to avoid breaking solaris x86_64 in 7.x continue preloading
-      # our hook.
-      ruby = "#{settings[:host_ruby]} -r#{settings[:datadir]}/doc/rbconfig-#{settings[:ruby_version]}-orig.rb"
-    end
+    ruby = if !platform.is_cross_compiled? && platform.architecture == 'sparc'
+             File.join(settings[:ruby_bindir], 'ruby')
+           else
+             # This should really only be done when cross compiling but
+             # to avoid breaking solaris x86_64 in 7.x continue preloading
+             # our hook.
+             "#{settings[:host_ruby]} -r#{settings[:datadir]}/doc/rbconfig-#{settings[:ruby_version]}-orig.rb"
+           end
   elsif platform.is_cross_compiled? && (platform.is_linux? || platform.is_macos?)
     pkg.environment 'RUBY', settings[:host_ruby]
     ruby = "#{settings[:host_ruby]} -r#{settings[:datadir]}/doc/rbconfig-#{settings[:ruby_version]}-orig.rb"
@@ -49,31 +48,31 @@ component 'ruby-augeas' do |pkg, settings, platform|
 
   pkg.build do
     build_commands = []
-    
+
     extconf = "#{ruby} ext/augeas/extconf.rb"
     # The pkg-config shim gets confused on Almalinux 9 that we are building on
     # due to the version of rpm being cranky about using our older OpenSSL version,
     # so bypass the shim and use pkgconf directly.
-    extconf += " --with-pkg-config=/usr/bin/pkgconf" if platform.name =~ /el-9/
+    extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /el-9/
     build_commands << extconf
     build_commands << "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"
 
     build_commands
   end
 
-  if settings[:ruby_vendordir]
-    augeas_rb_target = File.join(settings[:ruby_vendordir], 'augeas.rb')
-  else
-    # If no alternate vendordir has been set, install into default
-    # vendordir for this ruby version.
-    augeas_rb_target = File.join(settings[:ruby_dir], 'lib', 'ruby', 'vendor_ruby', 'augeas.rb')
-  end
+  augeas_rb_target = if settings[:ruby_vendordir]
+                       File.join(settings[:ruby_vendordir], 'augeas.rb')
+                     else
+                       # If no alternate vendordir has been set, install into default
+                       # vendordir for this ruby version.
+                       File.join(settings[:ruby_dir], 'lib', 'ruby', 'vendor_ruby', 'augeas.rb')
+                     end
 
   pkg.install_file 'lib/augeas.rb', augeas_rb_target
 
   pkg.install do
     [
-      "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1) DESTDIR=/ install",
+      "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1) DESTDIR=/ install"
     ]
   end
 
