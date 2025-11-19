@@ -26,76 +26,74 @@ proj.vendor 'Vox Pupuli <openvox@voxpupuli.org>'
 proj.homepage 'https://github.com/OpenVoxProject'
 proj.version_from_git
 
-proj.setting(:artifactory_url, "https://artifactory.delivery.puppetlabs.net/artifactory")
+proj.setting(:artifactory_url, 'https://artifactory.delivery.puppetlabs.net/artifactory')
 proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
 
 if platform.is_windows?
   # In order not to break people, we need to keep the paths Puppetlabs/Puppet
-  proj.setting(:company_id, "VoxPupuli")
-  proj.setting(:pl_company_id, "PuppetLabs")
-  proj.setting(:product_id, "OpenVox")
-  proj.setting(:pl_product_id, "Puppet")
-  if platform.architecture == "x64"
-    proj.setting(:base_dir, "ProgramFiles64Folder")
+  proj.setting(:company_id, 'VoxPupuli')
+  proj.setting(:pl_company_id, 'PuppetLabs')
+  proj.setting(:product_id, 'OpenVox')
+  proj.setting(:pl_product_id, 'Puppet')
+  if platform.architecture == 'x64'
+    proj.setting(:base_dir, 'ProgramFiles64Folder')
   else
-    proj.setting(:base_dir, "ProgramFilesFolder")
+    proj.setting(:base_dir, 'ProgramFilesFolder')
   end
   # We build for windows not in the final destination, but in the paths that correspond
   # to the directory ids expected by WIX. This will allow for a portable installation (ideally).
-  proj.setting(:install_root, File.join("C:", proj.base_dir, proj.pl_company_id, proj.pl_product_id))
-  proj.setting(:sysconfdir, File.join("C:", "CommonAppDataFolder", proj.pl_company_id))
-  proj.setting(:tmpfilesdir, "C:/Windows/Temp")
+  proj.setting(:install_root, File.join('C:', proj.base_dir, proj.pl_company_id, proj.pl_product_id))
+  proj.setting(:sysconfdir, File.join('C:', 'CommonAppDataFolder', proj.pl_company_id))
+  proj.setting(:tmpfilesdir, 'C:/Windows/Temp')
 else
-  proj.setting(:install_root, "/opt/puppetlabs")
+  proj.setting(:install_root, '/opt/puppetlabs')
   if platform.is_macos?
-    proj.setting(:sysconfdir, "/private/etc/puppetlabs")
+    proj.setting(:sysconfdir, '/private/etc/puppetlabs')
   else
-    proj.setting(:sysconfdir, "/etc/puppetlabs")
+    proj.setting(:sysconfdir, '/etc/puppetlabs')
   end
-  proj.setting(:logdir, "/var/log/puppetlabs")
+  proj.setting(:logdir, '/var/log/puppetlabs')
   if platform.is_linux? && platform.name !~ /sles-11|el-6/
-    proj.setting(:piddir, "/run/puppetlabs")
+    proj.setting(:piddir, '/run/puppetlabs')
   else
-    proj.setting(:piddir, "/var/run/puppetlabs")
+    proj.setting(:piddir, '/var/run/puppetlabs')
   end
-  proj.setting(:tmpfilesdir, "/usr/lib/tmpfiles.d")
+  proj.setting(:tmpfilesdir, '/usr/lib/tmpfiles.d')
 end
 
-proj.setting(:miscdir, File.join(proj.install_root, "misc"))
-proj.setting(:prefix, File.join(proj.install_root, "puppet"))
-proj.setting(:bindir, File.join(proj.prefix, "bin"))
-proj.setting(:libdir, File.join(proj.prefix, "lib"))
-proj.setting(:link_bindir, File.join(proj.install_root, "bin"))
-proj.setting(:includedir, File.join(proj.prefix, "include"))
-proj.setting(:datadir, File.join(proj.prefix, "share"))
-proj.setting(:mandir, File.join(proj.datadir, "man"))
+proj.setting(:miscdir, File.join(proj.install_root, 'misc'))
+proj.setting(:prefix, File.join(proj.install_root, 'puppet'))
+proj.setting(:bindir, File.join(proj.prefix, 'bin'))
+proj.setting(:libdir, File.join(proj.prefix, 'lib'))
+proj.setting(:link_bindir, File.join(proj.install_root, 'bin'))
+proj.setting(:includedir, File.join(proj.prefix, 'include'))
+proj.setting(:datadir, File.join(proj.prefix, 'share'))
+proj.setting(:mandir, File.join(proj.datadir, 'man'))
 
-if platform.is_windows?
-  proj.setting(:windows_tools, proj.bindir)
-end
+proj.setting(:windows_tools, proj.bindir) if platform.is_windows?
 
 proj.setting(:ruby_dir, proj.prefix)
 proj.setting(:ruby_bindir, proj.bindir)
 
 raise "Couldn't find a :ruby_version setting in the project file" unless proj.ruby_version
+
 ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
 ruby_version_y = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
-ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1')
 
 proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
-proj.setting(:ruby_vendordir, File.join(proj.libdir, "ruby", "vendor_ruby"))
+proj.setting(:ruby_vendordir, File.join(proj.libdir, 'ruby', 'vendor_ruby'))
 
-proj.setting(:ruby_dir_base, File.join(proj.libdir, "ruby"))
+proj.setting(:ruby_dir_base, File.join(proj.libdir, 'ruby'))
 proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
 proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
 proj.setting(:rubygems_ssl_dir, File.join(proj.rubygems_dir, 'ssl_certs'))
 
 # Cross-compiled Linux platforms
-platform_triple = "ppc64le-redhat-linux" if platform.architecture == "ppc64le"
-platform_triple = "powerpc64le-suse-linux" if platform.architecture == "ppc64le" && platform.name =~ /^sles-/
-platform_triple = "powerpc64le-linux-gnu" if platform.architecture == "ppc64el"
-platform_triple = "arm-linux-gnueabihf" if platform.architecture == "armhf"
-platform_triple = "aarch64-apple-darwin" if platform.is_cross_compiled? && platform.is_macos?
+platform_triple = 'ppc64le-redhat-linux' if platform.architecture == 'ppc64le'
+platform_triple = 'powerpc64le-suse-linux' if platform.architecture == 'ppc64le' && platform.name =~ /^sles-/
+platform_triple = 'powerpc64le-linux-gnu' if platform.architecture == 'ppc64el'
+platform_triple = 'arm-linux-gnueabihf' if platform.architecture == 'armhf'
+platform_triple = 'aarch64-apple-darwin' if platform.is_cross_compiled? && platform.is_macos?
 
 # Ruby's build process needs a functional "baseruby". When native compiling,
 # ruby will build "miniruby" and use that as "baseruby". When cross compiling,
@@ -103,28 +101,28 @@ platform_triple = "aarch64-apple-darwin" if platform.is_cross_compiled? && platf
 #
 # Our build process also needs a "host" ruby to install rubygem-* components.
 if platform.is_windows?
-  proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby.exe"))
-  proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem.bat"))
+  proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby.exe'))
+  proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem.bat'))
 elsif platform.is_cross_compiled? && (platform.is_linux? || platform.is_solaris?)
   if platform.name =~ /solaris-10-sparc/
-    proj.setting(:host_ruby, "/opt/csw/bin/ruby")
-    proj.setting(:host_gem, "/opt/csw/bin/gem2.0")
+    proj.setting(:host_ruby, '/opt/csw/bin/ruby')
+    proj.setting(:host_gem, '/opt/csw/bin/gem2.0')
   else
-    proj.setting(:host_ruby, "/opt/pl-build-tools/bin/ruby")
-    proj.setting(:host_gem, "/opt/pl-build-tools/bin/gem")
+    proj.setting(:host_ruby, '/opt/pl-build-tools/bin/ruby')
+    proj.setting(:host_gem, '/opt/pl-build-tools/bin/gem')
   end
 elsif platform.is_cross_compiled? && platform.is_macos?
   proj.setting(:host_ruby, "/usr/local/opt/ruby@#{ruby_version_y}/bin/ruby")
   proj.setting(:host_gem, "/usr/local/opt/ruby@#{ruby_version_y}/bin/gem")
 else
-  proj.setting(:host_ruby, File.join(proj.ruby_bindir, "ruby"))
-  proj.setting(:host_gem, File.join(proj.ruby_bindir, "gem"))
+  proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby'))
+  proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem'))
 end
 
 if platform.is_cross_compiled_linux?
   host = "--host #{platform_triple}"
 elsif platform.is_cross_compiled? && platform.is_macos?
-  host = "--host aarch64-apple-darwin --build x86_64-apple-darwin --target aarch64-apple-darwin"
+  host = '--host aarch64-apple-darwin --build x86_64-apple-darwin --target aarch64-apple-darwin'
 elsif platform.is_solaris?
   if platform.architecture == 'i386'
     platform_triple = "#{platform.architecture}-pc-solaris2.#{platform.os_version}"
@@ -142,9 +140,7 @@ proj.setting(:gem_install, "#{proj.host_gem} install --no-rdoc --no-ri --local "
 proj.setting(:gem_uninstall, "#{proj.host_gem} uninstall --all --ignore-dependencies ")
 
 # For AIX, we use the triple to install a better rbconfig
-if platform.is_aix?
-  platform_triple = "powerpc-ibm-aix#{platform.os_version}.0.0"
-end
+platform_triple = "powerpc-ibm-aix#{platform.os_version}.0.0" if platform.is_aix?
 
 proj.setting(:platform_triple, platform_triple)
 proj.setting(:host, host)
@@ -155,22 +151,20 @@ instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 proj.setting(:openssl_version, '3.0')
 
 if platform.is_windows?
-  proj.setting(:gcc_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+  proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
   proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
-  proj.setting(:tools_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+  proj.setting(:tools_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
   # If tools_root ever differs from gcc_root again, add it back here.
   proj.setting(:cppflags, "-I#{proj.gcc_root}/include -I#{proj.gcc_root}/include/readline -I#{proj.includedir}")
-  proj.setting(:cflags, "#{proj.cppflags}")
+  proj.setting(:cflags, proj.cppflags)
 
   ldflags = "-L#{proj.tools_root}/lib -L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat"
-  if platform.name !~ /windowsfips-/ || name != 'agent-runtime-7.x'
-    ldflags += ' -Wl,--dynamicbase'
-  end
+  ldflags += ' -Wl,--dynamicbase' if platform.name !~ /windowsfips-/ || name != 'agent-runtime-7.x'
   proj.setting(:ldflags, ldflags)
 
-  proj.setting(:cygwin, "nodosfilewarning winsymlinks:native")
+  proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
 else
-  proj.setting(:tools_root, "/opt/pl-build-tools")
+  proj.setting(:tools_root, '/opt/pl-build-tools')
 end
 
 if platform.is_macos?
@@ -190,7 +184,6 @@ if platform.is_macos?
   proj.setting(:ldflags, "-L#{proj.libdir}")
 end
 
-
 proj.setting(:ldflags, "-Wl,-brtl -L#{proj.libdir}") if platform.is_aix?
 
 if platform.is_solaris?
@@ -203,15 +196,17 @@ proj.timeout 7200 if platform.is_windows?
 
 # Most branches of puppet-agent use these openssl flags in addition to the defaults in configs/components/openssl.rb -
 # Individual projects can override these if necessary.
-proj.setting(:openssl_extra_configure_flags, [
-  'no-dtls',
-  'no-dtls1',
-  'no-idea',
-  'no-seed',
-  # 'no-ssl2-method',
-  'no-weak-ssl-ciphers',
-  '-DOPENSSL_NO_HEARTBEATS',
-]) unless proj.settings[:openssl_extra_configure_flags]
+unless proj.settings[:openssl_extra_configure_flags]
+  proj.setting(:openssl_extra_configure_flags, [
+                 'no-dtls',
+                 'no-dtls1',
+                 'no-idea',
+                 'no-seed',
+                 # 'no-ssl2-method',
+                 'no-weak-ssl-ciphers',
+                 '-DOPENSSL_NO_HEARTBEATS'
+               ])
+end
 
 # Commmon platform-specific settings for all agent branches:
 platform = proj.get_platform

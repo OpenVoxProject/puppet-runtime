@@ -7,7 +7,7 @@
 #   We need to test this before upgrading to ensure it doesn't break anything or
 #   affect performance. There are no security fixes between 2.4.1 and 2.5.4.
 #####
-component 'rubygem-connection_pool' do |pkg, settings, platform|
+component 'rubygem-connection_pool' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '2.4.1'

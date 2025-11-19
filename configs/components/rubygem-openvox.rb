@@ -5,7 +5,7 @@
 # Notes:
 #   To be replaced with openvox
 #####
-component 'rubygem-openvox' do |pkg, settings, platform|
+component 'rubygem-openvox' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '8.23.1'
   pkg.sha256sum '0af1d648fd4dc749b871df2f8fdcc6b74a21635961e8aa080b980a032a1bc915'
@@ -20,6 +20,6 @@ component 'rubygem-openvox' do |pkg, settings, platform|
   pkg.build_requires 'rubygem-scanf'
   pkg.build_requires 'rubygem-semantic_puppet'
   ### End automated maintenance section ###
-  
+
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end

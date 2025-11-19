@@ -8,23 +8,21 @@ ruby_version_y = pkg.get_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
 pkg.mirror "#{settings[:buildsources_url]}/ruby-#{pkg.get_version}.tar.gz"
 pkg.url "https://cache.ruby-lang.org/pub/ruby/#{ruby_version_y}/ruby-#{pkg.get_version}.tar.gz"
 
-
 # These may have been overridden in the including file,
 # if not then default them back to original values.
-ruby_dir ||= settings[:ruby_dir]
 ruby_bindir ||= settings[:ruby_bindir]
-
 
 #############
 # ENVIRONMENT
 #############
 
 if platform.is_aix?
-  pkg.environment "CC", "/opt/freeware/bin/gcc"
+  pkg.environment 'CC', '/opt/freeware/bin/gcc'
   pkg.environment 'LDFLAGS', "#{settings[:ldflags]} -Wl,-bmaxdata:0x80000000"
 elsif platform.is_solaris?
   if !platform.is_cross_compiled? && platform.architecture == 'sparc'
-    pkg.environment 'PATH', "#{settings[:bindir]}:/opt/pl-build-tools/bin:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin:$(PATH)"
+    pkg.environment 'PATH',
+                    "#{settings[:bindir]}:/opt/pl-build-tools/bin:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin:$(PATH)"
     pkg.environment 'CC', "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc"
   else
     pkg.environment 'PATH', "#{settings[:bindir]}:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin:$(PATH)"
@@ -45,10 +43,11 @@ elsif platform.is_cross_compiled_linux?
   pkg.environment 'CXX', "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-g++"
   pkg.environment 'LDFLAGS', "-Wl,-rpath=#{settings[:libdir]}"
 elsif platform.is_windows?
-  pkg.environment "PATH", "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:tools_root]}/bin):$(shell cygpath -u #{settings[:tools_root]}/include):$(shell cygpath -u #{settings[:bindir]}):$(shell cygpath -u #{ruby_bindir}):$(shell cygpath -u #{settings[:includedir]}):$(PATH)"
+  pkg.environment 'PATH',
+                  "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:tools_root]}/bin):$(shell cygpath -u #{settings[:tools_root]}/include):$(shell cygpath -u #{settings[:bindir]}):$(shell cygpath -u #{ruby_bindir}):$(shell cygpath -u #{settings[:includedir]}):$(PATH)"
   pkg.environment 'CYGWIN', settings[:cygwin]
   pkg.environment 'LDFLAGS', settings[:ldflags]
-  optflags = settings[:cflags] + ' -O3'
+  optflags = "#{settings[:cflags]} -O3"
   pkg.environment 'optflags', optflags
   pkg.environment 'CFLAGS', optflags
 elsif platform.is_macos?
@@ -69,10 +68,10 @@ pkg.build_requires "openssl-#{settings[:openssl_version]}"
 
 if platform.is_aix?
   pkg.build_requires "runtime-#{settings[:runtime_project]}"
-  pkg.build_requires "readline"
+  pkg.build_requires 'readline'
 elsif platform.is_solaris?
   pkg.build_requires "runtime-#{settings[:runtime_project]}"
-  pkg.build_requires "libedit" if platform.name =~ /^solaris-10-sparc/
+  pkg.build_requires 'libedit' if platform.name =~ /^solaris-10-sparc/
 elsif platform.is_cross_compiled_linux?
   pkg.build_requires "runtime-#{settings[:runtime_project]}"
 end
@@ -90,5 +89,5 @@ end
 #########
 
 pkg.install do
-  [ "#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1) install" ]
+  ["#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1) install"]
 end

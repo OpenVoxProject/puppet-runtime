@@ -3,7 +3,7 @@
 #   https://rubygems.org/gems/faraday
 #   https://github.com/lostisland/faraday/releases
 #####
-component 'rubygem-faraday' do |pkg, settings, platform|
+component 'rubygem-faraday' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '2.13.4'
   pkg.sha256sum 'c719ff52cfd0dbaeca79dd83ed3aeea3f621032abf8bc959d1c05666157cac26'

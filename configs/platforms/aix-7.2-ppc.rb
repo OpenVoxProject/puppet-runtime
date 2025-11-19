@@ -1,10 +1,10 @@
-platform "aix-7.2-ppc" do |plat|
+platform 'aix-7.2-ppc' do |plat|
   # os_version = 7.2
-  plat.make "gmake"
-  plat.patch "/opt/freeware/bin/patch"
-  plat.rpmbuild "/usr/bin/rpm"
-  plat.servicetype "aix"
-  plat.tar "/opt/freeware/bin/tar"
+  plat.make 'gmake'
+  plat.patch '/opt/freeware/bin/patch'
+  plat.rpmbuild '/usr/bin/rpm'
+  plat.servicetype 'aix'
+  plat.tar '/opt/freeware/bin/tar'
 
   plat.provision_with %(
 curl -O https://artifactory.delivery.puppetlabs.net/artifactory/generic__buildsources/openssl-1.1.2.2000.tar.Z;
@@ -31,7 +31,7 @@ rpm -Uvh https://artifactory.delivery.puppetlabs.net/artifactory/rpm__remote_aix
   # versions.
   plat.provision_with 'yum update --assumeyes --skip-broken'
 
-  packages = %w(
+  packages = %w[
     autoconf
     cmake
     coreutils
@@ -52,15 +52,15 @@ rpm -Uvh https://artifactory.delivery.puppetlabs.net/artifactory/rpm__remote_aix
     xz-5.4.3
     zlib
     zlib-devel
-  )
+  ]
   plat.provision_with "yum install --assumeyes #{packages.join(' ')}"
 
   # No upstream rsync packages
-  plat.provision_with "rpm -Uvh --replacepkgs https://artifactory.delivery.puppetlabs.net/artifactory/rpm__remote_aix_linux_toolbox/RPMS/ppc/rsync/rsync-3.0.6-1.aix5.3.ppc.rpm"
+  plat.provision_with 'rpm -Uvh --replacepkgs https://artifactory.delivery.puppetlabs.net/artifactory/rpm__remote_aix_linux_toolbox/RPMS/ppc/rsync/rsync-3.0.6-1.aix5.3.ppc.rpm'
 
   # lots of things expect mktemp to be installed in the usual place, so link it
-  plat.provision_with "ln -sf /opt/freeware/bin/mktemp /usr/bin/mktemp"
+  plat.provision_with 'ln -sf /opt/freeware/bin/mktemp /usr/bin/mktemp'
 
-  plat.install_build_dependencies_with "yum install --assumeyes "
-  plat.vmpooler_template "aix-7.2-power"
+  plat.install_build_dependencies_with 'yum install --assumeyes '
+  plat.vmpooler_template 'aix-7.2-power'
 end

@@ -3,12 +3,12 @@
 #   https://github.com/SELinuxProject/selinux/releases
 #####
 component 'ruby-selinux' do |pkg, settings, platform|
-    # We download tarballs because system development packages (e.g.
+  # We download tarballs because system development packages (e.g.
   # libselinux-devel) don't necessarily include Swig interface files (*.i files)
   # We select the minimum version available in the platform repos.
   case platform.name
   when /^(el-7|amazon-2|redhatfips-7)-/
-    pkg.version "2.0.94"
+    pkg.version '2.0.94'
     pkg.sha256sum 'b8312852306650e9720de5a20fe7560d935d3c90ffedca1cac25bf3f283d8a36'
     pkg.url 'https://raw.githubusercontent.com/wiki/SELinuxProject/selinux/files/releases/20100525/devel/libselinux-2.0.94.tar.gz'
   when /^(el-8|redhatfips-8)-/
@@ -69,9 +69,9 @@ component 'ruby-selinux' do |pkg, settings, platform|
   ruby = "#{settings[:ruby_bindir]}/ruby -rrbconfig"
 
   # The RHEL 9 libselinux-devel package provides headers, but we don't want to
-  # use the package becuase of a compatibility issue with the shared library. 
+  # use the package becuase of a compatibility issue with the shared library.
   # Instead, we use the headers provided in the tarball.
-  system_include.prepend('-I./include ') if platform.name =~ /el-(9|10)/ 
+  system_include.prepend('-I./include ') if platform.name =~ /el-(9|10)/
 
   if platform.is_cross_compiled_linux?
     pkg.environment 'RUBY', settings[:host_ruby]
@@ -86,16 +86,16 @@ component 'ruby-selinux' do |pkg, settings, platform|
       "export VENDORARCHDIR=$(shell #{ruby} -e 'puts RbConfig::CONFIG[\"vendorarchdir\"]')",
       "export ARCHDIR=$${RUBYHDRDIR}/$(shell #{ruby} -e 'puts RbConfig::CONFIG[\"arch\"]')",
       "export INCLUDESTR=\"-I#{settings[:includedir]} -I$${RUBYHDRDIR} -I$${ARCHDIR}\"",
-      "cp -pr src/{selinuxswig_ruby.i,selinuxswig.i} .",
+      'cp -pr src/{selinuxswig_ruby.i,selinuxswig.i} .',
       "swig -Wall -ruby #{system_include} -o selinuxswig_ruby_wrap.c -outdir ./ selinuxswig_ruby.i"
     ]
 
     # swig 4.1 generated interface does not need patching, so skip
     # when running debian >= 12, fedora >= 40, etc
     unless (platform.is_debian? && platform.os_version.to_i >= 12) ||
-        (platform.is_fedora? && platform.os_version.to_i >= 40) ||
-        (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
-        (platform.is_el? && platform.os_version.to_i >= 10)
+           (platform.is_fedora? && platform.os_version.to_i >= 40) ||
+           (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
+           (platform.is_el? && platform.os_version.to_i >= 10)
       steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../selinuxswig_ruby_wrap.patch"
     end
     # EL 7 uses an older version of swig (2.0) so a different patch is needed to
@@ -106,9 +106,9 @@ component 'ruby-selinux' do |pkg, settings, platform|
       # Ubuntu 24, Fedora 40, EL 10, and Debian 13 use a newer swig that already has the fix that's
       # being patched
       unless (platform.is_fedora? && platform.os_version.to_i >= 40) ||
-          (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
-          (platform.is_el? && platform.os_version.to_i >= 10) ||
-          (platform.is_debian? && platform.os_version.to_i >= 13)
+             (platform.is_ubuntu? && platform.os_version.to_i >= 24) ||
+             (platform.is_el? && platform.os_version.to_i >= 10) ||
+             (platform.is_debian? && platform.os_version.to_i >= 13)
         steps << "#{platform.patch} --strip=0 --fuzz=0 --ignore-whitespace --no-backup-if-mismatch < ../selinuxswig_ruby_undefining_allocator.patch"
       end
     end
@@ -118,22 +118,20 @@ component 'ruby-selinux' do |pkg, settings, platform|
     # uses 3.4. The hacky workaround for this is to symlink an existing library.
     # PDK builds two Rubies so check if symlink exists first. Similar issue
     # exists for RHEL 10.
-    if platform.name =~ /(el|redhatfips)-(9|10)/
-      steps << 'if [ ! -L /usr/lib64/libselinux.so ]; then ln -s /usr/lib64/libselinux.so.1 /usr/lib64/libselinux.so; fi'
-    end
+    steps << 'if [ ! -L /usr/lib64/libselinux.so ]; then ln -s /usr/lib64/libselinux.so.1 /usr/lib64/libselinux.so; fi' if platform.name =~ /(el|redhatfips)-(9|10)/
 
     steps.concat([
-      "gcc $${INCLUDESTR} #{system_include} #{cflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -DSHARED -c -o selinuxswig_ruby_wrap.lo selinuxswig_ruby_wrap.c",
-      "gcc $${INCLUDESTR} #{system_include} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -shared -o _rubyselinux.so selinuxswig_ruby_wrap.lo -lselinux -Wl,-z,relro,-z,now,-soname,_rubyselinux.so",
-    ])
+                   "gcc $${INCLUDESTR} #{system_include} #{cflags} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -DSHARED -c -o selinuxswig_ruby_wrap.lo selinuxswig_ruby_wrap.c",
+                   "gcc $${INCLUDESTR} #{system_include} -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -shared -o _rubyselinux.so selinuxswig_ruby_wrap.lo -lselinux -Wl,-z,relro,-z,now,-soname,_rubyselinux.so"
+                 ])
   end
 
   pkg.install do
     [
       "export VENDORARCHDIR=$(shell #{ruby} -e 'puts RbConfig::CONFIG[\"vendorarchdir\"]')",
-      "install -d $${VENDORARCHDIR}",
-      "install -p -m755 _rubyselinux.so $${VENDORARCHDIR}/selinux.so",
-      "#{platform[:make]} -e clean",
+      'install -d $${VENDORARCHDIR}',
+      'install -p -m755 _rubyselinux.so $${VENDORARCHDIR}/selinux.so',
+      "#{platform[:make]} -e clean"
     ]
   end
 end

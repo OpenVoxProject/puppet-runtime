@@ -3,7 +3,7 @@
 #   https://rubygems.org/gems/net-ssh-krb
 #   https://github.com/cbeer/net-ssh-kerberos/releases
 #####
-component 'rubygem-net-ssh-krb' do |pkg, settings, platform|
+component 'rubygem-net-ssh-krb' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '0.5.1'
   pkg.md5sum '58f770a6a8eca61b5da467d584bb7016'

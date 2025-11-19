@@ -57,8 +57,6 @@ project 'openbolt-runtime' do |proj|
   end
 
   ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
-  ruby_version_y = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
-  ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1')
 
   proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
   proj.setting(:gem_install, "#{proj.host_gem} install --no-document --local --bindir=#{proj.ruby_bindir}")
@@ -74,13 +72,12 @@ project 'openbolt-runtime' do |proj|
 
   # Platform specific overrides or settings, which may override the defaults
   if platform.is_windows?
-    arch = platform.architecture == 'x64' ? '64' : '32'
-    proj.setting(:gcc_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
     proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
-    proj.setting(:tools_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    proj.setting(:tools_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
     # If tools_root ever differs from gcc_root again, add it back here.
     proj.setting(:cppflags, "-I#{proj.gcc_root}/include -I#{proj.gcc_root}/include/readline -I#{proj.includedir}")
-    proj.setting(:cflags, "#{proj.cppflags}")
+    proj.setting(:cflags, proj.cppflags)
     proj.setting(:ldflags, "-L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat -Wl,--dynamicbase")
     proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
   end
@@ -97,16 +94,21 @@ project 'openbolt-runtime' do |proj|
 
   # These flags are applied in addition to the defaults in configs/component/openssl.rb.
   proj.setting(:openssl_extra_configure_flags, [
-    'no-dtls',
-    'no-dtls1',
-    'no-idea',
-    'no-seed',
-    'no-weak-ssl-ciphers',
-    '-DOPENSSL_NO_HEARTBEATS',
-  ])
+                 'no-dtls',
+                 'no-dtls1',
+                 'no-idea',
+                 'no-seed',
+                 'no-weak-ssl-ciphers',
+                 '-DOPENSSL_NO_HEARTBEATS'
+               ])
 
-  # What to build?
-  # --------------
+  ########
+  # Components
+  # Use full blocks here, rather than single line logic so that
+  # automation can insert components as needed.
+  ########
+
+  # rubocop:disable Style/IfUnlessModifier
 
   # Required to build ruby >=3.0.0
   proj.component 'libffi'
@@ -240,6 +242,8 @@ project 'openbolt-runtime' do |proj|
     proj.component 'ruby-augeas'
     proj.component 'ruby-shadow'
   end
+
+  # rubocop:enable Style/IfUnlessModifier
 
   # What to include in package?
   proj.directory proj.prefix

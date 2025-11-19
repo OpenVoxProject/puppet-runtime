@@ -1,18 +1,18 @@
 platform 'el-10-aarch64' do |plat|
   plat.inherit_from_default
 
-  packages = %w(
+  packages = %w[
     perl
     perl-FindBin
-    perl-Getopt-Long 
+    perl-Getopt-Long
     perl-lib
-    patch 
-    swig 
-    readline-devel 
-    zlib-devel 
+    patch
+    swig
+    readline-devel
+    zlib-devel
     systemtap-sdt-devel
     systemtap-sdt-dtrace
-  )
+  ]
   plat.provision_with("dnf install -y --allowerasing  #{packages.join(' ')}")
-  plat.install_build_dependencies_with "dnf install -y --allowerasing "
+  plat.install_build_dependencies_with 'dnf install -y --allowerasing '
 end

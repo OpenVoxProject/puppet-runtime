@@ -5,7 +5,7 @@
 # 2025-09-08: We must keep this at 2.4.0 for now because r10k
 #   relies on gettext-setup, which pins fast_gettext ~> 2.1.
 #####
-component "rubygem-fast_gettext" do |pkg, settings, platform|
+component 'rubygem-fast_gettext' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '2.4.0'
@@ -16,5 +16,5 @@ component "rubygem-fast_gettext" do |pkg, settings, platform|
 
   # Overwrite the base rubygem's default GEM_HOME with the vendor gem directory
   # shared by puppet and puppetserver. Fall-back to gem_home for other projects.
-  pkg.environment "GEM_HOME", (settings[:puppet_gem_vendor_dir] || settings[:gem_home])
+  pkg.environment 'GEM_HOME', (settings[:puppet_gem_vendor_dir] || settings[:gem_home])
 end

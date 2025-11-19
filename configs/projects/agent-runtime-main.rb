@@ -1,5 +1,4 @@
 project 'agent-runtime-main' do |proj|
-
   # Set preferred component versions if they differ from defaults:
   proj.setting :ruby_version, '3.2' # Leave the .Z out for Ruby 3.2
   proj.setting :rubygem_highline_version, '3.0.1'
@@ -22,15 +21,13 @@ project 'agent-runtime-main' do |proj|
   ########
 
   # Directory for gems shared by puppet and puppetserver
-  proj.setting(:puppet_gem_vendor_dir, File.join(proj.libdir, "ruby", "vendor_gems"))
+  proj.setting(:puppet_gem_vendor_dir, File.join(proj.libdir, 'ruby', 'vendor_gems'))
 
   # Ruby 2.7 loads openssl on installation. Because pl-ruby was not
   # built with openssl support, we switch to compile with system
   # rubies.
   # Solaris 11 seems to work with pl-ruby, and 10 is handled in _shared-agent-settings.rb.
-  if platform.is_cross_compiled_linux?
-    proj.setting(:host_ruby, "/usr/bin/ruby")
-  end
+  proj.setting(:host_ruby, '/usr/bin/ruby') if platform.is_cross_compiled_linux?
 
   # Ruby 2.6 (RubyGems 3.0.1) removed the --ri and --rdoc
   # options. Switch to using --no-document which is available starting
@@ -44,6 +41,7 @@ project 'agent-runtime-main' do |proj|
   # automation can insert components as needed.
   ########
 
+  # rubocop:disable Style/IfUnlessModifier
   proj.component 'runtime-agent'
   proj.component 'libffi'
   proj.component 'libyaml'
@@ -114,7 +112,8 @@ project 'agent-runtime-main' do |proj|
   end
 
   if platform.is_linux?
-    proj.component "virt-what"
-    proj.component "dmidecode" unless platform.architecture =~ /ppc64/
+    proj.component 'virt-what'
+    proj.component 'dmidecode' unless platform.architecture =~ /ppc64/
   end
+  # rubocop:enable Style/IfUnlessModifier
 end

@@ -3,7 +3,7 @@
 #   https://rubygems.org/gems/hiera
 #   https://github.com/puppetlabs/hiera/tags
 #####
-component 'rubygem-hiera' do |pkg, settings, platform|
+component 'rubygem-hiera' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '3.12.0'
   pkg.md5sum '67249a25571c9ee83cdb68579faf3f0d'

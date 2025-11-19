@@ -5,7 +5,7 @@
 # Notes:
 #   Deprecated and needs to be removed.
 #####
-component 'rubygem-puppetfile-resolver' do |pkg, settings, platform|
+component 'rubygem-puppetfile-resolver' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '0.6.3'
   pkg.md5sum '8377387749cf0fcfcfd9f8c0c6baaf0c'

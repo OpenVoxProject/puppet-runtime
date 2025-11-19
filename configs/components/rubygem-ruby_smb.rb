@@ -6,7 +6,7 @@
 #   This is horrifically out of date. Need to try updating it carefully
 #   and make sure this doesn't break Bolt SMB support.
 #####
-component 'rubygem-ruby_smb' do |pkg, settings, platform|
+component 'rubygem-ruby_smb' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '1.1.0'
