@@ -187,6 +187,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-bindata'
   proj.component 'rubygem-builder'
   proj.component 'rubygem-CFPropertyList'
+  proj.component 'rubygem-nkf'
   proj.component 'rubygem-colored2'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-connection_pool'
