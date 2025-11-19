@@ -1,17 +1,17 @@
 #####
 # Component release information (lol):
-#   https://rubygems.org/gems/puppet
-#   https://github.com/puppetlabs/puppet/releases
+#   https://rubygems.org/gems/openvox
+#   https://github.com/OpenVoxProject/openvox/releases
 # Notes:
 #   To be replaced with openvox
 #####
-component 'rubygem-puppet' do |pkg, settings, platform|
+component 'rubygem-openvox' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
-  pkg.version '8.10.0'
-  pkg.sha256sum 'f2f5de8f5a794ec49ac30f42806c9ffb5cd42c9908ab3014f9d8ea68a21c2a3a'
+  pkg.version '8.23.1'
+  pkg.sha256sum '0af1d648fd4dc749b871df2f8fdcc6b74a21635961e8aa080b980a032a1bc915'
   pkg.build_requires 'rubygem-concurrent-ruby'
   pkg.build_requires 'rubygem-deep_merge'
-  pkg.build_requires 'rubygem-facter'
+  pkg.build_requires 'rubygem-openfact'
   pkg.build_requires 'rubygem-fast_gettext'
   pkg.build_requires 'rubygem-getoptlong'
   pkg.build_requires 'rubygem-locale'
