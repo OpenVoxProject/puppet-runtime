@@ -6,8 +6,10 @@
 #####
 component 'rubygem-puppet-resource_api' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.0.0'
-  pkg.sha256sum '4649fcb5d5e5f8cbda0887f706b95be5b52a089bcf98ce8ebf0496c3266fd9c4'
+  # We need to update the dependency in openvox to allow 2.x. Pinning until then.
+  # PINNED
+  pkg.version '1.9.0'
+  pkg.sha256sum '4b82e77fad1d3810f3a84ad727aa9fd7c4e8b1179bacc034e9071c0a8f2ebe67'
   pkg.build_requires 'rubygem-hocon'
   ### End automated maintenance section ###
 
