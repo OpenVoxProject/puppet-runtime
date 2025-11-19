@@ -219,6 +219,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
   proj.component 'rubygem-openvox'
+  proj.component 'rubygem-ostruct'
   proj.component 'rubygem-benchmark'
   proj.component 'rubygem-getoptlong'
   proj.component 'rubygem-openfact'
