@@ -8,3 +8,4 @@ ext/packaging
 ext/build_metadata*.json
 pkg
 *.swp
+.ruby-version
