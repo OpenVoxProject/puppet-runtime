@@ -3,11 +3,8 @@
 #   https://rubygems.org/gems/rubyntlm
 #   https://github.com/WinRb/rubyntlm/releases
 #####
-component 'rubygem-rubyntlm' do |pkg, settings, platform|
-  # Do not update past this version without solving the jruby/ruby2.7 issue described in the commit
-  # message this comment is associated with.
+component 'rubygem-rubyntlm' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  # PINNED
   pkg.version '0.6.3'
   pkg.md5sum 'e1f7477acf8a7d3effb2a3fb931aa84c'
   ### End automated maintenance section ###
