@@ -94,6 +94,7 @@ project 'agent-runtime-main' do |proj|
   if platform.is_macos?
     proj.component 'readline'
     proj.component 'rubygem-CFPropertyList'
+    proj.component 'rubygem-nkf'
   end
 
   unless platform.is_aix? || platform.is_windows?
