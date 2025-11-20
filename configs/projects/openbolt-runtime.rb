@@ -237,7 +237,6 @@ project 'openbolt-runtime' do |proj|
     proj.component 'readline' if platform.is_macos?
     proj.component 'augeas'
     proj.component 'libxml2'
-    proj.component 'libxslt'
     # Ruby Augeas and shadow
     proj.component 'ruby-augeas'
     proj.component 'ruby-shadow'

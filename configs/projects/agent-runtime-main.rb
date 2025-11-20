@@ -80,7 +80,6 @@ project 'agent-runtime-main' do |proj|
     proj.component 'augeas'
     proj.component 'ruby-augeas'
     proj.component 'libxml2'
-    proj.component 'libxslt'
     proj.component 'rubygem-sys-filesystem'
   end
 
