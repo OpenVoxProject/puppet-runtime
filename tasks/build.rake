@@ -10,7 +10,7 @@ namespace :vox do
 
     abort 'You must provide a platform.' if args[:platform].nil? || args[:platform].empty?
     platform = args[:platform]
-    os, _ver, arch = platform.match(/^(\w+)-([\w|.]+)-(\w+)$/).captures
+    os, _ver, arch = platform.match(/^(\w+)-([\w.]+)-(\w+)$/).captures
     if os == 'macos'
       shell = `uname -m`.chomp
       ruby = `ruby -v`.chomp
