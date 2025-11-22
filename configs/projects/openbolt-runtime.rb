@@ -253,6 +253,10 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-winrm'
   proj.component 'rubygem-winrm-fs'
 
+  if platform.is_windows?
+    proj.component 'rubygem-win32ole'
+  end
+
   # Components from puppet-runtime included to support apply on localhost
   # We only build ruby-selinux for EL, Fedora, Debian and Ubuntu (amd64/i386)
   if platform.is_el? || platform.is_fedora? || platform.is_debian? || (platform.is_ubuntu? && platform.architecture !~ /ppc64el$/)
