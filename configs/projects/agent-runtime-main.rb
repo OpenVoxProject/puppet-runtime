@@ -83,6 +83,7 @@ project 'agent-runtime-main' do |proj|
     proj.component 'ruby-augeas'
     proj.component 'libxml2'
     proj.component 'rubygem-sys-filesystem'
+    proj.component 'rubygem-win32ole'
   end
 
   if platform.is_macos?

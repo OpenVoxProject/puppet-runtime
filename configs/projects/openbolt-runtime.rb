@@ -233,6 +233,10 @@ project 'openbolt-runtime' do |proj|
     proj.component 'ruby-selinux'
   end
 
+  if platform.is_windows?
+    proj.component 'rubygem-win32ole'
+  end
+
   # Non-windows specific components
   unless platform.is_windows?
     # C Augeas + deps
