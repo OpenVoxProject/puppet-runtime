@@ -216,6 +216,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-net-ftp'
   proj.component 'rubygem-time'
   proj.component 'rubygem-net-protocol'
+  proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-http-persistent'
   proj.component 'rubygem-net-scp'
   proj.component 'rubygem-net-ssh'
