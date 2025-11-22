@@ -65,6 +65,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-locale'
   proj.component 'rubygem-logger'
   proj.component 'rubygem-multi_json'
+  proj.component 'rubygem-net-ftp'
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-prime'
