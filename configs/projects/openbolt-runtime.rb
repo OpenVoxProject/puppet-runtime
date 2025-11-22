@@ -180,6 +180,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-openfact'
   proj.component 'rubygem-ffi'
+  proj.component 'rubygem-fiddle'
   proj.component 'rubygem-gssapi'
   proj.component 'rubygem-gyoku'
   proj.component 'rubygem-hiera'

@@ -57,6 +57,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-ffi'
+  proj.component 'rubygem-fiddle'
   proj.component 'rubygem-gettext'
   proj.component 'rubygem-hiera-eyaml'
   proj.component 'rubygem-highline'
