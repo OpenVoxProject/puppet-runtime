@@ -3,16 +3,15 @@
 #   https://rubygems.org/gems/puppet_forge
 #   https://github.com/puppetlabs/forge-ruby/releases
 #   https://github.com/puppetlabs/forge-ruby/blob/main/CHANGELOG.md
-# Notes:
-#   2025-07-23: Leaving this at 5.x for now since 6.x requires the new
-#               minitar gem, which OpenVox also uses. Need to fix it up
-#               in the agent before bumping this.
 #####
-component 'rubygem-puppet_forge' do |pkg, settings, platform|
+component 'rubygem-puppet_forge' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  # PINNED
-  pkg.version '5.0.4'
-  pkg.md5sum '04a2ca2f027ed41d9142ced587b71bd7'
+  pkg.version '6.0.0'
+  pkg.sha256sum '0770bed61c9f5b21bd81666b121e086165e34c45691bdefec70438bf412f8ddf'
+  pkg.build_requires 'rubygem-faraday'
+  pkg.build_requires 'rubygem-faraday-follow_redirects'
+  pkg.build_requires 'rubygem-minitar'
+  pkg.build_requires 'rubygem-semantic_puppet'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

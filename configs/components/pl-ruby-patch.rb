@@ -6,28 +6,22 @@
 # version and target architecture
 #
 # This component should also be present in the puppet-agent project
-component "pl-ruby-patch" do |pkg, settings, platform|
+component 'pl-ruby-patch' do |pkg, settings, platform|
   if platform.is_cross_compiled?
 
-    ruby_version_y = settings[:ruby_version].gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
-
-    pkg.add_source("file://resources/files/ruby/patch-hostruby.rb")
+    pkg.add_source('file://resources/files/ruby/patch-hostruby.rb')
 
     # The `target_triple` determines which directory native extensions are stored in the
     # compiled ruby and must match ruby's naming convention.
     # weird architecture naming conventions...
     target_triple = if platform.architecture =~ /ppc64el|ppc64le/
-                      "powerpc64le-linux"
+                      'powerpc64le-linux'
                     elsif platform.name == 'solaris-11-sparc'
-                      "sparc-solaris-2.11"
+                      'sparc-solaris-2.11'
                     elsif platform.name =~ /solaris-10/
-                      "sparc-solaris"
+                      'sparc-solaris'
                     elsif platform.is_macos?
-                      if ruby_version_y.start_with?('2')
-                        "aarch64-darwin"
-                      else
-                        "arm64-darwin"
-                      end
+                      'arm64-darwin'
                     else
                       "#{platform.architecture}-linux"
                     end

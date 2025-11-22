@@ -16,7 +16,7 @@
 # The following replaces any configuration line in an rbconfig
 # that matches any of the key value pairs listed in the CHANGES
 # hash
-def replace_line(changes, line, file)
+def replace_line(changes, line, _file)
   changes.each do |change_key, change_value|
     if line.strip.start_with?("CONFIG[\"#{change_key}\"]")
       puts "Updating #{change_key} to CONFIG[\"#{change_key}\"] = \"#{change_value}\""
@@ -26,7 +26,6 @@ def replace_line(changes, line, file)
   line
 end
 
-
 # the following creates two files:
 # new_rbconfig.rb that is a copy of the rbcofig read from ARGV1
 # with replacements for anything provided in the hash passed in as ARGV0
@@ -34,9 +33,9 @@ end
 # and original_rbconfig.rb that is a copy of rbconfig with all exceptions changed
 # to warnings.
 begin
-  new_rbconfig = File.open("new_rbconfig.rb", "w")
-  copy_rbconfig = File.open("original_rbconfig.rb", "w")
-  File.open(File.join(ARGV[1], "rbconfig.rb"), "r").readlines.each do |line|
+  new_rbconfig = File.open('new_rbconfig.rb', 'w')
+  copy_rbconfig = File.open('original_rbconfig.rb', 'w')
+  File.open(File.join(ARGV[1], 'rbconfig.rb'), 'r').readlines.each do |line|
     new_rbconfig.puts replace_line(instance_eval(ARGV[0]), line, new_rbconfig)
     copy_rbconfig.puts line.gsub('raise', 'warn')
   end

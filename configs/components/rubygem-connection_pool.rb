@@ -7,11 +7,11 @@
 #   We need to test this before upgrading to ensure it doesn't break anything or
 #   affect performance. There are no security fixes between 2.4.1 and 2.5.4.
 #####
-component 'rubygem-connection_pool' do |pkg, settings, platform|
+component 'rubygem-connection_pool' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
   pkg.version '2.4.1'
-  pkg.md5sum 'fd45f00b6d127bb49845afd7f7b91baa'
+  pkg.sha256sum '0f40cf997091f1f04ff66da67eabd61a9fe0d4928b9a3645228532512fab62f4'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
