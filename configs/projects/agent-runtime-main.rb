@@ -70,6 +70,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-multi_json'
   proj.component 'rubygem-net-ftp'
   proj.component 'rubygem-time'
+  proj.component 'rubygem-date'
   proj.component 'rubygem-net-protocol'
   proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-ssh'
