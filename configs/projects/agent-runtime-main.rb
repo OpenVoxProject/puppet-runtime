@@ -71,6 +71,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-net-ftp'
   proj.component 'rubygem-time'
   proj.component 'rubygem-net-protocol'
+  proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-prime'
