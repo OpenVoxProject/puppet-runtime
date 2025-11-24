@@ -23,11 +23,7 @@ component "pl-ruby-patch" do |pkg, settings, platform|
                     elsif platform.name =~ /solaris-10/
                       "sparc-solaris"
                     elsif platform.is_macos?
-                      if ruby_version_y.start_with?('2')
-                        "aarch64-darwin"
-                      else
-                        "arm64-darwin"
-                      end
+                      "#{platform.architecture}-darwin"
                     else
                       "#{platform.architecture}-linux"
                     end

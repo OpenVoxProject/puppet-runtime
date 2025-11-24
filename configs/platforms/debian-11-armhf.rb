@@ -27,4 +27,5 @@ platform "debian-11-armhf" do |plat|
   ]
 
   plat.provision_with "export DEBIAN_FRONTEND=noninteractive && apt-get update -qq && apt-get install -qy --no-install-recommends #{packages.join(' ')}"
+  plat.platform_triple 'arm-linux-gnueabihf'
 end

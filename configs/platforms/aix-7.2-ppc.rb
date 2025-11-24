@@ -63,4 +63,6 @@ rpm -Uvh https://artifactory.delivery.puppetlabs.net/artifactory/rpm__remote_aix
 
   plat.install_build_dependencies_with "yum install --assumeyes "
   plat.vmpooler_template "aix-7.2-power"
+
+  plat.platform_triple "powerpc-ibm-aix7.2.0.0"
 end
