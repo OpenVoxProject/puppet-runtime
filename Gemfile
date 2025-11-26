@@ -22,11 +22,9 @@ gem 'vanagon', *location_for(ENV['VANAGON_LOCATION'] || 'https://github.com/open
 gem 'openssl' unless `uname -o`.chomp == 'Cygwin'
 
 group(:development, optional: true) do
-  gem 'colorize', require: false
   gem 'hashdiff', require: false
   gem 'highline', require: false
   gem 'parallel', require: false
-  gem 'tty-table', require: false
 end
 
 group(:release, optional: true) do

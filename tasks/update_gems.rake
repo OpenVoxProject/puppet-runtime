@@ -23,87 +23,33 @@ GEM_TYPE       = /^\s*#\s*GEM\s+TYPE:\s*(?<platform>[A-Za-z0-9\-_.]+)\s*$/
 PROJ_COMPONENT = /^\s*proj\.component\s+(?<quote>['"]?)(?<component>rubygem-[^'"\s]+)\k<quote>\s*$/
 
 TARGET_RUBY_VER = ENV['TARGET_RUBY']&.strip || '3.2'
-MAX_TABLE_WIDTH = 140
 @versions_cache = {}
 
-def git_relative_path(path)
-  path = File.expand_path(path)
-  prefix = REPO_ROOT + File::SEPARATOR
-  path.start_with?(prefix) ? path[prefix.length..] : path
+@component_deps    = {} # gem_name => [dep gem names]
+@component_changes = [] # changed / created components
+@project_component_additions = Hash.new { |h, k| h[k] = [] } # project => [component names added, e.g. "rubygem-foo"]
+
+def component_path(gem_name)
+  File.join(COMPONENT_DIR, "rubygem-#{gem_name}.rb")
 end
 
-def git_commit_file(path, message)
-  rel = git_relative_path(path)
-  status_out, status_err, status_ok = Open3.capture3(
-    'git', '-C', REPO_ROOT, 'status', '--porcelain', '--', rel
-  )
-  unless status_ok
-    warn "git status failed for #{rel}:\n#{status_err}\n#{status_out}"
-    return false
-  end
-  return true if status_out.strip.empty?
-
-  _, add_err, add_ok = Open3.capture3('git', '-C', REPO_ROOT, 'add', rel)
-  unless add_ok
-    warn "git add failed for #{rel}:\n#{add_err}"
-    return false
-  end
-
-  _, commit_err, commit_ok = Open3.capture3('git', '-C', REPO_ROOT, 'commit', '-m', message)
-  unless commit_ok
-    warn "git commit failed for #{rel}:\n#{commit_err}"
-    return false
-  end
-  true
-end
-
-def color_status(status)
-  require 'colorize'
-  case status
-  when 'UP TO DATE' then status.green
-  when 'UPDATED'    then status.yellow
-  when 'ADDED'      then status.cyan
-  when 'ERROR', 'UNKNOWN' then status.red
-  else status
-  end
-end
-
-def print_table(headers, rows)
-  require 'tty-table'
-  comp_w = 50
-  status_w = 12
-  version_w = 32
-  deps_w = [MAX_TABLE_WIDTH - (comp_w + status_w + version_w + 13), 10].max
-  table = TTY::Table.new headers, rows
-  puts table.render(:ascii, width: MAX_TABLE_WIDTH, resize: true, multiline: true, padding: [0, 1, 0, 1]) { |r|
-    r.alignments = [:left, :center, :left, :left]
-    r.border.separator = :each_row
-    r.column_widths = [comp_w, status_w, version_w, deps_w]
-  }
-end
-
-@progress_max_width = 0
 def progress_print(msg, io: $stderr)
-  clean = msg[0, MAX_TABLE_WIDTH - 1]
-  @progress_max_width = [@progress_max_width, clean.length].max
-  io.print("\r#{clean.ljust(@progress_max_width)}")
+  clean = msg[0, 100].ljust(100)
+  io.print("\r#{clean}")
   io.flush
 end
 
 def progress_clear(io: $stderr)
-  return if @progress_max_width <= 0
-
-  io.print("\r#{' ' * @progress_max_width}\r")
+  io.print("\r#{' ' * 100}\r")
   io.flush
-  @progress_max_width = 0
 end
 
 def http(url)
   uri = URI(url)
   Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |h|
-    r = Net::HTTP::Get.new(uri)
-    r['User-Agent'] = 'openvox-runtime-script/1.0'
-    res = h.request(r)
+    req = Net::HTTP::Get.new(uri)
+    req['User-Agent'] = 'openvox_update_gems/1.0'
+    res = h.request(req)
     raise "HTTP #{res.code} #{uri}" unless res.is_a?(Net::HTTPSuccess)
 
     res.body
@@ -122,8 +68,9 @@ end
 def ruby_req_ok?(req_str)
   req = req_str.to_s.strip
   req = '>= 0' if req.empty?
-  Gem::Requirement.new(req.split(',').map!(&:strip))
-                  .satisfied_by?(Gem::Version.new(TARGET_RUBY_VER))
+  Gem::Requirement
+    .new(req.split(',').map!(&:strip))
+    .satisfied_by?(Gem::Version.new(TARGET_RUBY_VER))
 end
 
 def find_sha(name, version, platform)
@@ -135,71 +82,73 @@ def find_sha(name, version, platform)
 end
 
 def get_metadata(name:, version: nil, platforms: ['ruby'])
-  all = get_versions(name)
-  raise "No versions found for gem #{name}" if all.empty?
+  versions = get_versions(name)
+  raise "No versions found for gem #{name}" if versions.empty?
 
-  new_version = version
-  unless new_version
-    candidates = all.select do |v|
-      next false if v['prerelease'] || v['yanked']
-      next false unless v['platform'].nil? || v['platform'] == 'ruby'
-
-      ruby_req_ok?(v['ruby_version'])
+  # Only look up latest version if version was not passed in
+  version ||= begin
+    candidates = versions.select do |v|
+      !v['prerelease'] &&
+        !v['yanked'] &&
+        (v['platform'].nil? || v['platform'] == 'ruby') &&
+        ruby_req_ok?(v['ruby_version'])
     end
     raise "No compatible versions found for gem #{name}" if candidates.empty?
 
-    new_version = candidates.max_by { |v| Gem::Version.new(v['number']) }['number']
+    candidates.max_by { |v| Gem::Version.new(v['number']) }['number']
   end
 
-  platforms = platforms.compact.uniq
-  shas = {}
-  platforms.each { |platform| shas[platform] = find_sha(name, new_version, platform) }
-
-  details = get_version_details(name, new_version)
-  deps = details.dig('dependencies', 'runtime') || []
-
-  { 'version' => new_version, 'shas' => shas, 'dependencies' => deps }
+  shas = platforms.to_h { |platform| [platform, find_sha(name, version, platform)] }
+  deps = get_version_details(name, version).dig('dependencies', 'runtime') || []
+  { 'version' => version, 'shas' => shas, 'dependencies' => deps }
 end
 
-def process_component(path, gemname)
+# Process a single component file, updating its maintenance section as needed.
+# Returns an array of gem names for any missing dependency components that need to be created.
+def process_component_file(path)
   lines = File.read(path, encoding: 'UTF-8').lines
 
   start = lines.index { |l| l =~ MAINT_START } or raise "Automated maintenance section not found in #{path}"
-  end_rel = lines[(start + 1)..].to_a.index do |l|
-    l =~ MAINT_END
-  end or raise "Automated maintenance section not closed in #{path}"
+  end_rel = lines[(start + 1)..].index { |l| l =~ MAINT_END } or raise "Automated maintenance section not closed in #{path}"
   finish = start + 1 + end_rel
+  body   = lines[(start + 1)...finish]
 
-  body = lines[(start + 1)...finish]
-  old_body_str = body.join
-
-  pinned = false
+  pinned          = false
   current_version = nil
-  old_deps = []
-  platforms = ['ruby']
-  prev = nil
+  current_deps    = []
+  platforms       = ['ruby']
+
+  # Scan existing maintenance section for current state
   body.each do |line|
     if (m = line.match(VER_LINE))
       current_version = m[:version]
-      pinned = !!(prev && prev =~ PINNED_LINE)
+    elsif line.match?(PINNED_LINE)
+      pinned = true
     elsif (m = line.match(BUILD_REQ))
-      old_deps << m[1]
+      current_deps << m[1]
     elsif (m = line.match(GEM_TYPE))
       platforms << m[:platform]
     end
-    prev = line
   end
+
   platforms.uniq!
   raise "pkg.version not found in maintenance section for #{path}" unless current_version
 
-  metadata = get_metadata(name: gemname, version: pinned ? current_version : nil, platforms: platforms)
-  target_version = metadata['version']
-  shas = metadata['shas']
-  new_deps = metadata['dependencies'].map { |d| d['name'] }.uniq.sort - [gemname]
-  newly_added = new_deps - old_deps
+  component_name = File.basename(path, '.rb')
+  gem_name       = component_name.sub(/^rubygem-/, '')
 
-  new_body = []
+  metadata       = get_metadata(name: gem_name, version: pinned ? current_version : nil, platforms: platforms)
+  target_version = metadata['version']
+  shas           = metadata['shas']
+  gem_deps       = (metadata['dependencies'] || []).map { |d| d['name'] }.uniq.sort
+
+  @component_deps[gem_name] = gem_deps
+
+  new_body         = []
   current_platform = nil
+
+  # Rebuild maintenance section with updated info. We do replacement
+  # this way to preserve any extra comments or formatting.
   body.each do |l|
     if (m = l.match(VER_LINE))
       new_body << l.sub(m[:version], target_version)
@@ -208,295 +157,252 @@ def process_component(path, gemname)
       new_body << l
     elsif (m = l.match(SHA_LINE))
       platform = current_platform || 'ruby'
-      raise "No SHA found for platform #{platform} of gem #{gemname}" unless shas[platform]
+      sha = shas[platform]
+      raise "No SHA found for platform #{platform} of gem #{gem_name}" unless sha
 
-      new_body << l.sub('md5sum', 'sha256sum').sub(m[:sha], shas[platform])
+      new_body << l.sub('md5sum', 'sha256sum').sub(m[:sha], sha)
       current_platform = nil
     elsif l =~ BUILD_REQ
+      # rebuild build_requires from gem_deps later
       next
     else
       new_body << l
     end
   end
 
-  new_deps.each { |name| new_body << "  pkg.build_requires 'rubygem-#{name}'\n" }
+  gem_deps.each { |dep| new_body << "  pkg.build_requires 'rubygem-#{dep}'\n" }
 
-  new_body_str = new_body.join
-  block_changed = old_body_str != new_body_str
-  lines[(start + 1)...finish] = new_body if block_changed
-  version_changed = current_version != target_version
-
-  File.write(path, lines.join, encoding: 'UTF-8') if block_changed
-
-  status = version_changed || newly_added.any? || block_changed ? 'UPDATED' : 'UP TO DATE'
-  ver_col = version_changed ? "#{current_version} -> #{target_version}" : ''
-  missing = new_deps.reject { |name| File.exist?(File.join(COMPONENT_DIR, "rubygem-#{name}.rb")) }
-
-  {
-    name: gemname,
-    status: status,
-    version: ver_col,
-    deps_added: newly_added.map { |n| "rubygem-#{n}" },
-    missing: missing,
-    gem_deps: new_deps,
-    path: path,
-    old_version: current_version,
-    new_version: target_version,
-    block_changed: block_changed
-  }
-end
-
-def update_projects_for_added(gem, added)
-  changed_files = []
-  Dir[PROJECT_GLOB].each do |proj_path|
-    lines = File.read(proj_path, encoding: 'UTF-8').lines
-    next if lines.any? { |l| (m = l.match(PROJ_COMPONENT)) && m[:component] == added }
-
-    gem_index = nil
-    gem_indent = '  '
-    lines.each_with_index do |l, i|
-      next unless (m = l.match(PROJ_COMPONENT)) && m[:component] == gem
-
-      gem_index = i
-      gem_indent = l[/^\s*/] || '  '
-      break
-    end
-    next unless gem_index
-
-    lines.insert(gem_index + 1, "#{gem_indent}proj.component '#{added}'\n")
-    File.write(proj_path, lines.join, encoding: 'UTF-8')
-    changed_files << proj_path
+  block_changed = (body != new_body)
+  if block_changed
+    lines[(start + 1)...finish] = new_body
+    File.write(path, lines.join, encoding: 'UTF-8')
   end
-  changed_files
+
+  old_deps              = current_deps.uniq.sort
+  deps_added_gems       = gem_deps - old_deps
+  deps_added_components = deps_added_gems.map { |gem| "rubygem-#{gem}" }
+
+  missing_gems = gem_deps.reject { |gem| File.exist?(component_path(gem)) }
+
+  # Only mark a component as changed if we materially changed something.
+  # Ignore sorting of existing dependencies or updating md5 to sha256.
+  if current_version != target_version || !deps_added_components.empty?
+    @component_changes << {
+      name: component_name,
+      old_version: current_version,
+      new_version: target_version,
+      deps_added: deps_added_components
+    }
+  end
+
+  missing_gems
 end
 
-def create_component_file(path, gemname, version, sha, deps = [])
-  deps_block = deps.map { |name| "  pkg.build_requires 'rubygem-#{name}'\n" }.join
-  content = <<~RUBY
+def create_missing_component(gem_name)
+  path = component_path(gem_name)
+
+  metadata = get_metadata(name: gem_name, platforms: ['ruby'])
+  version  = metadata['version']
+  sha      = metadata['shas']['ruby']
+  raise "No ruby SHA found for new component rubygem-#{gem_name}" unless sha
+
+  gem_deps = (metadata['dependencies'] || []).map { |d| d['name'] }.uniq.sort
+
+  content = <<~TEXT
     #####
     # Component release information:
-    #   https://rubygems.org/gems/#{gemname}
+    #   https://rubygems.org/gems/#{gem_name}
     #####
-    component 'rubygem-#{gemname}' do |pkg, _settings, _platform|
+    component 'rubygem-#{gem_name}' do |pkg, _settings, _platform|
       ### Maintained by update_gems automation ###
       pkg.version '#{version}'
       pkg.sha256sum '#{sha}'
-  RUBY
-  content << deps_block
-  content << <<~RUBY
+  TEXT
+  content << gem_deps.map { |name| "  pkg.build_requires 'rubygem-#{name}'\n" }.join
+  content << <<~TEXT
       ### End automated maintenance section ###
 
       instance_eval File.read('configs/components/_base-rubygem.rb')
     end
-  RUBY
+  TEXT
   File.write(path, content, encoding: 'UTF-8')
+
+  @component_deps[gem_name] = gem_deps
+
+  @component_changes << {
+    name: "rubygem-#{gem_name}",
+    old_version: nil,
+    new_version: version,
+    deps_added: gem_deps.map { |gem| "rubygem-#{gem}" }
+  }
+
+  gem_deps
 end
 
-# Build a map of "rubygem-foo" => ["rubygem-bar", "rubygem-baz", ...]
-# based on component metadata (after components and any new ones are in place).
-def build_component_dependency_map(results, added)
-  existing_components = Dir[COMPONENT_GLOB].map { |p| File.basename(p, '.rb') }
-  deps_map = Hash.new { |h, k| h[k] = [] }
+def update_all_components_and_create_missing
+  missing_queue   = []
+  component_paths = Dir[COMPONENT_GLOB].sort
+  total           = component_paths.length
 
-  results.each do |r|
-    component_name = "rubygem-#{r[:name]}"
-    (r[:gem_deps] || []).each do |gem_dep|
-      dep_component = "rubygem-#{gem_dep}"
-      deps_map[component_name] << dep_component if existing_components.include?(dep_component)
+  component_paths.each_with_index do |path, i|
+    progress_print("Processing (#{i + 1}/#{total}): #{File.basename(path, '.rb')}")
+    missing_queue.concat(process_component_file(path))
+  end
+  progress_clear
+
+  until missing_queue.empty?
+    gem_name = missing_queue.shift
+    next if File.exist?(component_path(gem_name))
+
+    progress_print("Creating component rubygem-#{gem_name}")
+    create_missing_component(gem_name).each do |dep_gem|
+      dep_path = component_path(dep_gem)
+      missing_queue << dep_gem if !File.exist?(dep_path) && !missing_queue.include?(dep_gem)
     end
   end
-
-  added.each do |info|
-    component_name = "rubygem-#{info[:name]}"
-    (info[:deps] || []).each do |gem_dep|
-      dep_component = "rubygem-#{gem_dep}"
-      deps_map[component_name] << dep_component if existing_components.include?(dep_component)
-    end
-  end
-
-  deps_map.each_value(&:uniq!)
-  deps_map
+  progress_clear
 end
 
-# Ensure that for every project that references a component, the project also
-# references all of that component's dependencies as components.
-def ensure_projects_have_component_deps(component_deps_map)
-  issues = []
-  processed_pairs = {}
+def ensure_projects_have_component_deps
+  @project_component_additions = Hash.new { |h, k| h[k] = [] }
 
-  component_deps_map.each do |component, deps|
-    deps.each do |dep|
-      key = "#{component}->#{dep}"
-      next if processed_pairs[key]
+  Dir[PROJECT_GLOB].sort.each do |proj_path|
+    lines        = File.read(proj_path, encoding: 'UTF-8').lines
+    project_name = File.basename(proj_path, '.rb')
 
-      processed_pairs[key] = true
+    # Map gem_name => line index where its component is declared so
+    # that we can insert dependencies after it, in case it is inside
+    # a conditional block (e.g. only for Windows platforms).
+    components = {}
+    lines.each_with_index do |line, idx|
+      next unless (m = line.match(PROJ_COMPONENT))
 
-      changed_files = update_projects_for_added(component, dep)
-      next if changed_files.empty?
-
-      changed_files.each do |proj_path|
-        project_name = File.basename(proj_path, '.rb')
-        git_commit_file(proj_path, "#{project_name}: Add #{dep} component")
-        issues << {
-          project: project_name,
-          project_path: proj_path,
-          component: component,
-          missing_dep: dep
-        }
-      end
+      gem_name = m[:component].sub(/^rubygem-/, '')
+      components[gem_name] ||= idx
     end
-  end
 
-  issues
-end
+    @component_deps.each do |gem_name, dep_gems|
+      comp_line_index = components[gem_name]
+      next unless comp_line_index
 
-def update_all_components_and_projects
-  results = []
-  added   = []
+      dep_gems.each do |dep_gem|
+        next if components.key?(dep_gem) # Project already declares this dep component
 
-  files = Dir[COMPONENT_GLOB]
-  total = files.length
+        indent       = lines[comp_line_index][/^\s*/]
+        insert_index = comp_line_index + 1
+        lines.insert(insert_index, "#{indent}proj.component 'rubygem-#{dep_gem}'\n")
 
-  files.each_with_index do |path, i|
-    basename = File.basename(path, '.rb')
-    gemname  = basename.sub(/^rubygem-/, '')
-    progress_print("Processing (#{i + 1}/#{total}): #{basename}")
-    r = process_component(path, gemname)
-    results << r
+        # Shift indices of later components down by one line
+        components[dep_gem] = insert_index
+        components.each do |comp_gem, idx|
+          next if comp_gem == dep_gem
 
-    next unless r[:block_changed]
-
-    component = "rubygem-#{r[:name]}"
-    msg =
-      if r[:old_version] != r[:new_version]
-        "#{component}: Update #{r[:old_version]} -> #{r[:new_version]}"
-      elsif !r[:deps_added].empty?
-        if r[:deps_added].length == 1
-          dep = r[:deps_added].first
-          "#{component}: Add #{dep} dependency"
-        else
-          deps = r[:deps_added].join(', ')
-          "#{component}: Add dependencies #{deps}"
+          components[comp_gem] = idx + 1 if idx > comp_line_index
         end
-      else
-        "#{component}: Update component metadata"
-      end
-    git_commit_file(r[:path], msg)
-  end
-  progress_clear
 
-  queue = results.flat_map { |r| (r[:missing] || []).map { |dep| [r[:name], dep] } }
-
-  until queue.empty?
-    existing_gem, added_dep = queue.shift
-    dep_path = File.join(COMPONENT_DIR, "rubygem-#{added_dep}.rb")
-    created = false
-    deps = nil
-
-    unless File.exist?(dep_path)
-      progress_print("Creating component rubygem-#{added_dep} (required by #{existing_gem})")
-      m    = get_metadata(name: added_dep, platforms: ['ruby'])
-      ver  = m['version']
-      sha  = m['shas']['ruby']
-      deps = (m['dependencies'] || []).map { |d| d['name'] }.uniq.sort - [added_dep]
-
-      create_component_file(dep_path, added_dep, ver, sha, deps)
-      added << { name: added_dep, version: ver, deps: deps, path: dep_path }
-
-      component_full_name = "rubygem-#{added_dep}"
-      git_commit_file(dep_path, "#{component_full_name}: Add new component")
-      created = true
-    end
-
-    if created || added.any? { |g| g[:name] == added_dep }
-      component_full_name = "rubygem-#{added_dep}"
-      update_projects_for_added("rubygem-#{existing_gem}", component_full_name).each do |proj_path|
-        project_name = File.basename(proj_path, '.rb')
-        git_commit_file(proj_path, "#{project_name}: Add #{component_full_name} component")
+        @project_component_additions[project_name] << "rubygem-#{dep_gem}"
       end
     end
 
-    deps&.each do |trans_dep|
-      trans_path = File.join(COMPONENT_DIR, "rubygem-#{trans_dep}.rb")
-      queue << [added_dep, trans_dep] unless File.exist?(trans_path)
-    end
+    File.write(proj_path, lines.join, encoding: 'UTF-8') unless @project_component_additions[project_name].empty?
   end
-
-  progress_clear
-
-  # After all components and new components have been created, build the
-  # component dependency map and ensure every project includes all required
-  # component dependencies.
-  component_deps_map = build_component_dependency_map(results, added)
-  project_issues     = ensure_projects_have_component_deps(component_deps_map)
-
-  [results, added, project_issues]
 end
 
-def output_json(results, added, project_issues)
-  puts JSON.pretty_generate(
-    ruby_version_used_for_checks: TARGET_RUBY_VER,
-    results: results.map { |r|
-      {
-        name: r[:name],
-        status: r[:status],
-        version: r[:version],
-        deps_added: r[:deps_added],
-        missing: r[:missing]
-      }
-    },
-    added: added.map { |info|
-      { name: info[:name], version: info[:version], deps: info[:deps] }
-    },
-    project_dependency_fixes: project_issues.map { |i|
-      {
-        project: i[:project],
-        project_path: git_relative_path(i[:project_path]),
-        component: i[:component],
-        missing_dependency_added: i[:missing_dep]
-      }
-    }
+def build_summary
+  lines = []
+
+  unless @component_changes.empty?
+    lines << 'Component updates:'
+    @component_changes.sort_by { |c| c[:name] }.each do |c|
+      parts = []
+      if c[:old_version] && c[:new_version] && c[:old_version] != c[:new_version]
+        parts << "version #{c[:old_version]} -> #{c[:new_version]}"
+      elsif c[:old_version].nil? && c[:new_version]
+        parts << "new component (version #{c[:new_version]})"
+      end
+      parts << "added deps: #{c[:deps_added].join(', ')}" unless c[:deps_added].empty?
+      lines << "- #{c[:name]}: #{parts.join(', ')}" unless parts.empty?
+    end
+  end
+
+  unless @project_component_additions.empty?
+    lines << '' unless lines.empty?
+    lines << 'Project component additions:'
+    @project_component_additions.keys.sort.each do |project|
+      components = @project_component_additions[project].uniq.sort
+      lines << "- #{project}: #{components.join(', ')}" unless components.empty?
+    end
+  end
+
+  lines.join("\n")
+end
+
+def git_add
+  _, err, ok = Open3.capture3(
+    'git', '-C', REPO_ROOT,
+    'add', 'configs/components', 'configs/projects'
   )
+  warn "git add failed:\n#{err}" unless ok
+  ok
 end
 
-def output_table(results, added, project_issues)
-  headers = ['Component', 'Status', 'Version update', 'Dependencies added']
-  rows = results.map do |r|
-    [
-      "rubygem-#{r[:name]}",
-      color_status(r[:status]),
-      r[:version],
-      r[:deps_added].join(', ')
-    ]
-  end
-  added.each do |info|
-    rows << [
-      "rubygem-#{info[:name]}",
-      color_status('ADDED'),
-      info[:version].to_s,
-      info[:deps].to_a.uniq.sort.map { |dn| "rubygem-#{dn}" }.join(', ')
-    ]
-  end
-  print_table(headers, rows)
+def git_commit(message)
+  out, err, ok = Open3.capture3('git', '-C', REPO_ROOT, 'diff', '--cached', '--name-only')
+  warn "git diff --cached failed:\n#{err}\n#{out}" unless ok
+  return if !ok || out.strip.empty?
 
-  return if project_issues.empty?
+  args = ['git', '-C', REPO_ROOT, 'commit', '-m', 'Update rubygem components']
+  args += ['-m', message] unless message.empty?
 
-  puts
-  puts 'Project dependency fixes:'
-  project_issues.group_by { |i| i[:project] }.each do |project, list|
-    deps_list = list.map { |i| "#{i[:component]} -> #{i[:missing_dep]}" }.uniq
-    puts "  #{project}: #{deps_list.join(', ')}"
+  _, err, ok = Open3.capture3(*args)
+  warn "git commit failed:\n#{err}" unless ok
+end
+
+def ensure_no_uncommitted_changes
+  out, status = Open3.capture2e(
+    'git', '-C', REPO_ROOT,
+    'status', '--porcelain', '--',
+    'configs/components', 'configs/projects'
+  )
+
+  unless status.success?
+    warn "git status failed:\n#{out}"
+    exit 1
   end
+
+  return if out.strip.empty?
+
+  warn <<~MSG
+    Refusing to run: uncommitted changes detected in configs:
+    #{out}
+    Please commit, stash, or discard these changes before running this task.
+  MSG
+  exit 1
 end
 
 namespace :vox do
-  desc 'Update rubygem components and print a summary table or JSON of changes'
+  desc 'Update rubygem components and print a summary of changes'
   task :update_gems do
-    results, added, project_issues = update_all_components_and_projects
-    if !(ARGV & ['--json', '-j', '--format=json']).empty?
-      output_json(results, added, project_issues)
-    else
-      output_table(results, added, project_issues)
+    ensure_no_uncommitted_changes
+
+    progress_print('Updating components and creating missing ones')
+    update_all_components_and_create_missing
+    progress_clear
+
+    progress_print('Ensuring project component dependencies')
+    ensure_projects_have_component_deps
+    progress_clear
+
+    summary = build_summary
+
+    if summary.empty?
+      puts 'No updates to any rubygem components needed'
+      exit 0
     end
+
+    puts summary
+
+    git_add
+    git_commit(summary)
   end
 end
