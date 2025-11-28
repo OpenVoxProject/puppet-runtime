@@ -1,6 +1,6 @@
-platform "el-7-x86_64" do |plat|
+platform 'el-7-x86_64' do |plat|
   plat.inherit_from_default
-  packages = %w(
+  packages = %w[
     bzip2-devel
     libsepol
     libsepol-devel
@@ -11,6 +11,6 @@ platform "el-7-x86_64" do |plat|
     swig
     zlib-devel
     systemtap-sdt-devel
-  )
+  ]
   plat.provision_with("yum install --assumeyes  #{packages.join(' ')}")
 end

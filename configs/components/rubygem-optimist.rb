@@ -13,5 +13,5 @@ component 'rubygem-optimist' do |pkg, settings, _platform|
 
   # Overwrite the base rubygem's default GEM_HOME with the vendor gem directory
   # shared by puppet and puppetserver. Fall-back to gem_home for other projects.
-  pkg.environment "GEM_HOME", (settings[:puppet_gem_vendor_dir] || settings[:gem_home])
+  pkg.environment 'GEM_HOME', (settings[:puppet_gem_vendor_dir] || settings[:gem_home])
 end

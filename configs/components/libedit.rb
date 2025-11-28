@@ -11,18 +11,16 @@ component 'libedit' do |pkg, settings, platform|
   pkg.url "http://thrysoee.dk/editline/libedit-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/libedit-#{pkg.get_version}.tar.gz"
 
-  pkg.environment "PATH", "/opt/pl-build-tools/bin:$(PATH)"
+  pkg.environment 'PATH', '/opt/pl-build-tools/bin:$(PATH)'
 
   if platform.is_solaris?
-    pkg.environment "CC", "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc"
+    pkg.environment 'CC', "/opt/pl-build-tools/bin/#{settings[:platform_triple]}-gcc"
   elsif platform.is_aix?
-    pkg.environment "CC", "/opt/pl-build-tools/bin/gcc"
-    pkg.environment "LDFLAGS", settings[:ldflags]
+    pkg.environment 'CC', '/opt/pl-build-tools/bin/gcc'
+    pkg.environment 'LDFLAGS', settings[:ldflags]
   end
 
-  if platform.is_macos?
-    pkg.environment "CFLAGS", settings[:cflags]
-  end
+  pkg.environment 'CFLAGS', settings[:cflags] if platform.is_macos?
 
   pkg.configure do
     "bash configure --enable-shared --prefix=#{settings[:prefix]} #{settings[:host]}"
@@ -37,6 +35,8 @@ component 'libedit' do |pkg, settings, platform|
   end
 
   pkg.link File.join(settings[:libdir], 'libedit.so'), File.join(settings[:libdir], 'libreadline.so')
-  pkg.link File.join(settings[:includedir], 'editline', 'readline.h'), File.join(settings[:includedir], 'readline', 'readline.h')
-  pkg.link File.join(settings[:includedir], 'editline', 'readline.h'), File.join(settings[:includedir], 'readline', 'history.h')
+  pkg.link File.join(settings[:includedir], 'editline', 'readline.h'),
+           File.join(settings[:includedir], 'readline', 'readline.h')
+  pkg.link File.join(settings[:includedir], 'editline', 'readline.h'),
+           File.join(settings[:includedir], 'readline', 'history.h')
 end

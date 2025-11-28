@@ -57,8 +57,6 @@ project 'openbolt-runtime' do |proj|
   end
 
   ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
-  ruby_version_y = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2')
-  ruby_version_x = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1')
 
   proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
   proj.setting(:gem_install, "#{proj.host_gem} install --no-document --local --bindir=#{proj.ruby_bindir}")
@@ -74,13 +72,12 @@ project 'openbolt-runtime' do |proj|
 
   # Platform specific overrides or settings, which may override the defaults
   if platform.is_windows?
-    arch = platform.architecture == 'x64' ? '64' : '32'
-    proj.setting(:gcc_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
     proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
-    proj.setting(:tools_root, "/usr/x86_64-w64-mingw32/sys-root/mingw")
+    proj.setting(:tools_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
     # If tools_root ever differs from gcc_root again, add it back here.
     proj.setting(:cppflags, "-I#{proj.gcc_root}/include -I#{proj.gcc_root}/include/readline -I#{proj.includedir}")
-    proj.setting(:cflags, "#{proj.cppflags}")
+    proj.setting(:cflags, proj.cppflags)
     proj.setting(:ldflags, "-L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat -Wl,--dynamicbase")
     proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
   end
@@ -97,16 +94,21 @@ project 'openbolt-runtime' do |proj|
 
   # These flags are applied in addition to the defaults in configs/component/openssl.rb.
   proj.setting(:openssl_extra_configure_flags, [
-    'no-dtls',
-    'no-dtls1',
-    'no-idea',
-    'no-seed',
-    'no-weak-ssl-ciphers',
-    '-DOPENSSL_NO_HEARTBEATS',
-  ])
+                 'no-dtls',
+                 'no-dtls1',
+                 'no-idea',
+                 'no-seed',
+                 'no-weak-ssl-ciphers',
+                 '-DOPENSSL_NO_HEARTBEATS'
+               ])
 
-  # What to build?
-  # --------------
+  ########
+  # Components
+  # Use full blocks here, rather than single line logic so that
+  # automation can insert components as needed.
+  ########
+
+  # rubocop:disable Style/IfUnlessModifier
 
   # Required to build ruby >=3.0.0
   proj.component 'libffi'
@@ -133,7 +135,10 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-text'
   proj.component 'rubygem-locale'
   proj.component 'rubygem-gettext'
+  proj.component 'rubygem-racc'
   proj.component 'rubygem-prime'
+  proj.component 'rubygem-singleton'
+  proj.component 'rubygem-forwardable'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-scanf'
   proj.component 'rubygem-semantic_puppet'
@@ -143,19 +148,31 @@ project 'openbolt-runtime' do |proj|
 
   # hiera-eyaml and its dependencies
   proj.component 'rubygem-highline'
+  proj.component 'rubygem-reline'
+  proj.component 'rubygem-io-console'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-hiera-eyaml'
 
   # faraday and its dependencies
   proj.component 'rubygem-faraday'
+  proj.component 'rubygem-json'
   proj.component 'rubygem-faraday-em_http'
+  proj.component 'rubygem-em-http-request'
+  proj.component 'rubygem-http_parser.rb'
+  proj.component 'rubygem-eventmachine'
+  proj.component 'rubygem-em-socksify'
+  proj.component 'rubygem-cookiejar'
   proj.component 'rubygem-faraday-em_synchrony'
   proj.component 'rubygem-faraday-excon'
+  proj.component 'rubygem-excon'
   proj.component 'rubygem-faraday-httpclient'
   proj.component 'rubygem-faraday-multipart'
   proj.component 'rubygem-faraday-net_http'
+  proj.component 'rubygem-net-http'
+  proj.component 'rubygem-uri'
   proj.component 'rubygem-faraday-net_http_persistent'
   proj.component 'rubygem-faraday-patron'
+  proj.component 'rubygem-patron'
   proj.component 'rubygem-faraday-rack'
   proj.component 'rubygem-faraday-retry'
   proj.component 'rubygem-faraday-follow_redirects'
@@ -166,11 +183,14 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-aws-eventstream'
   proj.component 'rubygem-aws-partitions'
   proj.component 'rubygem-aws-sdk-core'
+  proj.component 'rubygem-bigdecimal'
   proj.component 'rubygem-aws-sdk-ec2'
   proj.component 'rubygem-aws-sigv4'
   proj.component 'rubygem-bindata'
   proj.component 'rubygem-builder'
   proj.component 'rubygem-CFPropertyList'
+  proj.component 'rubygem-rexml'
+  proj.component 'rubygem-nkf'
   proj.component 'rubygem-colored2'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-connection_pool'
@@ -178,10 +198,12 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-openfact'
   proj.component 'rubygem-ffi'
+  proj.component 'rubygem-fiddle'
   proj.component 'rubygem-gssapi'
   proj.component 'rubygem-gyoku'
   proj.component 'rubygem-hiera'
   proj.component 'rubygem-httpclient'
+  proj.component 'rubygem-mutex_m'
   proj.component 'rubygem-jmespath'
   proj.component 'rubygem-jwt'
   proj.component 'rubygem-little-plugger'
@@ -192,6 +214,11 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-multi_json'
   proj.component 'rubygem-multipart-post'
   proj.component 'rubygem-net-http-persistent'
+  proj.component 'rubygem-net-ftp'
+  proj.component 'rubygem-time'
+  proj.component 'rubygem-date'
+  proj.component 'rubygem-net-protocol'
+  proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-scp'
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-net-ssh-krb'
@@ -199,10 +226,14 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-orchestrator_client'
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
-  proj.component 'rubygem-puppet'
+  proj.component 'rubygem-openvox'
+  proj.component 'rubygem-ostruct'
+  proj.component 'rubygem-benchmark'
+  proj.component 'rubygem-getoptlong'
+  proj.component 'rubygem-openfact'
   proj.component 'rubygem-puppet_forge'
   proj.component 'rubygem-puppet-resource_api'
-  proj.component 'rubygem-puppet-strings'
+  proj.component 'rubygem-openvox-strings'
   proj.component 'rubygem-puppetfile-resolver'
   proj.component 'rubygem-r10k'
   proj.component 'rubygem-rgen'
@@ -213,6 +244,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-terminal-table'
   proj.component 'rubygem-thor'
   proj.component 'rubygem-unicode-display_width'
+  proj.component 'rubygem-unicode-emoji'
   proj.component 'rubygem-webrick'
   proj.component 'rubygem-yard'
 
@@ -227,20 +259,30 @@ project 'openbolt-runtime' do |proj|
     proj.component 'ruby-selinux'
   end
 
+  if platform.is_windows?
+    proj.component 'rubygem-win32ole'
+  end
+
   # Non-windows specific components
   unless platform.is_windows?
     # C Augeas + deps
     proj.component 'readline' if platform.is_macos?
     proj.component 'augeas'
     proj.component 'libxml2'
-    proj.component 'libxslt'
     # Ruby Augeas and shadow
     proj.component 'ruby-augeas'
     proj.component 'ruby-shadow'
   end
 
+  # rubocop:enable Style/IfUnlessModifier
+
   # What to include in package?
   proj.directory proj.prefix
+  proj.directory proj.bindir if platform.is_windows? || platform.is_macos?
+  proj.directory proj.libdir
+  proj.directory proj.includedir
+  proj.directory proj.datadir
+  proj.directory proj.mandir
 
   # Export the settings for the current project and platform as yaml during builds
   proj.publish_yaml_settings

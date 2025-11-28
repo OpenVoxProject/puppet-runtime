@@ -7,21 +7,21 @@ module Gem
     remove_method :default_path if method_defined? :default_path
 
     def puppet_vendor_dir
-      path = if defined? RUBY_FRAMEWORK_VERSION then
+      path = if defined? RUBY_FRAMEWORK_VERSION
                [
-                   File.dirname(RbConfig::CONFIG['sitedir']),
-                   'VendorGems'
+                 File.dirname(RbConfig::CONFIG['sitedir']),
+                 'VendorGems'
                ]
-             elsif RbConfig::CONFIG['rubylibprefix'] then
+             elsif RbConfig::CONFIG['rubylibprefix']
                [
-                   RbConfig::CONFIG['rubylibprefix'],
-                   'vendor_gems',
+                 RbConfig::CONFIG['rubylibprefix'],
+                 'vendor_gems'
                ]
              else
                [
-                   RbConfig::CONFIG['libdir'],
-                   'ruby',
-                   'vendor_gems',
+                 RbConfig::CONFIG['libdir'],
+                 'ruby',
+                 'vendor_gems'
                ]
              end
 
@@ -33,7 +33,7 @@ module Gem
       path << user_dir if user_home && File.exist?(user_home)
       path << default_dir
       path << puppet_vendor_dir
-      path << vendor_dir if vendor_dir and File.directory? vendor_dir
+      path << vendor_dir if vendor_dir && File.directory?(vendor_dir)
       path
     end
   end

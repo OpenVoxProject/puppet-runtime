@@ -1,8 +1,8 @@
 require 'open3'
 
-RED = "\033[31m"
-GREEN = "\033[32m"
-RESET = "\033[0m"
+RED = "\033[31m".freeze
+GREEN = "\033[32m".freeze
+RESET = "\033[0m".freeze
 
 def run_command(cmd, silent: true, print_command: false, report_status: false)
   puts "#{GREEN}Running #{cmd}#{RESET}" if print_command

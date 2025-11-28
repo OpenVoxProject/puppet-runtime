@@ -1,12 +1,12 @@
-platform "windows-all-x64" do |plat|
-  plat.vmpooler_template "win-2019-x86_64"
-  
-  # Not currently used
-  plat.docker_image "windows:ltsc2019"
-  plat.docker_registry "mcr.microsoft.com"
-  plat.docker_arch "linux/amd64"
+platform 'windows-all-x64' do |plat|
+  plat.vmpooler_template 'win-2019-x86_64'
 
-  plat.servicetype "windows"
+  # Not currently used
+  plat.docker_image 'windows:ltsc2019'
+  plat.docker_registry 'mcr.microsoft.com'
+  plat.docker_arch 'linux/amd64'
+
+  plat.servicetype 'windows'
 
   # Install ruby, ruby-devel, gcc-core, make, git, and libyaml-devel in Cygwin on the Windows image.
   # Run setup.bat found in the root of this repo. These are needed in order to successfully
@@ -28,23 +28,23 @@ platform "windows-all-x64" do |plat|
     'mingw64-x86_64-zlib',
     'ruby',
     'ruby-devel',
-    'patch',
+    'patch'
   ]
 
   plat.provision_with("C:/setup-x86_64.exe -q -P #{packages.join(',')}")
-  plat.install_build_dependencies_with "C:/setup-x86_64.exe -q -P"
+  plat.install_build_dependencies_with 'C:/setup-x86_64.exe -q -P'
 
-  plat.make "/usr/bin/make"
-  plat.patch "TMP=/var/tmp /usr/bin/patch.exe --binary"
+  plat.make '/usr/bin/make'
+  plat.patch 'TMP=/var/tmp /usr/bin/patch.exe --binary'
 
-  plat.platform_triple "x86_64-w64-mingw32"
+  plat.platform_triple 'x86_64-w64-mingw32'
 
   # Putting these here as a reminder where we use them elsewhere. DO NOT
   # use the full path, just the name of the executable without the extension.
   # Otherwise, autoconf gets confused.
-  plat.environment 'CC', "x86_64-w64-mingw32-gcc"
-  plat.environment 'CXX', "x86_64-w64-mingw32-g++"
+  plat.environment 'CC', 'x86_64-w64-mingw32-gcc'
+  plat.environment 'CXX', 'x86_64-w64-mingw32-g++'
 
-  plat.package_type "archive"
-  plat.output_dir "windows"
+  plat.package_type 'archive'
+  plat.output_dir 'windows'
 end

@@ -1,27 +1,27 @@
 # This platform definition is used to build natively on SPARC, unlike
 # solaris-10/11-sparc, which are cross compiled. Therefore, this definition does
 # not inherit from vanagon defaults.
-platform("solaris-11-sparc", override_name: true) do |plat|
-  plat.servicedir "/lib/svc/manifest"
-  plat.defaultdir "/lib/svc/method"
-  plat.servicetype "smf"
+platform('solaris-11-sparc', override_name: true) do |plat|
+  plat.servicedir '/lib/svc/manifest'
+  plat.defaultdir '/lib/svc/method'
+  plat.servicetype 'smf'
 
-  plat.vmpooler_template "solaris-11-sparc"
-  plat.add_build_repository "http://solaris-11-reposync.delivery.puppetlabs.net:81", "puppetlabs.com"
-  plat.install_build_dependencies_with "pkg install ", " || [[ $? -eq 4 ]]"
+  plat.vmpooler_template 'solaris-11-sparc'
+  plat.add_build_repository 'http://solaris-11-reposync.delivery.puppetlabs.net:81', 'puppetlabs.com'
+  plat.install_build_dependencies_with 'pkg install ', ' || [[ $? -eq 4 ]]'
 
   packages = [
-    "pl-gcc10",
-    "pl-libffi",
-    "pl-openssl",
-    "pl-yaml-cpp-sparc",
+    'pl-gcc10',
+    'pl-libffi',
+    'pl-openssl',
+    'pl-yaml-cpp-sparc',
 
-    "autoconf",
-    "automake",
-    "cmake",
-    "gnu-make",
-    "libtool",
-    "pkg-config"
+    'autoconf',
+    'automake',
+    'cmake',
+    'gnu-make',
+    'libtool',
+    'pkg-config'
   ]
   plat.provision_with("pkg install #{packages.join(' ')}")
 

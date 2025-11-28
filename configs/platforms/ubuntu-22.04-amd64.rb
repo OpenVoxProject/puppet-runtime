@@ -1,7 +1,7 @@
-platform "ubuntu-22.04-amd64" do |plat|
+platform 'ubuntu-22.04-amd64' do |plat|
   plat.inherit_from_default
 
-  packages = %w(
+  packages = %w[
     libbz2-dev
     libreadline-dev
     libselinux1-dev
@@ -9,6 +9,6 @@ platform "ubuntu-22.04-amd64" do |plat|
     swig
     systemtap-sdt-dev
     zlib1g-dev
-  )
+  ]
   plat.provision_with "export DEBIAN_FRONTEND=noninteractive && apt-get update -qq && apt-get install -qy --no-install-recommends #{packages.join(' ')}"
 end
