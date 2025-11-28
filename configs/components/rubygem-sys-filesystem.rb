@@ -5,8 +5,9 @@
 #####
 component 'rubygem-sys-filesystem' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.5.3'
-  pkg.sha256sum '17b561d1be683c34bc53946461ea9d67012d8f395e7297db8c63b9018cb30ece'
+  pkg.version '1.5.4'
+  pkg.sha256sum 'a6101674a4d0e641b0f628753439091134e080ed84a3e794570aa2fb07872b45'
+  pkg.build_requires 'rubygem-ffi'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

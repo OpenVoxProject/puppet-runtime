@@ -7,8 +7,8 @@ component 'rubygem-hiera-eyaml' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '4.3.0'
   pkg.sha256sum '19eba2ea9d70b2d56de064df9e3242860d8070d47ff9c9a6348b7fe94708ab0a'
-  pkg.build_requires 'rubygem-optimist'
   pkg.build_requires 'rubygem-highline'
+  pkg.build_requires 'rubygem-optimist'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

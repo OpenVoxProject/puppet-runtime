@@ -5,8 +5,8 @@
 #####
 component 'rubygem-rexml' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
-  pkg.version '3.4.2'
-  pkg.sha256sum '1384268554a37af5da5279431ca3f2f37d46f09ffdd6c95e17cc84c83ea7c417'
+  pkg.version '3.4.4'
+  pkg.sha256sum '19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142'
   ### End automated maintenance section ###
 
   settings["#{pkg.get_name}_remove_older_versions".to_sym] = true

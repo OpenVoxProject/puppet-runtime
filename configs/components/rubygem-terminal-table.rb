@@ -7,6 +7,7 @@ component 'rubygem-terminal-table' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '4.0.0'
   pkg.sha256sum 'f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2'
+  pkg.build_requires 'rubygem-unicode-display_width'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

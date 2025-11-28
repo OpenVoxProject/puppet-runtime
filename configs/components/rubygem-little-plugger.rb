@@ -6,7 +6,7 @@
 component 'rubygem-little-plugger' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '1.1.4'
-  pkg.md5sum '8b1cf294a87eaabd12d5326bc13d7fe0'
+  pkg.sha256sum 'd5f347c00d9d648040ef7c17d6eb09d3d0719adf19ca30d1a3b6fb26d0a631bb'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

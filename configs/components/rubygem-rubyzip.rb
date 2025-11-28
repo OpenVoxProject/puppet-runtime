@@ -6,8 +6,8 @@
 #####
 component 'rubygem-rubyzip' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '3.0.2'
-  pkg.sha256sum '30f75c0b631e23c0891453acbcc019bc1496cd44f4a3ade4ff76bc09a595cfa6'
+  pkg.version '3.2.2'
+  pkg.sha256sum 'c0ed99385f0625415c8f05bcae33fe649ed2952894a95ff8b08f26ca57ea5b3c'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

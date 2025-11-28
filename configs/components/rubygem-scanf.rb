@@ -6,7 +6,7 @@
 component 'rubygem-scanf' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '1.0.0'
-  pkg.md5sum '6a48b02b5d7109331afa8bd9d55a802e'
+  pkg.sha256sum '533db7f7e5acafea1a145d6c5329cef667a58fbcb7d64379a808ff1199ee1b00'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

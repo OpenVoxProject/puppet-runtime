@@ -7,7 +7,7 @@
 component 'rubygem-locale' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '2.1.4'
-  pkg.md5sum 'c324a7f34b94044f8d38eabff159de62'
+  pkg.sha256sum '522f9973ef3eee64aac9bca06d21db2fba675fa3d2cf61d21f42d1ca18a9f780'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

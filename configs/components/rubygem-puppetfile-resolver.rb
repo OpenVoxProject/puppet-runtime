@@ -8,7 +8,9 @@
 component 'rubygem-puppetfile-resolver' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '0.6.3'
-  pkg.md5sum '8377387749cf0fcfcfd9f8c0c6baaf0c'
+  pkg.sha256sum 'd54695251bb62ca033d10bba2d9d91243fff474265d4979f2783259a974634ce'
+  pkg.build_requires 'rubygem-molinillo'
+  pkg.build_requires 'rubygem-semantic_puppet'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
