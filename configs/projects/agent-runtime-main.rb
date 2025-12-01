@@ -3,13 +3,6 @@ project 'agent-runtime-main' do |proj|
   proj.setting :ruby_version, '3.2' # Leave the .Z out for Ruby 3.2
   proj.setting :rubygem_highline_version, '3.0.1'
 
-  # Solaris and AIX depend on libedit which breaks augeas compliation starting with 1.13.0
-  if platform.is_solaris?
-    proj.setting :augeas_version, '1.12.0'
-  else
-    proj.setting :augeas_version, '1.14.1'
-  end
-
   ########
   # Load shared agent settings
   ########
