@@ -66,6 +66,9 @@ namespace :vox do
 
     data[args[:tag]] = component_info
 
+    # Put the new data on top
+    data = data.to_a.rotate(-1).to_h
+
     File.write('component_info.json', JSON.pretty_generate(data))
     puts "Updated component_info.json with data for tag #{args[:tag]}"
   end
