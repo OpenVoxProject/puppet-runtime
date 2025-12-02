@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.02.2](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.02.2) (2025-12-02)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.02.1...2025.12.02.2)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+
+**Merged pull requests:**
+
+- Gate win32ole gem to Windows [\#77](https://github.com/OpenVoxProject/puppet-runtime/pull/77) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.02.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.02.1) (2025-12-02)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.09.08.1...2025.12.02.1)
