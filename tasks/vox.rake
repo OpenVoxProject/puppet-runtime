@@ -121,7 +121,8 @@ task 'release:changelog_components', ['tag'] do |_, args|
   prev_data = data.values[1]
   new_data = data.values[0]
 
-  component_lines = ["\n**Component Changes:**\n", "| Component | Old Version | New Version |\n", "|-----------|-------------|-------------|\n"]
+  header_lines = ["\n**Component Changes:**\n", "| Component | Old Version | New Version |\n", "|-----------|-------------|-------------|\n"]
+  component_lines = []
   new_components = []
   data[args[:tag]]['components'].sort.each do |comp, ver|
     prev_ver = prev_data['components'][comp]
@@ -130,6 +131,7 @@ task 'release:changelog_components', ['tag'] do |_, args|
     new_components << comp if prev_ver.nil?
     component_lines << "| #{comp} | #{prev_data['components'][comp]} | #{ver} |\n"
   end
+  component_lines = header_lines + component_lines unless component_lines.empty?
 
   unless new_components.empty?
     component_lines << "\n**Project component additions:**\n"
@@ -141,10 +143,14 @@ task 'release:changelog_components', ['tag'] do |_, args|
     end
   end
 
-  content = File.read(changelog)
-  new_content = content.sub('**Merged pull requests:**', "#{component_lines.join}\n**Merged pull requests:**")
-  File.write(changelog, new_content)
-  puts "Injected component change information into #{changelog} for tag #{args[:tag]}"
+  if component_lines.empty?
+    puts "No component changes detected for tag #{args[:tag]}"
+  else
+    content = File.read(changelog)
+    new_content = content.sub('**Merged pull requests:**', "#{component_lines.join}\n**Merged pull requests:**")
+    File.write(changelog, new_content)
+    puts "Injected component change information into #{changelog} for tag #{args[:tag]}"
+  end
 end
 
 desc 'Prepare the changelog for a new release'
