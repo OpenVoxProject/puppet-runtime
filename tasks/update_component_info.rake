@@ -7,8 +7,9 @@ INCLUDED_PROJECTS = %w[agent-runtime openbolt-runtime].freeze
 def platforms
   # First item will be a `- Platforms` header. Also exclude
   # any platforms we don't actually build for or have problems parsing.
-  `bundle exec vanagon list -l`.split("\n")[1..]
-                               .reject { |p| p =~ /(#{IGNORED_PLATFORMS.join('|')})/ }
+  output = run_command('bundle exec vanagon list -l')
+  output.split("\n")[1..]
+        .reject { |p| p =~ /(#{IGNORED_PLATFORMS.join('|')})/ }
 end
 
 def projects
@@ -16,8 +17,9 @@ def projects
   # any projects prefixed with '_' as these are not real projects and
   # are shared between projects. Also ignore any projects we don't care
   # about.
-  `bundle exec vanagon list -r`.split("\n")[1..]
-                               .reject { |p| p.start_with?('_') || p !~ /^(#{INCLUDED_PROJECTS.join('|')})/ }
+  output = run_command('bundle exec vanagon list -r')
+  output.split("\n")[1..]
+        .reject { |p| p.start_with?('_') || p !~ /^(#{INCLUDED_PROJECTS.join('|')})/ }
 end
 
 # Sometimes the version is a git ref so extract
@@ -37,7 +39,8 @@ def component_info
 
     platforms.each do |platform|
       puts "  #{platform}"
-      platform_data = JSON.parse(`bundle exec vanagon inspect #{project} #{platform}`)
+      output = run_command("bundle exec vanagon inspect #{project} #{platform}")
+      platform_data = JSON.parse(output)
       project_data[project][platform] = platform_data.map { |h| [h['name'], h['version'] || h.dig('options', 'ref')] }.to_h
     end
   end
@@ -76,18 +79,16 @@ namespace :vox do
   desc 'Regenerate component_info.json with all tags'
   task :regenerate_component_info do
     # Clone a copy of the repo to avoid messing up the current working dir
-    `git clone https://github.com/openvoxproject/puppet-runtime puppet-runtime-tmp`
+    run_command('git clone https://github.com/openvoxproject/puppet-runtime puppet-runtime-tmp')
     begin
       all_data = {}
       Dir.chdir('puppet-runtime-tmp') do
-        `git fetch origin --tags --prune --prune-tags`
-        `git tag --sort=creatordate | awk '$0=="#{FIRST_TAG}"{seen=1; next} seen'`.split("\n").each do |tag|
+        run_command('git fetch origin --tags --prune --prune-tags')
+        output = run_command("git tag --sort=creatordate | awk '$0==\"#{FIRST_TAG}\"{seen=1; next} seen'")
+        output.split("\n").each do |tag|
           puts "Checking out tag #{tag}..."
-          `git checkout #{tag}`
-          Bundler.with_unbundled_env do
-            `BUNDLER_GEMFILE=./Gemfile bundle install --path .bundle`
-            all_data[tag] = component_info
-          end
+          run_command("git checkout #{tag}")
+          all_data[tag] = component_info
         end
       end
       # Reverse order to latest is on top
