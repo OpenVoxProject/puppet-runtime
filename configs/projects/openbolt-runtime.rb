@@ -5,7 +5,6 @@ project 'openbolt-runtime' do |proj|
   proj.setting(:openssl_version, '3.0')
   # Legacy algos must be enabled in OpenSSL >= 3.0 for OpenBolt's WinRM transport to work.
   proj.setting(:use_legacy_openssl_algos, true)
-  proj.setting(:augeas_version, '1.14.1')
 
   platform = proj.get_platform
 

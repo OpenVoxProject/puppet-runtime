@@ -2,56 +2,37 @@
 # Component release information: https://github.com/hercules-team/augeas/releases
 #####
 component 'augeas' do |pkg, settings, platform|
-  version = settings[:augeas_version] || '1.14.1'
-  pkg.version version
+  # Solaris and AIX depend on libedit which breaks augeas compliation starting with 1.13.0.
+  # Figure out a solution if we ever need to update augeas on those platforms.
+  pkg.version '1.14.1'
+  pkg.md5sum 'ac31216268b4b64809afd3a25f2515e5'
+  pkg.url "https://github.com/hercules-team/augeas/releases/download/release-#{pkg.get_version}/augeas-#{pkg.get_version}.tar.gz"
 
-  case version
-  when '1.14.1'
-    pkg.md5sum 'ac31216268b4b64809afd3a25f2515e5'
+  pkg.apply_patch 'resources/patches/augeas/augeas-1.14.1-return_reg_enosys.patch'
 
-    pkg.apply_patch 'resources/patches/augeas/augeas-1.14.1-return_reg_enosys.patch'
-  when '1.12.0'
-    pkg.md5sum '74f1c7b8550f4e728486091f6b907175'
-
-    pkg.apply_patch 'resources/patches/augeas/augeas-1.12.0-allow-ad-groups-in-sudoers.patch'
-    pkg.apply_patch 'resources/patches/augeas/augeas-1.12.0-allow-hyphen-postgresql-lens.patch'
-  else
-    raise "augeas version #{version} has not been configured; Cannot continue."
+  if platform.is_el? || platform.is_fedora?
+    # Augeas 1.11.0+ needs a libselinux pkgconfig file on these platforms:
+    pkg.build_requires 'ruby-selinux'
   end
 
-  # releases from 1.13.0 onward are only available from github
-  if Gem::Version.new(pkg.get_version) < Gem::Version.new('1.13.0')
-    # this url may be removed once 1.12.0 is no longer supported
-    pkg.url "http://download.augeas.net/augeas-#{pkg.get_version}.tar.gz"
-  else
-    pkg.url "https://github.com/hercules-team/augeas/releases/download/release-#{pkg.get_version}/augeas-#{pkg.get_version}.tar.gz"
+  if platform.name =~ /solaris-10-sparc/
+    # This patch to gnulib fixes a linking error around symbol versioning in pthread.
+    pkg.add_source "file://resources/patches/augeas/augeas-#{version}-gnulib-pthread-in-use.patch"
+    pkg.configure do
+      # gnulib is a submodule, and its files don't exist until after configure,
+      # so we apply the patch manually here instead of using pkg.apply_patch.
+      ["/usr/bin/gpatch -p0 < ../augeas-#{version}-gnulib-pthread-in-use.patch"]
+    end
   end
 
-  if ['1.12.0', '1.14.1'].include?(version)
-    if platform.is_el? || platform.is_fedora?
-      # Augeas 1.11.0 needs a libselinux pkgconfig file on these platforms:
-      pkg.build_requires 'ruby-selinux'
-    end
-
-    if platform.name =~ /solaris-10-sparc/
-      # This patch to gnulib fixes a linking error around symbol versioning in pthread.
-      pkg.add_source "file://resources/patches/augeas/augeas-#{version}-gnulib-pthread-in-use.patch"
-      pkg.configure do
-        # gnulib is a submodule, and its files don't exist until after configure,
-        # so we apply the patch manually here instead of using pkg.apply_patch.
-        ["/usr/bin/gpatch -p0 < ../augeas-#{version}-gnulib-pthread-in-use.patch"]
-      end
-    end
-
-    if platform.is_macos?
-      pkg.build_requires 'readline'
-      pkg.build_requires 'autoconf'
-      pkg.build_requires 'automake'
-      pkg.build_requires 'libtool'
-    end
-
-    extra_config_flags = platform.name =~ /solaris-11|aix/ ? ' --disable-dependency-tracking' : ''
+  if platform.is_macos?
+    pkg.build_requires 'readline'
+    pkg.build_requires 'autoconf'
+    pkg.build_requires 'automake'
+    pkg.build_requires 'libtool'
   end
+
+  extra_config_flags = platform.name =~ /solaris-11|aix/ ? ' --disable-dependency-tracking' : ''
 
   pkg.mirror "#{settings[:buildsources_url]}/augeas-#{pkg.get_version}.tar.gz"
 
