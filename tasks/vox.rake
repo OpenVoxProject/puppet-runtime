@@ -77,8 +77,14 @@ begin
     config.user = 'openvoxproject'
     config.project = 'puppet-runtime'
     config.exclude_labels = %w[dependencies duplicate question invalid wontfix wont-fix modulesync skip-changelog]
-    config.since_tag = '202501080'
     config.future_release = Version.load_from_changelog.next!.to_s
+    # If CHANGELOG.md is missing, create from scratch. Otherwise, just append
+    # so we preserve any custom content we inject in the changelog.
+    if File.exist?(File.expand_path('../CHANGELOG.md', __dir__))
+      config.base = 'CHANGELOG.md'
+    else
+      config.since_tag = '202501080'
+    end
   end
 rescue LoadError
   task :changelog do
