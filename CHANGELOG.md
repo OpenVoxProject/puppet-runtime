@@ -1,6 +1,218 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.02.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.02.1) (2025-12-02)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.09.08.1...2025.12.02.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.15.0 | 8.17.0 |
+| libxml2 | 2.14.5 | 2.15.1 |
+| openssl-3.0 | 3.0.17 | 3.0.18 |
+| ruby-augeas | 0.5.0 | 0.6.0 |
+| ruby-selinux | 3.8.1 | 3.9 |
+| rubygem-CFPropertyList | 3.0.7 | 4.0.0 |
+| rubygem-addressable |  | 2.8.8 |
+| rubygem-aws-eventstream |  | 1.4.0 |
+| rubygem-aws-partitions |  | 1.1188.0 |
+| rubygem-aws-sdk-core |  | 3.239.2 |
+| rubygem-aws-sdk-ec2 |  | 1.583.0 |
+| rubygem-aws-sigv4 |  | 1.12.1 |
+| rubygem-bcrypt_pbkdf |  | 1.1.1 |
+| rubygem-benchmark |  | 0.5.0 |
+| rubygem-bigdecimal |  | 3.3.1 |
+| rubygem-bindata |  | 2.5.1 |
+| rubygem-builder |  | 3.3.0 |
+| rubygem-colored2 |  | 4.0.3 |
+| rubygem-connection_pool |  | 2.4.1 |
+| rubygem-cookiejar |  | 0.3.4 |
+| rubygem-cri |  | 2.15.12 |
+| rubygem-date |  | 3.5.0 |
+| rubygem-ed25519 |  | 1.4.0 |
+| rubygem-em-http-request |  | 1.1.7 |
+| rubygem-em-socksify |  | 0.3.3 |
+| rubygem-eventmachine |  | 1.2.7 |
+| rubygem-excon |  | 1.3.1 |
+| rubygem-faraday |  | 2.14.0 |
+| rubygem-faraday-em_http |  | 2.0.1 |
+| rubygem-faraday-em_synchrony |  | 1.0.1 |
+| rubygem-faraday-excon |  | 2.4.0 |
+| rubygem-faraday-follow_redirects |  | 0.4.0 |
+| rubygem-faraday-httpclient |  | 2.0.2 |
+| rubygem-faraday-multipart |  | 1.1.1 |
+| rubygem-faraday-net_http |  | 3.4.2 |
+| rubygem-faraday-net_http_persistent |  | 2.3.1 |
+| rubygem-faraday-patron |  | 2.0.2 |
+| rubygem-faraday-rack |  | 2.1.3 |
+| rubygem-faraday-retry |  | 2.3.2 |
+| rubygem-fiddle |  | 1.1.8 |
+| rubygem-forwardable |  | 1.3.3 |
+| rubygem-getoptlong |  | 0.2.1 |
+| rubygem-gettext-setup |  | 1.1.0 |
+| rubygem-gssapi |  | 1.3.1 |
+| rubygem-gyoku |  | 1.4.0 |
+| rubygem-hiera |  | 3.12.0 |
+| rubygem-http_parser.rb |  | 0.8.0 |
+| rubygem-httpclient |  | 2.9.0 |
+| rubygem-io-console |  | 0.8.1 |
+| rubygem-jmespath |  | 1.6.2 |
+| rubygem-json |  | 2.16.0 |
+| rubygem-jwt |  | 2.10.2 |
+| rubygem-little-plugger |  | 1.1.4 |
+| rubygem-log4r |  | 1.1.10 |
+| rubygem-logging |  | 2.4.0 |
+| rubygem-minitar | 0.12.1 | 1.1.0 |
+| rubygem-molinillo |  | 0.8.0 |
+| rubygem-multipart-post |  | 2.4.1 |
+| rubygem-mutex_m |  | 0.3.0 |
+| rubygem-net-ftp |  | 0.3.9 |
+| rubygem-net-http |  | 0.8.0 |
+| rubygem-net-http-persistent |  | 4.0.6 |
+| rubygem-net-protocol |  | 0.2.2 |
+| rubygem-net-scp |  | 4.1.0 |
+| rubygem-net-ssh-krb |  | 0.5.1 |
+| rubygem-nkf |  | 0.2.0 |
+| rubygem-nori |  | 2.7.1 |
+| rubygem-openfact |  | 5.1.0 |
+| rubygem-openvox |  | 8.23.1 |
+| rubygem-openvox-strings |  | 6.0.0 |
+| rubygem-orchestrator_client |  | 0.7.2 |
+| rubygem-ostruct |  | 0.6.3 |
+| rubygem-paint |  | 2.3.0 |
+| rubygem-patron |  | 0.13.4 |
+| rubygem-public_suffix |  | 6.0.2 |
+| rubygem-puppet-resource_api |  | 2.0.0 |
+| rubygem-puppet_forge |  | 6.0.0 |
+| rubygem-puppetfile-resolver |  | 0.6.3 |
+| rubygem-r10k |  | 5.0.2 |
+| rubygem-racc |  | 1.8.1 |
+| rubygem-reline |  | 0.6.3 |
+| rubygem-rexml | 3.4.2 | 3.4.4 |
+| rubygem-rgen |  | 0.10.2 |
+| rubygem-ruby2_keywords |  | 0.0.5 |
+| rubygem-ruby_smb |  | 1.1.0 |
+| rubygem-rubyntlm |  | 0.6.5 |
+| rubygem-rubyzip |  | 3.2.2 |
+| rubygem-singleton |  | 0.3.0 |
+| rubygem-sys-filesystem | 1.5.3 | 1.5.4 |
+| rubygem-terminal-table |  | 4.0.0 |
+| rubygem-time |  | 0.4.1 |
+| rubygem-timeout |  | 0.4.4 |
+| rubygem-unicode-display_width |  | 3.2.0 |
+| rubygem-unicode-emoji |  | 4.1.0 |
+| rubygem-uri |  | 1.1.1 |
+| rubygem-webrick |  | 1.9.2 |
+| rubygem-win32ole |  | 1.9.2 |
+| rubygem-windows_error |  | 0.1.5 |
+| rubygem-winrm |  | 2.3.9 |
+| rubygem-winrm-fs |  | 1.3.5 |
+| rubygem-yard |  | 0.9.37 |
+
+**Project component additions:**
+- rubygem-addressable: openbolt-runtime
+- rubygem-aws-eventstream: openbolt-runtime
+- rubygem-aws-partitions: openbolt-runtime
+- rubygem-aws-sdk-core: openbolt-runtime
+- rubygem-aws-sdk-ec2: openbolt-runtime
+- rubygem-aws-sigv4: openbolt-runtime
+- rubygem-bcrypt_pbkdf: openbolt-runtime
+- rubygem-benchmark: openbolt-runtime
+- rubygem-bigdecimal: openbolt-runtime
+- rubygem-bindata: openbolt-runtime
+- rubygem-builder: openbolt-runtime
+- rubygem-colored2: openbolt-runtime
+- rubygem-connection_pool: openbolt-runtime
+- rubygem-cookiejar: openbolt-runtime
+- rubygem-cri: openbolt-runtime
+- rubygem-date: agent-runtime-main, openbolt-runtime
+- rubygem-ed25519: openbolt-runtime
+- rubygem-em-http-request: openbolt-runtime
+- rubygem-em-socksify: openbolt-runtime
+- rubygem-eventmachine: openbolt-runtime
+- rubygem-excon: openbolt-runtime
+- rubygem-faraday: openbolt-runtime
+- rubygem-faraday-em_http: openbolt-runtime
+- rubygem-faraday-em_synchrony: openbolt-runtime
+- rubygem-faraday-excon: openbolt-runtime
+- rubygem-faraday-follow_redirects: openbolt-runtime
+- rubygem-faraday-httpclient: openbolt-runtime
+- rubygem-faraday-multipart: openbolt-runtime
+- rubygem-faraday-net_http: openbolt-runtime
+- rubygem-faraday-net_http_persistent: openbolt-runtime
+- rubygem-faraday-patron: openbolt-runtime
+- rubygem-faraday-rack: openbolt-runtime
+- rubygem-faraday-retry: openbolt-runtime
+- rubygem-fiddle: agent-runtime-main, openbolt-runtime
+- rubygem-forwardable: agent-runtime-main, openbolt-runtime
+- rubygem-getoptlong: openbolt-runtime
+- rubygem-gettext-setup: openbolt-runtime
+- rubygem-gssapi: openbolt-runtime
+- rubygem-gyoku: openbolt-runtime
+- rubygem-hiera: openbolt-runtime
+- rubygem-http_parser.rb: openbolt-runtime
+- rubygem-httpclient: openbolt-runtime
+- rubygem-io-console: agent-runtime-main, openbolt-runtime
+- rubygem-jmespath: openbolt-runtime
+- rubygem-json: openbolt-runtime
+- rubygem-jwt: openbolt-runtime
+- rubygem-little-plugger: openbolt-runtime
+- rubygem-log4r: openbolt-runtime
+- rubygem-logging: openbolt-runtime
+- rubygem-molinillo: openbolt-runtime
+- rubygem-multipart-post: openbolt-runtime
+- rubygem-mutex_m: openbolt-runtime
+- rubygem-net-ftp: agent-runtime-main, openbolt-runtime
+- rubygem-net-http: openbolt-runtime
+- rubygem-net-http-persistent: openbolt-runtime
+- rubygem-net-protocol: agent-runtime-main, openbolt-runtime
+- rubygem-net-scp: openbolt-runtime
+- rubygem-net-ssh-krb: openbolt-runtime
+- rubygem-nkf: agent-runtime-main, openbolt-runtime
+- rubygem-nori: openbolt-runtime
+- rubygem-openfact: openbolt-runtime
+- rubygem-openvox: openbolt-runtime
+- rubygem-openvox-strings: openbolt-runtime
+- rubygem-orchestrator_client: openbolt-runtime
+- rubygem-ostruct: openbolt-runtime
+- rubygem-paint: openbolt-runtime
+- rubygem-patron: openbolt-runtime
+- rubygem-public_suffix: openbolt-runtime
+- rubygem-puppet-resource_api: openbolt-runtime
+- rubygem-puppet_forge: openbolt-runtime
+- rubygem-puppetfile-resolver: openbolt-runtime
+- rubygem-r10k: openbolt-runtime
+- rubygem-racc: agent-runtime-main, openbolt-runtime
+- rubygem-reline: agent-runtime-main, openbolt-runtime
+- rubygem-rgen: openbolt-runtime
+- rubygem-ruby2_keywords: openbolt-runtime
+- rubygem-ruby_smb: openbolt-runtime
+- rubygem-rubyntlm: openbolt-runtime
+- rubygem-rubyzip: openbolt-runtime
+- rubygem-singleton: agent-runtime-main, openbolt-runtime
+- rubygem-terminal-table: openbolt-runtime
+- rubygem-time: agent-runtime-main, openbolt-runtime
+- rubygem-timeout: agent-runtime-main, openbolt-runtime
+- rubygem-unicode-display_width: openbolt-runtime
+- rubygem-unicode-emoji: openbolt-runtime
+- rubygem-uri: openbolt-runtime
+- rubygem-webrick: openbolt-runtime
+- rubygem-win32ole: agent-runtime-main, openbolt-runtime
+- rubygem-windows_error: openbolt-runtime
+- rubygem-winrm: openbolt-runtime
+- rubygem-winrm-fs: openbolt-runtime
+- rubygem-yard: openbolt-runtime
+
+**Merged pull requests:**
+
+- Show errors during shell commands in update\_component\_info [\#75](https://github.com/OpenVoxProject/puppet-runtime/pull/75) ([nmburgan](https://github.com/nmburgan))
+- Add tasks for generating component info and adding to changelog [\#72](https://github.com/OpenVoxProject/puppet-runtime/pull/72) ([nmburgan](https://github.com/nmburgan))
+- Update components and update\_gems script [\#70](https://github.com/OpenVoxProject/puppet-runtime/pull/70) ([nmburgan](https://github.com/nmburgan))
+- Add update\_gems rake task and rename bolt -\> openbolt [\#68](https://github.com/OpenVoxProject/puppet-runtime/pull/68) ([nmburgan](https://github.com/nmburgan))
+- Add switch for uploading to S3 [\#62](https://github.com/OpenVoxProject/puppet-runtime/pull/62) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.09.08.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.09.08.1) (2025-09-08)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025-09-04-1...2025.09.08.1)
