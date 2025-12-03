@@ -1,4 +1,3 @@
----
 name: 'Prepare Release'
 
 on:
@@ -7,10 +6,10 @@ on:
 permissions: {}
 
 jobs:
-  get_next_release_version:
+  get_version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.next_release.outputs.version }}
+      version: ${{ steps.version.outputs.value }}
     steps:
       - name: Check out repo
         uses: actions/checkout@v6
@@ -24,16 +23,17 @@ jobs:
           bundler-cache: true
 
       - name: Get next release version
-        id: next_release
+        id: version
         run: |
-          echo version=$(bundle exec rake vox:version:next) >> "$GITHUB_OUTPUT"
+          VERSION=$(bundle exec rake vox:version:next)
+          echo "Next version: $VERSION"
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
 
   prepare_release:
-    needs: get_next_release_version
+    needs: get_version
     uses: OpenVoxProject/shared-actions/.github/workflows/prepare_release.yml@main
     with:
-      allowed_owner: 'OpenVoxProject'
-      version: ${{ needs.get_next_release_version.outputs.version }}
+      version: ${{ needs.get_version.outputs.version }}
     secrets:
       github_pat: ${{ secrets.OPENVOXBOT_COMMIT_AND_PRS }}
       ssh_private_key: ${{ secrets.OPENVOXBOT_SSH_PRIVATE_KEY }}

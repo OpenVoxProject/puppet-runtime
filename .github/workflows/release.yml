@@ -1,4 +1,3 @@
----
 name: 'Release'
 
 on:
@@ -7,10 +6,10 @@ on:
 permissions: {}
 
 jobs:
-  get_current_release_version:
+  get_version:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.current_release.outputs.version }}
+      version: ${{ steps.version.outputs.value }}
     steps:
       - name: Check out repo
         uses: actions/checkout@v6
@@ -23,17 +22,19 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
-      - name: Get current release version
-        id: current_release
+      - name: Get version from CHANGELOG.md
+        id: version
         run: |
-          echo version=$(bundle exec rake vox:version:current) >> "$GITHUB_OUTPUT"
+          VERSION=$(bundle exec rake vox:version:current)
+          echo "Version: $VERSION"
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
 
   release:
+    needs: get_version
     uses: OpenVoxProject/shared-actions/.github/workflows/release.yml@main
-    needs: get_current_release_version
     with:
-      allowed_owner: 'OpenVoxProject'
-      version: ${{ needs.get_current_release_version.outputs.version }}
+      version: ${{ needs.get_version.outputs.version }}
+      include_changelog_in_release: true
     secrets:
       github_pat: ${{ secrets.OPENVOXBOT_COMMIT_AND_PRS }}
       ssh_private_key: ${{ secrets.OPENVOXBOT_SSH_PRIVATE_KEY }}
