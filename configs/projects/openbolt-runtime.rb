@@ -273,6 +273,12 @@ project 'openbolt-runtime' do |proj|
     proj.component 'ruby-shadow'
   end
 
+  # Linux specific components
+  if platform.is_linux?
+    # DBus exists outside of Linux, but it's the most common platform to find it on
+    proj.component 'rubygem-ruby-dbus'
+  end
+
   # rubocop:enable Style/IfUnlessModifier
 
   # What to include in package?

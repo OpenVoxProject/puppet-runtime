@@ -122,6 +122,8 @@ project 'agent-runtime-main' do |proj|
   if platform.is_linux?
     proj.component 'virt-what'
     proj.component 'dmidecode' unless platform.architecture =~ /ppc64/
+    # DBus exists outside of Linux, but it's the most common platform to find it on
+    proj.component 'rubygem-ruby-dbus'
   end
   # rubocop:enable Style/IfUnlessModifier
 end
