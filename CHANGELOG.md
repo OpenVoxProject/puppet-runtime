@@ -1,6 +1,29 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.03.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.03.1) (2025-12-03)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.02.1...2025.12.03.1)
+
+**Implemented enhancements:**
+
+- rubygem-ruby-dbus: Add component [\#80](https://github.com/OpenVoxProject/puppet-runtime/pull/80) ([ananace](https://github.com/ananace))
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-ruby-dbus |  | 0.25.0 |
+
+**Project component additions:**
+- rubygem-ruby-dbus: agent-runtime-main, openbolt-runtime
+
+**Merged pull requests:**
+
+- Specify pkgconf for el10 [\#81](https://github.com/OpenVoxProject/puppet-runtime/pull/81) ([nmburgan](https://github.com/nmburgan))
+- Don't add component table when there are no changes [\#79](https://github.com/OpenVoxProject/puppet-runtime/pull/79) ([nmburgan](https://github.com/nmburgan))
+- Gate win32ole gem to Windows [\#77](https://github.com/OpenVoxProject/puppet-runtime/pull/77) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.02.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.02.1) (2025-12-02)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.09.08.1...2025.12.02.1)
