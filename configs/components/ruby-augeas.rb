@@ -60,15 +60,13 @@ component 'ruby-augeas' do |pkg, settings, platform|
     build_commands
   end
 
-  augeas_rb_target = if settings[:ruby_vendordir]
-                       File.join(settings[:ruby_vendordir], 'augeas.rb')
-                     else
-                       # If no alternate vendordir has been set, install into default
-                       # vendordir for this ruby version.
-                       File.join(settings[:ruby_dir], 'lib', 'ruby', 'vendor_ruby', 'augeas.rb')
-                     end
+  augeas_rb_target = settings[:ruby_vendordir] if settings[:ruby_vendordir]
+  # If no alternate vendordir has been set, install into default
+  # vendordir for this ruby version.
+  augeas_rb_target ||= File.join(settings[:ruby_dir], 'lib', 'ruby', 'vendor_ruby')
 
-  pkg.install_file 'lib/augeas.rb', augeas_rb_target
+  pkg.install_file 'lib/augeas.rb', File.join(augeas_rb_target, 'augeas.rb')
+  pkg.install_file 'lib/augeas/facade.rb', File.join(augeas_rb_target, 'augeas', 'facade.rb')
 
   pkg.install do
     [
