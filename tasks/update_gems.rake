@@ -325,7 +325,7 @@ def build_summary
     end
   end
 
-  unless @project_component_additions.empty?
+  unless @project_component_additions.none? { |_, v| !v.empty? }
     lines << '' unless lines.empty?
     lines << 'Project component additions:'
     @project_component_additions.keys.sort.each do |project|
