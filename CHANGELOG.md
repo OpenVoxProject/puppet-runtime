@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.05.1) (2025-12-05)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.03.1...2025.12.05.1)
+
+**Fixed bugs:**
+
+- Install augeas/facade.rb for modern ruby-augeas [\#85](https://github.com/OpenVoxProject/puppet-runtime/pull/85) ([ananace](https://github.com/ananace))
+
+**Merged pull requests:**
+
+- Update release automation [\#83](https://github.com/OpenVoxProject/puppet-runtime/pull/83) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.03.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.03.1) (2025-12-03)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.02.1...2025.12.03.1)
