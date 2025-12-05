@@ -4,8 +4,8 @@
 #####
 component 'rubygem-excon' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.3.1'
-  pkg.sha256sum 'bdf66805b7095105e45f7f36244f65c021d2d04a8453757a5d731e6a02587dbb'
+  pkg.version '1.3.2'
+  pkg.sha256sum 'a089babe98638e58042a7d542b2bbd183304527e33d612b6dde22fa491a544a5'
   pkg.build_requires 'rubygem-logger'
   ### End automated maintenance section ###
 
