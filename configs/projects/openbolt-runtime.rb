@@ -35,6 +35,8 @@ project 'openbolt-runtime' do |proj|
     proj.setting(:prefix, '/opt/puppetlabs/bolt')
   end
 
+  ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
+
   proj.setting(:ruby_dir, proj.prefix)
   proj.setting(:bindir, File.join(proj.prefix, 'bin'))
   proj.setting(:ruby_bindir, proj.bindir)
@@ -42,6 +44,10 @@ project 'openbolt-runtime' do |proj|
   proj.setting(:includedir, File.join(proj.prefix, 'include'))
   proj.setting(:datadir, File.join(proj.prefix, 'share'))
   proj.setting(:mandir, File.join(proj.datadir, 'man'))
+  proj.setting(:ruby_dir_base, File.join(proj.libdir, 'ruby'))
+  proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
+  proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
+  proj.setting(:rubygems_ssl_dir, File.join(proj.rubygems_dir, 'ssl_certs'))
 
   if platform.is_windows?
     proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby.exe'))
@@ -54,8 +60,6 @@ project 'openbolt-runtime' do |proj|
     proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby'))
     proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem'))
   end
-
-  ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
 
   proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
   proj.setting(:gem_install, "#{proj.host_gem} install --no-document --local --bindir=#{proj.ruby_bindir}")
@@ -287,6 +291,10 @@ project 'openbolt-runtime' do |proj|
   proj.directory proj.includedir
   proj.directory proj.datadir
   proj.directory proj.mandir
+  proj.directory proj.ruby_dir_base
+  proj.directory proj.ruby_dir_base_version
+  proj.directory proj.rubygems_dir
+  proj.directory proj.rubygems_ssl_dir
 
   # Export the settings for the current project and platform as yaml during builds
   proj.publish_yaml_settings
