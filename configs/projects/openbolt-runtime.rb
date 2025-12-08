@@ -65,9 +65,8 @@ project 'openbolt-runtime' do |proj|
 
   # Define default CFLAGS and LDFLAGS for most platforms, and then
   # tweak or adjust them as needed.
-  proj.setting(:cppflags, "-I#{proj.includedir}")
-  proj.setting(:cflags, proj.cppflags)
-  proj.setting(:ldflags, "-L#{proj.libdir} -Wl,-rpath=#{proj.libdir}")
+  # Load default compiler settings
+  instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 
   # Platform specific overrides or settings, which may override the defaults
   if platform.is_windows?
