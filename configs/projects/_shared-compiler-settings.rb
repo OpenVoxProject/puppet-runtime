@@ -1,8 +1,8 @@
 # Define default CFLAGS and LDFLAGS for most platforms, and then
 # tweak or adjust them as needed.
-proj.setting(:cppflags, "-I#{proj.includedir} -I/opt/pl-build-tools/include")
+proj.setting(:cppflags, "-I#{proj.includedir}")
 proj.setting(:cflags, proj.cppflags)
-proj.setting(:ldflags, "-L#{proj.libdir} -L/opt/pl-build-tools/lib -Wl,-rpath=#{proj.libdir}")
+proj.setting(:ldflags, "-L#{proj.libdir} -Wl,-rpath=#{proj.libdir}")
 
 # Platform specific overrides or settings, which may override the defaults
 
