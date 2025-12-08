@@ -36,6 +36,10 @@ project 'openbolt-runtime' do |proj|
   end
 
   proj.setting(:ruby_dir, proj.prefix)
+  proj.setting(:ruby_dir_base, File.join(proj.libdir, 'ruby'))
+  proj.setting(:ruby_dir_base_version, File.join(proj.ruby_dir_base, ruby_base_version))
+  proj.setting(:rubygems_dir, File.join(proj.ruby_dir_base_version, 'rubygems'))
+  proj.setting(:rubygems_ssl_dir, File.join(proj.rubygems_dir, 'ssl_certs'))
   proj.setting(:bindir, File.join(proj.prefix, 'bin'))
   proj.setting(:ruby_bindir, proj.bindir)
   proj.setting(:libdir, File.join(proj.prefix, 'lib'))
@@ -287,6 +291,10 @@ project 'openbolt-runtime' do |proj|
   proj.directory proj.includedir
   proj.directory proj.datadir
   proj.directory proj.mandir
+  proj.directory proj.ruby_dir_base
+  proj.directory proj.ruby_dir_base_version
+  proj.directory proj.rubygems_dir
+  proj.directory proj.rubygems_ssl_dir
 
   # Export the settings for the current project and platform as yaml during builds
   proj.publish_yaml_settings
