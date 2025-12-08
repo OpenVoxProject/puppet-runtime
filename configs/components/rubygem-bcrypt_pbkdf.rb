@@ -5,8 +5,8 @@
 #####
 component 'rubygem-bcrypt_pbkdf' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.1.1'
-  pkg.sha256sum '2f9077dde837d1f0dd2eb0f9e5327c6871c68ebc8eba88870fb6b7956e1e2b13'
+  pkg.version '1.1.2'
+  pkg.sha256sum 'c2414c23ce66869b3eb9f643d6a3374d8322dfb5078125c82792304c10b94cf6'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
