@@ -11,8 +11,9 @@ component 'rubygem-patron' do |pkg, _settings, platform|
   # Because this is only used in openbolt-runtime, and we don't build
   # our own curl there, we use the system version of libcurl to compile
   # native extensions against.
-  pkg.build_requires 'libcurl-devel' if platform.is_rpm? || platform.is_windows?
+  pkg.build_requires 'libcurl-devel' if platform.is_rpm?
   pkg.build_requires 'libcurl4-gnutls-dev' if platform.is_deb?
+  pkg.build_requires 'mingw64-x86_64-curl' if platform.is_windows?
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
 end
