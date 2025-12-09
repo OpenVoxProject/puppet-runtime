@@ -1,6 +1,37 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.09.1) (2025-12-09)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.05.1...2025.12.09.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1188.0 | 1.1190.0 |
+| rubygem-bcrypt_pbkdf | 1.1.1 | 1.1.2 |
+| rubygem-excon | 1.3.1 | 1.3.2 |
+| rubygem-faraday-follow_redirects | 0.4.0 | 0.3.0 |
+| rubygem-json | 2.16.0 | 2.17.1 |
+| rubygem-multi_json | 1.17.0 | 1.18.0 |
+| rubygem-openfact | 5.1.0 | 5.2.0 |
+| rubygem-openvox | 8.23.1 | 8.24.1 |
+| rubygem-public_suffix | 6.0.2 | 7.0.0 |
+| rubygem-rubyzip | 3.2.2 | 2.4.1 |
+| rubygem-sys-filesystem | 1.5.4 | 1.5.5 |
+| rubygem-timeout | 0.4.4 | 0.5.0 |
+| rubygem-yard | 0.9.37 | 0.9.38 |
+
+**Merged pull requests:**
+
+- Using MinGW version of curl for Windows for patron [\#91](https://github.com/OpenVoxProject/puppet-runtime/pull/91) ([nmburgan](https://github.com/nmburgan))
+- Install libcurl-devel for Windows for patron [\#90](https://github.com/OpenVoxProject/puppet-runtime/pull/90) ([nmburgan](https://github.com/nmburgan))
+- Add ruby directories to openbolt-runtime [\#89](https://github.com/OpenVoxProject/puppet-runtime/pull/89) ([nmburgan](https://github.com/nmburgan))
+- Use shared compiler settings for openbolt-runtime [\#88](https://github.com/OpenVoxProject/puppet-runtime/pull/88) ([nmburgan](https://github.com/nmburgan))
+- Update more gems [\#87](https://github.com/OpenVoxProject/puppet-runtime/pull/87) ([nmburgan](https://github.com/nmburgan))
+- Update gems and pin some back [\#84](https://github.com/OpenVoxProject/puppet-runtime/pull/84) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.05.1) (2025-12-05)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.03.1...2025.12.05.1)
