@@ -10,7 +10,6 @@ component 'rubygem-gettext' do |pkg, settings, _platform|
   pkg.build_requires 'rubygem-erubi'
   pkg.build_requires 'rubygem-locale'
   pkg.build_requires 'rubygem-prime'
-  pkg.build_requires 'rubygem-racc'
   pkg.build_requires 'rubygem-text'
   ### End automated maintenance section ###
 

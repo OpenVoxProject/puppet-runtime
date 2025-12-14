@@ -10,10 +10,7 @@ component 'rubygem-aws-sdk-core' do |pkg, _settings, _platform|
   pkg.build_requires 'rubygem-aws-eventstream'
   pkg.build_requires 'rubygem-aws-partitions'
   pkg.build_requires 'rubygem-aws-sigv4'
-  pkg.build_requires 'rubygem-base64'
-  pkg.build_requires 'rubygem-bigdecimal'
   pkg.build_requires 'rubygem-jmespath'
-  pkg.build_requires 'rubygem-logger'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
