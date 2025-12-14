@@ -23,6 +23,82 @@ GEM_TYPE       = /^\s*#\s*GEM\s+TYPE:\s*(?<platform>[A-Za-z0-9\-_.]+)\s*$/
 PROJ_COMPONENT = /^\s*proj\.component\s+(?<quote>['"]?)(?<component>rubygem-[^'"\s]+)\k<quote>\s*$/
 
 TARGET_RUBY_VER = ENV['TARGET_RUBY']&.strip || '3.2'
+# Update this list when targeting a new Ruby version
+DEFAULT_GEMS = [
+  'abbrev',
+  'base64',
+  'benchmark',
+  'bigdecimal',
+  'bundler',
+  'cgi',
+  'csv',
+  'date',
+  'delegate',
+  'did_you_mean',
+  'digest',
+  'drb',
+  'english',
+  'erb',
+  'error_highlight',
+  'etc',
+  'fcntl',
+  'fiddle',
+  'fileutils',
+  'find',
+  'forwardable',
+  'getoptlong',
+  'io-console',
+  'io-nonblock',
+  'io-wait',
+  'ipaddr',
+  'irb',
+  'json',
+  'logger',
+  'mutex_m',
+  'net-http',
+  'net-protocol',
+  'nkf',
+  'observer',
+  'open3',
+  'openssl',
+  'open-uri',
+  'optparse',
+  'ostruct',
+  'pathname',
+  'pp',
+  'prettyprint',
+  'pstore',
+  'psych',
+  'racc',
+  'rdoc',
+  'readline',
+  'readline-ext',
+  'reline',
+  'resolv',
+  'resolv-replace',
+  'rinda',
+  'ruby2_keywords',
+  'rubygems',
+  'securerandom',
+  'set',
+  'shellwords',
+  'singleton',
+  'stringio',
+  'strscan',
+  'syslog',
+  'syntax_suggest',
+  'tempfile',
+  'time',
+  'timeout',
+  'tmpdir',
+  'tsort',
+  'un',
+  'uri',
+  'weakref',
+  'win32ole',
+  'yaml',
+  'zlib'
+].freeze
 @versions_cache = {}
 
 @component_deps    = {} # gem_name => [dep gem names]
@@ -100,6 +176,8 @@ def get_metadata(name:, version: nil, platforms: ['ruby'])
 
   shas = platforms.to_h { |platform| [platform, find_sha(name, version, platform)] }
   deps = get_version_details(name, version).dig('dependencies', 'runtime') || []
+  # Remove any default gems as we don't want to manage them unless specifically needed
+  deps.reject! { |d| DEFAULT_GEMS.include?(d['name']) }
   { 'version' => version, 'shas' => shas, 'dependencies' => deps }
 end
 
