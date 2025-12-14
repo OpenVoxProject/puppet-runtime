@@ -64,6 +64,9 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-text'
   proj.component 'rubygem-thor'
 
+  # Remove this once Ruby 3.2.10 is released
+  proj.component 'rubygem-uri'
+
   # We add rexml explicitly in here because even though ruby 3 ships with rexml as its default gem, the version
   # of rexml it ships with can contain CVEs. So, we add it here to update to a higher version free from the CVEs.
   proj.component 'rubygem-rexml'

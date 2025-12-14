@@ -158,7 +158,6 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-faraday-httpclient'
   proj.component 'rubygem-faraday-multipart'
   proj.component 'rubygem-faraday-net_http'
-  proj.component 'rubygem-uri'
   proj.component 'rubygem-faraday-net_http_persistent'
   proj.component 'rubygem-faraday-patron'
   proj.component 'rubygem-patron'
@@ -224,6 +223,9 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-unicode-emoji'
   proj.component 'rubygem-webrick'
   proj.component 'rubygem-yard'
+
+  # Remove this once Ruby 3.2.10 is released
+  proj.component 'rubygem-uri'
 
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'
