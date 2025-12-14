@@ -46,4 +46,10 @@ pkg.install do
            else
              "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options}"
            end
+  # If we are installing a newer version of a default gem, we need to remove the existing
+  # specification file so that we don't get warnings.
+  steps << "rm -f #{settings[:gem_home]}/specifications/default/#{name}-*.gemspec"
+  # This dir is usually empty and only there for compatilibity reasons for things requiring
+  # a directory corresponding to a gemspec. Remove it to avoid confusion.
+  steps << "rm -f #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
 end
