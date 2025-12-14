@@ -125,22 +125,13 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-bcrypt_pbkdf'
   proj.component 'rubygem-ed25519'
 
-  # These gems are still included in Ruby 3.2, but we include them because
-  # OpenFact requires them for Ruby 3.4 support, and Bolt will need to
-  # do the same once we get to Ruby 3.4+ support.
-  proj.component 'rubygem-logger'
-  proj.component 'rubygem-base64'
-
   # Puppet dependencies
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-deep_merge'
   proj.component 'rubygem-text'
   proj.component 'rubygem-locale'
   proj.component 'rubygem-gettext'
-  proj.component 'rubygem-racc'
   proj.component 'rubygem-prime'
-  proj.component 'rubygem-singleton'
-  proj.component 'rubygem-forwardable'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-scanf'
   proj.component 'rubygem-semantic_puppet'
@@ -150,14 +141,11 @@ project 'openbolt-runtime' do |proj|
 
   # hiera-eyaml and its dependencies
   proj.component 'rubygem-highline'
-  proj.component 'rubygem-reline'
-  proj.component 'rubygem-io-console'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-hiera-eyaml'
 
   # faraday and its dependencies
   proj.component 'rubygem-faraday'
-  proj.component 'rubygem-json'
   proj.component 'rubygem-faraday-em_http'
   proj.component 'rubygem-em-http-request'
   proj.component 'rubygem-http_parser.rb'
@@ -170,7 +158,6 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-faraday-httpclient'
   proj.component 'rubygem-faraday-multipart'
   proj.component 'rubygem-faraday-net_http'
-  proj.component 'rubygem-net-http'
   proj.component 'rubygem-uri'
   proj.component 'rubygem-faraday-net_http_persistent'
   proj.component 'rubygem-faraday-patron'
@@ -178,21 +165,18 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-faraday-rack'
   proj.component 'rubygem-faraday-retry'
   proj.component 'rubygem-faraday-follow_redirects'
-  proj.component 'rubygem-ruby2_keywords'
 
   # Core dependencies
   proj.component 'rubygem-addressable'
   proj.component 'rubygem-aws-eventstream'
   proj.component 'rubygem-aws-partitions'
   proj.component 'rubygem-aws-sdk-core'
-  proj.component 'rubygem-bigdecimal'
   proj.component 'rubygem-aws-sdk-ec2'
   proj.component 'rubygem-aws-sigv4'
   proj.component 'rubygem-bindata'
   proj.component 'rubygem-builder'
   proj.component 'rubygem-CFPropertyList'
   proj.component 'rubygem-rexml'
-  proj.component 'rubygem-nkf'
   proj.component 'rubygem-colored2'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-connection_pool'
@@ -200,12 +184,10 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-openfact'
   proj.component 'rubygem-ffi'
-  proj.component 'rubygem-fiddle'
   proj.component 'rubygem-gssapi'
   proj.component 'rubygem-gyoku'
   proj.component 'rubygem-hiera'
   proj.component 'rubygem-httpclient'
-  proj.component 'rubygem-mutex_m'
   proj.component 'rubygem-jmespath'
   proj.component 'rubygem-jwt'
   proj.component 'rubygem-little-plugger'
@@ -217,10 +199,6 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-multipart-post'
   proj.component 'rubygem-net-http-persistent'
   proj.component 'rubygem-net-ftp'
-  proj.component 'rubygem-time'
-  proj.component 'rubygem-date'
-  proj.component 'rubygem-net-protocol'
-  proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-scp'
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-net-ssh-krb'
@@ -229,9 +207,6 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
   proj.component 'rubygem-openvox'
-  proj.component 'rubygem-ostruct'
-  proj.component 'rubygem-benchmark'
-  proj.component 'rubygem-getoptlong'
   proj.component 'rubygem-openfact'
   proj.component 'rubygem-puppet_forge'
   proj.component 'rubygem-puppet-resource_api'
@@ -259,10 +234,6 @@ project 'openbolt-runtime' do |proj|
   # We only build ruby-selinux for EL, Fedora, Debian and Ubuntu (amd64/i386)
   if platform.is_el? || platform.is_fedora? || platform.is_debian? || (platform.is_ubuntu? && platform.architecture !~ /ppc64el$/)
     proj.component 'ruby-selinux'
-  end
-
-  if platform.is_windows?
-    proj.component 'rubygem-win32ole'
   end
 
   # Non-windows specific components

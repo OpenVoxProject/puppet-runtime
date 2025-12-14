@@ -44,33 +44,21 @@ project 'agent-runtime-main' do |proj|
   proj.component 'puppet-ca-bundle'
   proj.component "ruby-#{proj.ruby_version}"
 
-  proj.component 'rubygem-base64'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-deep_merge'
   proj.component 'rubygem-erubi'
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-ffi'
-  proj.component 'rubygem-fiddle'
   proj.component 'rubygem-gettext'
-  proj.component 'rubygem-racc'
   proj.component 'rubygem-hiera-eyaml'
   proj.component 'rubygem-highline'
-  proj.component 'rubygem-reline'
-  proj.component 'rubygem-io-console'
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-locale'
-  proj.component 'rubygem-logger'
   proj.component 'rubygem-multi_json'
   proj.component 'rubygem-net-ftp'
-  proj.component 'rubygem-time'
-  proj.component 'rubygem-date'
-  proj.component 'rubygem-net-protocol'
-  proj.component 'rubygem-timeout'
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-prime'
-  proj.component 'rubygem-singleton'
-  proj.component 'rubygem-forwardable'
   proj.component 'rubygem-semantic_puppet'
   proj.component 'rubygem-scanf'
   proj.component 'rubygem-text'
@@ -87,14 +75,9 @@ project 'agent-runtime-main' do |proj|
     proj.component 'rubygem-sys-filesystem'
   end
 
-  if platform.is_windows?
-    proj.component 'rubygem-win32ole'
-  end
-
   if platform.is_macos?
     proj.component 'readline'
     proj.component 'rubygem-CFPropertyList'
-    proj.component 'rubygem-nkf'
   end
 
   unless platform.is_aix? || platform.is_windows?
