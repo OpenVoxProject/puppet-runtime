@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2025.12.15.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.15.1) (2025-12-15)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.09.1...2025.12.15.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1190.0 | 1.1194.0 |
+| rubygem-aws-sdk-ec2 | 1.583.0 | 1.585.0 |
+| rubygem-concurrent-ruby | 1.3.5 | 1.3.6 |
+| rubygem-openfact | 5.2.0 | 5.2.1 |
+| rubygem-openvox | 8.24.1 | 8.24.2 |
+| rubygem-puppet_forge | 6.0.0 | 6.1.0 |
+| rubygem-uri | 1.1.1 | 0.12.5 |
+
+**Merged pull requests:**
+
+- Don't update default or bundled gems unless we really have to [\#93](https://github.com/OpenVoxProject/puppet-runtime/pull/93) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.09.1) (2025-12-09)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.05.1...2025.12.09.1)
