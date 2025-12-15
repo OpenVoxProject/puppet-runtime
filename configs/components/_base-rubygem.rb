@@ -35,21 +35,16 @@ pkg.mirror("#{settings[:buildsources_url]}/#{name}-#{version}.gem")
 # If a gem needs more command line options to install set the :gem_install_options
 # in its component file rubygem-<compoment>, before the instance_eval of this file.
 gem_install_options = settings["#{pkg.get_name}_gem_install_options".to_sym]
-remove_older_versions = settings["#{pkg.get_name}_remove_older_versions".to_sym]
 # Set a default gem_uninstall
 gem_uninstall = settings[:gem_uninstall] || "#{settings[:host_gem]} uninstall --all --ignore-dependencies"
 pkg.install do
   steps = []
-  steps << "#{gem_uninstall} #{name}" if remove_older_versions
-  steps << if gem_install_options.nil?
-             "#{settings[:gem_install]} #{name}-#{version}.gem"
-           else
-             "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options}"
-           end
+  # Attempting to uninstall a default gem this way will fail, so ignore failures
+  steps << "#{gem_uninstall} --force #{name} || true"
+  steps << "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options || ''}"
   # If we are installing a newer version of a default gem, we need to remove the existing
-  # specification file so that we don't get warnings.
+  # specification file so that we don't get warnings. The corresponding gem directory is
+  # usually empty and only there for compatibility reasons, so we remove that too to avoid confusion.
   steps << "rm -f #{settings[:gem_home]}/specifications/default/#{name}-*.gemspec"
-  # This dir is usually empty and only there for compatilibity reasons for things requiring
-  # a directory corresponding to a gemspec. Remove it to avoid confusion.
-  steps << "rm -f #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
+  steps << "rm -rf #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
 end

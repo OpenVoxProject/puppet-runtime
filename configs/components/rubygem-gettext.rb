@@ -9,7 +9,6 @@ component 'rubygem-gettext' do |pkg, settings, _platform|
   pkg.sha256sum '03ec7f71ea7e2cf1fdcd5e08682e98b81601922fdbee890b7bc6f63b0e1a512a'
   pkg.build_requires 'rubygem-erubi'
   pkg.build_requires 'rubygem-locale'
-  pkg.build_requires 'rubygem-prime'
   pkg.build_requires 'rubygem-text'
   ### End automated maintenance section ###
 
