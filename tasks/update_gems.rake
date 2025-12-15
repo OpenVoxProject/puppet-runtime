@@ -23,6 +23,98 @@ GEM_TYPE       = /^\s*#\s*GEM\s+TYPE:\s*(?<platform>[A-Za-z0-9\-_.]+)\s*$/
 PROJ_COMPONENT = /^\s*proj\.component\s+(?<quote>['"]?)(?<component>rubygem-[^'"\s]+)\k<quote>\s*$/
 
 TARGET_RUBY_VER = ENV['TARGET_RUBY']&.strip || '3.2'
+# Update this list when targeting a new Ruby version. Comment out
+# gems that we specifically want to manage even if they are default or bundled.
+DEFAULT_AND_BUNDLED_GEMS = [
+  'abbrev',
+  # 'base64',
+  'benchmark',
+  'bigdecimal',
+  'bundler',
+  'cgi',
+  'csv',
+  'date',
+  'debug',
+  'delegate',
+  'did_you_mean',
+  'digest',
+  'drb',
+  'english',
+  'erb',
+  'error_highlight',
+  'etc',
+  'fcntl',
+  'fiddle',
+  'fileutils',
+  'find',
+  'forwardable',
+  'getoptlong',
+  'io-console',
+  'io-nonblock',
+  'io-wait',
+  'ipaddr',
+  'irb',
+  'json',
+  'logger',
+  'matrix',
+  'minitest',
+  'mutex_m',
+  'net-ftp',
+  # 'net-http',
+  'net-imap',
+  'net-pop',
+  'net-protocol',
+  'net-smtp',
+  'nkf',
+  'observer',
+  'open-uri',
+  'open3',
+  'openssl',
+  'optparse',
+  'ostruct',
+  'pathname',
+  'power_assert',
+  'pp',
+  'prettyprint',
+  'prime',
+  'pstore',
+  'psych',
+  'racc',
+  'rake',
+  'rbs',
+  'rdoc',
+  # 'rexml',
+  'readline',
+  'readline-ext',
+  'reline',
+  'resolv',
+  'resolv-replace',
+  'rinda',
+  'rss',
+  'ruby2_keywords',
+  'rubygems',
+  'securerandom',
+  'set',
+  'shellwords',
+  'singleton',
+  'stringio',
+  'strscan',
+  'syntax_suggest',
+  'syslog',
+  'tempfile',
+  'test-unit',
+  'time',
+  'timeout',
+  'tmpdir',
+  'tsort',
+  'typeprof',
+  'un',
+  # 'uri',
+  'weakref',
+  'win32ole',
+  'yaml',
+  'zlib'
+].freeze
 @versions_cache = {}
 
 @component_deps    = {} # gem_name => [dep gem names]
@@ -100,6 +192,8 @@ def get_metadata(name:, version: nil, platforms: ['ruby'])
 
   shas = platforms.to_h { |platform| [platform, find_sha(name, version, platform)] }
   deps = get_version_details(name, version).dig('dependencies', 'runtime') || []
+  # Remove any default gems as we don't want to manage them unless specifically needed
+  deps.reject! { |d| DEFAULT_AND_BUNDLED_GEMS.include?(d['name']) }
   { 'version' => version, 'shas' => shas, 'dependencies' => deps }
 end
 
