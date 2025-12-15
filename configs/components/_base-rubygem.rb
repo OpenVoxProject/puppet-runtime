@@ -40,7 +40,7 @@ gem_uninstall = settings[:gem_uninstall] || "#{settings[:host_gem]} uninstall --
 pkg.install do
   steps = []
   # Attempting to uninstall a default gem this way will fail, so ignore failures
-  steps << "#{gem_uninstall} --force #{name} || true"
+  steps << "#{gem_uninstall} --force --silent #{name} || true"
   steps << "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options || ''}"
   # If we are installing a newer version of a default gem, we need to remove the existing
   # specification file so that we don't get warnings. The corresponding gem directory is
