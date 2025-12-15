@@ -60,7 +60,7 @@ DEFAULT_AND_BUNDLED_GEMS = [
   'minitest',
   'mutex_m',
   'net-ftp',
-  'net-http',
+  # 'net-http',
   'net-imap',
   'net-pop',
   'net-protocol',
