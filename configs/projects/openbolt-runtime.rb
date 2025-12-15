@@ -175,6 +175,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-bindata'
   proj.component 'rubygem-builder'
   proj.component 'rubygem-CFPropertyList'
+  proj.component 'rubygem-base64'
   proj.component 'rubygem-rexml'
   proj.component 'rubygem-colored2'
   proj.component 'rubygem-concurrent-ruby'

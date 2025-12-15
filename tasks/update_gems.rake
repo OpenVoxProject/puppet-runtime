@@ -27,7 +27,7 @@ TARGET_RUBY_VER = ENV['TARGET_RUBY']&.strip || '3.2'
 # gems that we specifically want to manage even if they are default or bundled.
 DEFAULT_AND_BUNDLED_GEMS = [
   'abbrev',
-  'base64',
+  # 'base64',
   'benchmark',
   'bigdecimal',
   'bundler',
