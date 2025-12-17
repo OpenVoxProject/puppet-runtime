@@ -53,7 +53,7 @@ component 'ruby-augeas' do |pkg, settings, platform|
     # The pkg-config shim gets confused on Almalinux 9 and 10 that we are building on
     # due to the version of rpm being cranky about using our older OpenSSL version,
     # so bypass the shim and use pkgconf directly.
-    extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /el-(9|10)/
+    extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /(el|redhatfips)-(9|10)/
     build_commands << extconf
     build_commands << "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"
 
