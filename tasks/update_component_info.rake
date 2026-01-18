@@ -49,9 +49,9 @@ def component_info
                                .flat_map(&:values).flatten    # [{comp1 => ver1}, {comp2 => ver2}, ...]
                                .flat_map(&:to_a)              # [[comp1, ver1], [comp2, ver2], ...]
                                .group_by(&:first)             # { comp1 => [[comp1, ver1], [comp1, ver2], ...], ... }
-                               .transform_values do |pairs| # { comp1 => verN, ... }
-    pairs.max_by { |_, ver| parse_version(ver) }.last
-  end
+                               .transform_values do |pairs|   # { comp1 => verN, ... }
+                                 pairs.max_by { |_, ver| parse_version(ver) }.last
+                               end
 
   { 'components' => component_data, 'projects' => project_data }
 end
