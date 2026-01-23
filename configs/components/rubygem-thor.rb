@@ -5,8 +5,8 @@
 #####
 component 'rubygem-thor' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.4.0'
-  pkg.sha256sum '8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d'
+  pkg.version '1.5.0'
+  pkg.sha256sum 'e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

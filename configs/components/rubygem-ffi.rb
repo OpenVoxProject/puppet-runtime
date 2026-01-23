@@ -7,8 +7,8 @@
 #####
 component 'rubygem-ffi' do |pkg, settings, platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.17.2'
-  pkg.sha256sum '297235842e5947cc3036ebe64077584bff583cd7a4e94e9a02fdec399ef46da6'
+  pkg.version '1.17.3'
+  pkg.sha256sum '0e9f39f7bb3934f77ad6feab49662be77e87eedcdeb2a3f5c0234c2938563d4c'
   ### End automated maintenance section ###
 
   # Prior to ruby 3.2, both ruby and the ffi gem vendored a version of libffi.

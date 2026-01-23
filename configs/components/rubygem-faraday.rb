@@ -5,8 +5,8 @@
 #####
 component 'rubygem-faraday' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.14.0'
-  pkg.sha256sum '8699cfe5d97e55268f2596f9a9d5a43736808a943714e3d9a53e6110593941cd'
+  pkg.version '2.14.1'
+  pkg.sha256sum 'a43cceedc1e39d188f4d2cdd360a8aaa6a11da0c407052e426ba8d3fb42ef61c'
   pkg.build_requires 'rubygem-faraday-net_http'
   ### End automated maintenance section ###
 
