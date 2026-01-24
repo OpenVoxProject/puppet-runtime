@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.01.24.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.24.1) (2026-01-24)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.15.1...2026.01.24.1)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 24.04 / 25.04 ARMHF support [\#99](https://github.com/OpenVoxProject/puppet-runtime/pull/99) ([bastelfreak](https://github.com/bastelfreak))
+- feat: add debian13-armhf platform config [\#97](https://github.com/OpenVoxProject/puppet-runtime/pull/97) ([Gitii](https://github.com/Gitii))
+- Add SLES16 [\#95](https://github.com/OpenVoxProject/puppet-runtime/pull/95) ([sbernhard](https://github.com/sbernhard))
+
+**Fixed bugs:**
+
+- pkgconf workaround for redhatfips [\#96](https://github.com/OpenVoxProject/puppet-runtime/pull/96) ([nmburgan](https://github.com/nmburgan))
+
 ## [2025.12.15.1](https://github.com/openvoxproject/puppet-runtime/tree/2025.12.15.1) (2025-12-15)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.09.1...2025.12.15.1)
