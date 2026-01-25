@@ -54,3 +54,17 @@ jobs:
 
       - name: Run rubocop
         run: bundle exec rubocop
+
+  # this takes roughly 10 minutes for linux, so it's fine to run it on all PRs
+  # MacOS / Windows takes ages, so we don't want to run this always
+  build:
+    needs: vanagon_inspect
+    name: build puppet-runtime for Linux
+    uses: 'openvoxproject/shared-actions/.github/workflows/build_vanagon.yml@main'
+    with:
+      project_name: 'agent-runtime-main'
+      # when we add new OSes here, we also need to add them in openvoxproject/shared-actions
+      # TODO: Split OS list into Linux and non-linux, then run Linux on all PRs
+      platform_list: amazon-2-aarch64,amazon-2-x86_64,amazon-2023-aarch64,amazon-2023-x86_64,debian-11-aarch64,debian-11-amd64,debian-12-aarch64,debian-12-amd64,debian-13-aarch64,debian-13-amd64,debian-13-armhf,el-8-aarch64,el-8-x86_64,el-9-aarch64,el-9-x86_64,el-10-x86_64,el-10-aarch64,fedora-42-x86_64,fedora-42-aarch64,fedora-43-x86_64,fedora-43-aarch64,sles-15-x86_64,ubuntu-22.04-aarch64,ubuntu-22.04-amd64,ubuntu-24.04-aarch64,ubuntu-24.04-amd64,ubuntu-24.04-armhf,ubuntu-25.04-amd64,ubuntu-25.04-aarch64,ubuntu-25.04-armhf
+      vanagon_branch: main
+      upload_to_s3: false
