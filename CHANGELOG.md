@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.01.28.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.28.1) (2026-01-28)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.24.1...2026.01.28.1)
+
+**Implemented enhancements:**
+
+- \[Feature request\]: Add SLES 16 X86\_64 builds [\#102](https://github.com/OpenVoxProject/puppet-runtime/issues/102)
+
 ## [2026.01.24.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.24.1) (2026-01-24)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2025.12.15.1...2026.01.24.1)
