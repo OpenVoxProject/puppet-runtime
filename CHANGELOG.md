@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.01.29.2](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.29.2) (2026-01-29)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.29.1...2026.01.29.2)
+
+**Implemented enhancements:**
+
+- Add SLES 16 ARM64 support [\#107](https://github.com/OpenVoxProject/puppet-runtime/pull/107) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.01.29.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.29.1) (2026-01-29)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.28.1...2026.01.29.1)
