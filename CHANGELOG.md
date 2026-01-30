@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.01.30.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.30.1) (2026-01-30)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.29.2...2026.01.30.1)
+
+**Implemented enhancements:**
+
+- Update Ruby, curl, demidecode, openssl [\#109](https://github.com/OpenVoxProject/puppet-runtime/pull/109) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.01.29.2](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.29.2) (2026-01-29)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.29.1...2026.01.29.2)
@@ -54,6 +62,15 @@ All notable changes to this project will be documented in this file.
 | rubygem-openvox | 8.24.1 | 8.24.2 |
 | rubygem-puppet_forge | 6.0.0 | 6.1.0 |
 | rubygem-uri | 1.1.1 | 0.12.5 |
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.17.0 | 8.18.0 |
+| dmidecode | 3.6 | 3.7 |
+| openssl-3.0 | 3.0.18 | 3.0.19 |
+| ruby-3.2 | 3.2.9 | 3.2.10 |
 
 **Merged pull requests:**
 
