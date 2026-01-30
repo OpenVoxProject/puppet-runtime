@@ -6,8 +6,8 @@
 #   The file name of the ruby component must match the ruby_version
 #####
 component 'ruby-3.2' do |pkg, settings, platform|
-  pkg.version '3.2.9'
-  pkg.sha256sum 'abbad98db9aeb152773b0d35868e50003b8c467f3d06152577c4dfed9d88ed2a'
+  pkg.version '3.2.10'
+  pkg.sha256sum '880acb05e08da8c559c56a13e512bae1b472da67c72ebb750c765f9c2134e689'
 
   ruby_dir = settings[:ruby_dir]
   ruby_bindir = settings[:ruby_bindir]
