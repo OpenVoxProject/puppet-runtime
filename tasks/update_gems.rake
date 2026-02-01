@@ -109,7 +109,7 @@ DEFAULT_AND_BUNDLED_GEMS = [
   'tsort',
   'typeprof',
   'un',
-  # 'uri',
+  'uri',
   'weakref',
   'win32ole',
   'yaml',
