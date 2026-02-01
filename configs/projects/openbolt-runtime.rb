@@ -224,9 +224,6 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-webrick'
   proj.component 'rubygem-yard'
 
-  # Remove this once Ruby 3.2.10 is released
-  proj.component 'rubygem-uri'
-
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'
   proj.component 'rubygem-winrm'
