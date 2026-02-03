@@ -51,7 +51,7 @@ component 'ruby-selinux' do |pkg, settings, platform|
     pkg.sha256sum 'ec2d2789f931152d21c1db1eb4bc202ce4eccede34d9be9e360e3b45243cee2c'
     pkg.build_requires 'python3-setuptools'
     pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
-  when /^fedora-43-/
+  when /^(fedora-43-|ubuntu-26.04)/
     pkg.version '3.9'
     pkg.sha256sum 'e7ee2c01dba64a0c35c9d7c9c0e06209d8186b325b0638a0d83f915cc3c101e8'
     pkg.build_requires 'python3-setuptools'
