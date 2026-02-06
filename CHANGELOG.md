@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.02.06.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.06.1) (2026-02-06)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.30.1...2026.02.06.1)
+
+**Merged pull requests:**
+
+- Don't ship URI gem [\#111](https://github.com/OpenVoxProject/puppet-runtime/pull/111) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.01.30.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.01.30.1) (2026-01-30)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.29.2...2026.01.30.1)
