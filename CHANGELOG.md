@@ -1,9 +1,37 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.02.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.09.1) (2026-02-09)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.06.1...2026.02.09.1)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 26.04 to Vanagon builds [\#114](https://github.com/OpenVoxProject/puppet-runtime/pull/114) ([bastelfreak](https://github.com/bastelfreak))
+- Update rubygem components [\#98](https://github.com/OpenVoxProject/puppet-runtime/pull/98) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.02.06.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.06.1) (2026-02-06)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.01.30.1...2026.02.06.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1194.0 | 1.1213.0 |
+| rubygem-aws-sdk-core | 3.239.2 | 3.242.0 |
+| rubygem-aws-sdk-ec2 | 1.585.0 | 1.597.0 |
+| rubygem-faraday | 2.14.0 | 2.14.1 |
+| rubygem-faraday-multipart | 1.1.1 | 1.2.0 |
+| rubygem-faraday-retry | 2.3.2 | 2.4.0 |
+| rubygem-ffi | 1.17.2 | 1.17.3 |
+| rubygem-http_parser.rb | 0.8.0 | 0.8.1 |
+| rubygem-net-http | 0.8.0 | 0.9.1 |
+| rubygem-net-http-persistent | 4.0.6 | 4.0.8 |
+| rubygem-openfact | 5.2.1 | 5.3.0 |
+| rubygem-public_suffix | 7.0.0 | 7.0.2 |
+| rubygem-thor | 1.4.0 | 1.5.0 |
+| rubygem-unicode-emoji | 4.1.0 | 4.2.0 |
 
 **Merged pull requests:**
 
