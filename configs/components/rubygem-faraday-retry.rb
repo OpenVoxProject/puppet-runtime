@@ -5,8 +5,8 @@
 #####
 component 'rubygem-faraday-retry' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.3.2'
-  pkg.sha256sum '2402d2029032ebd238a2046221e67f6ef0da78c5a8ce8cd4f8b9c62e4d6451d1'
+  pkg.version '2.4.0'
+  pkg.sha256sum '7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe'
   pkg.build_requires 'rubygem-faraday'
   ### End automated maintenance section ###
 
