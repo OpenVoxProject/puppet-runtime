@@ -13,7 +13,8 @@ component 'ruby-augeas' do |pkg, settings, platform|
   pkg.environment 'CONFIGURE_ARGS', '--vendor'
   pkg.environment 'PKG_CONFIG_PATH', "#{File.join(settings[:libdir], 'pkgconfig')}:/usr/lib/pkgconfig"
   pkg.environment 'LD_LIBRARY_PATH', ""
-  pkg.environment 'LD_RUN_PATH', "/opt/puppetlabs/puppet/lib"
+#  pkg.environment 'LD_RUN_PATH', "/opt/puppetlabs/puppet/lib"
+  pkg.environment 'LD_RUN_PATH', ""
 
   if platform.is_aix?
     pkg.environment 'CC', '/opt/freeware/bin/gcc'
