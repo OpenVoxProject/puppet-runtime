@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.02.11.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.11.1) (2026-02-11)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.09.1...2026.02.11.1)
+
+**Implemented enhancements:**
+
+- Gem build: log deleted files [\#112](https://github.com/OpenVoxProject/puppet-runtime/pull/112) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.02.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.09.1) (2026-02-09)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.06.1...2026.02.09.1)
