@@ -45,6 +45,6 @@ pkg.install do
   # If we are installing a newer version of a default gem, we need to remove the existing
   # specification file so that we don't get warnings. The corresponding gem directory is
   # usually empty and only there for compatibility reasons, so we remove that too to avoid confusion.
-  steps << "rm -f #{settings[:gem_home]}/specifications/default/#{name}-*.gemspec"
-  steps << "rm -rf #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
+  steps << "rm --verbose -f #{settings[:gem_home]}/specifications/default/#{name}-*.gemspec"
+  steps << "rm --verbose -rf #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
 end
