@@ -57,7 +57,7 @@ component 'ruby-augeas' do |pkg, settings, platform|
     # so bypass the shim and use pkgconf directly.
     extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /(el|redhatfips)-(9|10)/
     build_commands << extconf
-    build_commands << "#{platform[:make]} -e -j#{platform[:num_cores] + 1}"
+    build_commands << "#{platform[:make]} -e -j#{platform[:num_cores].to_i + 1}"
 
     build_commands
   end
