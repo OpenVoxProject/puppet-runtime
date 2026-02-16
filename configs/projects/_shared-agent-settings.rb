@@ -29,6 +29,18 @@ proj.version_from_git
 proj.setting(:artifactory_url, 'https://artifactory.delivery.puppetlabs.net/artifactory')
 proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
 
+# EXPERIMENTAL NEW SETTING
+# The build chain on fedora-42 broke. ruby-makemakefile invokes
+#     LD_LIBRARY_PATH=/opt/puppetlabs/puppet/lib /usr/bin/pkg-config
+# which in turn invokes
+#     LD_LIBRARY_PATH=/opt/puppetlabs/puppet/lib rpm --eval '%{_target_cpu}-%{_vendor}-%{_target_os}%{?_gnu}'
+#     rpm: symbol lookup error: /lib64/librpm_sequoia.so.1: undefined symbol: EVP_idea_cfb64, version OPENSSL_3.0.0
+#
+# Instead of using LD_LIBRARY_PATH, we will encode the path to OpenVox' libraries into the binary
+if platform.is_linux?
+  proj.setting(:ldflags, '-Wl,-rpath=/opt/puppetlabs/puppet/lib/')
+end
+
 if platform.is_windows?
   # In order not to break people, we need to keep the paths Puppetlabs/Puppet
   proj.setting(:company_id, 'VoxPupuli')
