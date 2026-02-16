@@ -50,10 +50,21 @@ component 'ruby-augeas' do |pkg, settings, platform|
     build_commands = []
 
     extconf = "#{ruby} ext/augeas/extconf.rb"
-    # The pkg-config shim gets confused on Almalinux 9 and 10 that we are building on
-    # due to the version of rpm being cranky about using our older OpenSSL version,
-    # so bypass the shim and use pkgconf directly.
-    extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /(el|redhatfips)-(9|10)/
+    # WORKAROUND
+    # RedHat has a long call chain for package-config
+    #
+    # Explanation:
+    # redhat derivatives use a pkg-conf-shim. Detailed call path:
+    #     /usr/bin/pkg-config --exists augeas
+    # calls
+    #    LD_LIBRARY_PATH=/opt/puppetlabs/puppet/lib rpm --eval '%{_target_cpu}-%{_vendor}-%{_target_os}%{?_gnu}'
+    #    rpm: symbol lookup error: /lib64/librpm_sequoia.so.1: undefined symbol: EVP_idea_cfb64, version OPENSSL_3.0.0
+    # and it breaks. The intention seems to be to get the current architecture and call
+    #     /usr/bin/x86_64-linux-gnu-pkg-config
+    # which sets PKG_CONFIG_PATH variables and calls
+    #     /usr/bin/pkgconf
+    # we will skip the RedHat call stack and call the pkgconf binary directly.
+    extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /((el|redhatfips)-(9|10))|fedora/
     build_commands << extconf
     build_commands << "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"
 
