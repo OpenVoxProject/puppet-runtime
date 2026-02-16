@@ -38,7 +38,7 @@ proj.setting(:buildsources_url, "#{proj.artifactory_url}/generic/buildsources")
 #
 # Instead of using LD_LIBRARY_PATH, we will encode the path to OpenVox' libraries into the binary
 if platform.is_linux?
-  proj.setting(:ldflags, "-Wl,-rpath=/opt/puppetlabs/puppet/lib/")
+  proj.setting(:ldflags, '-Wl,-rpath=/opt/puppetlabs/puppet/lib/')
 end
 
 if platform.is_windows?
