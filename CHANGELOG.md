@@ -1,6 +1,26 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.02.16.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.16.1) (2026-02-16)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.11.1...2026.02.16.1)
+
+**Fixed bugs:**
+
+- rm: use -v instead of --verbose [\#121](https://github.com/OpenVoxProject/puppet-runtime/pull/121) ([bastelfreak](https://github.com/bastelfreak))
+- fedora pkgconf fix [\#119](https://github.com/OpenVoxProject/puppet-runtime/pull/119) ([marcusdots](https://github.com/marcusdots))
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-sdk-ec2 | 1.597.0 | 1.601.0 |
+| rubygem-openfact | 5.3.0 | 5.4.0 |
+
+**Merged pull requests:**
+
+- Update rubygem-aws-sdk-ec2 & rubygem-openfact [\#118](https://github.com/OpenVoxProject/puppet-runtime/pull/118) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.02.11.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.11.1) (2026-02-11)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.09.1...2026.02.11.1)
