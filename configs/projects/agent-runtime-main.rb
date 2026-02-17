@@ -54,7 +54,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-highline'
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-locale'
-  proj.component 'rubygem-multi_json'
+  proj.component 'rubygem-multi_json' # TODO: obsolete for openvox 9 - https://github.com/OpenVoxProject/openvox/pull/293
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-semantic_puppet'
