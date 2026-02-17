@@ -12,6 +12,9 @@ component 'ruby-augeas' do |pkg, settings, platform|
   pkg.environment 'PATH', '$(PATH):/usr/local/bin:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin'
   pkg.environment 'CONFIGURE_ARGS', '--vendor'
   pkg.environment 'PKG_CONFIG_PATH', "#{File.join(settings[:libdir], 'pkgconfig')}:/usr/lib/pkgconfig"
+  pkg.environment 'LD_LIBRARY_PATH', ""
+#  pkg.environment 'LD_RUN_PATH', "/opt/puppetlabs/puppet/lib"
+  pkg.environment 'LD_RUN_PATH', ""
 
   if platform.is_aix?
     pkg.environment 'CC', '/opt/freeware/bin/gcc'
@@ -66,7 +69,7 @@ component 'ruby-augeas' do |pkg, settings, platform|
     # we will skip the RedHat call stack and call the pkgconf binary directly.
     extconf += ' --with-pkg-config=/usr/bin/pkgconf' if platform.name =~ /((el|redhatfips)-(9|10))|fedora/
     build_commands << extconf
-    build_commands << "#{platform[:make]} -e -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"
+    build_commands << "#{platform[:make]} -e -j#{platform[:num_cores].to_i + 1}"
 
     build_commands
   end

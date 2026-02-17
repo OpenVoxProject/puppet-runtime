@@ -40,6 +40,9 @@ component 'augeas' do |pkg, settings, platform|
 
   # Ensure we're building against our own libraries when present
   pkg.environment 'PKG_CONFIG_PATH', "#{settings[:libdir]}/pkgconfig"
+  pkg.environment 'LD_LIBRARY_PATH', ""
+#  pkg.environment 'LD_RUN_PATH', "/opt/puppetlabs/puppet/lib"
+  pkg.environment 'LD_RUN_PATH', ""
 
   if platform.is_aix?
     pkg.environment 'CC', '/opt/freeware/bin/gcc'
