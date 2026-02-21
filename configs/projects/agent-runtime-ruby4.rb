@@ -2,6 +2,7 @@ project 'agent-runtime-main' do |proj|
   # Set preferred component versions if they differ from defaults:
   proj.setting :ruby_version, '4.0' # Leave the .Z out for Ruby 3.2
   proj.setting :rubygem_highline_version, '3.1.2'
+  proj.setting :openssl_version, '3.5'
 
   ########
   # Load shared agent settings
