@@ -175,6 +175,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-bindata'
   proj.component 'rubygem-builder'
   proj.component 'rubygem-CFPropertyList'
+  # needs to come before hiera-eyaml. Otherwise vanagon tries to install a deb/rpm called rubygem-base64
   proj.component 'rubygem-base64'
   proj.component 'rubygem-rexml'
   proj.component 'rubygem-colored2'
