@@ -51,6 +51,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-fast_gettext'
   proj.component 'rubygem-ffi'
   proj.component 'rubygem-gettext'
+  proj.component 'rubygem-base64' # needs to come before hiera-eyaml. Otherwise vanagon tries to install a deb/rpm called rubygem-base64
   proj.component 'rubygem-hiera-eyaml'
   proj.component 'rubygem-highline'
   proj.component 'rubygem-hocon'
