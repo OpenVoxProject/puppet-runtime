@@ -46,6 +46,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'puppet-ca-bundle'
   proj.component "ruby-#{proj.ruby_version}"
 
+  # needs to come before hiera-eyaml. Otherwise vanagon tries to install a deb/rpm called rubygem-base64
   proj.component 'rubygem-base64'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-deep_merge'
