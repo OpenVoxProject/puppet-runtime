@@ -1,8 +1,8 @@
 project 'agent-runtime-main' do |proj|
   # Set preferred component versions if they differ from defaults:
-  proj.setting :ruby_version, '3.2' # Leave the .Z out for Ruby 3.2
-  proj.setting :rubygem_highline_version, '3.0.1'
-  proj.setting :openssl_version, '3.0'
+  proj.setting :ruby_version, '4.0' # Leave the .Z out for Ruby 3.2
+  proj.setting :rubygem_highline_version, '3.1.2'
+  proj.setting :openssl_version, '3.5'
 
   ########
   # Load shared agent settings
@@ -41,7 +41,6 @@ project 'agent-runtime-main' do |proj|
   proj.component 'libyaml'
   proj.component "openssl-#{proj.openssl_version}"
 
-  proj.component 'curl'
   proj.component 'puppet-ca-bundle'
   proj.component "ruby-#{proj.ruby_version}"
 
@@ -56,7 +55,6 @@ project 'agent-runtime-main' do |proj|
   proj.component 'rubygem-highline'
   proj.component 'rubygem-hocon'
   proj.component 'rubygem-locale'
-  proj.component 'rubygem-multi_json' # TODO: obsolete for openvox 9 - https://github.com/OpenVoxProject/openvox/pull/293
   proj.component 'rubygem-net-ssh'
   proj.component 'rubygem-optimist'
   proj.component 'rubygem-semantic_puppet'
@@ -78,7 +76,6 @@ project 'agent-runtime-main' do |proj|
   if platform.is_macos?
     proj.component 'readline'
     proj.component 'rubygem-CFPropertyList'
-    proj.component 'rubygem-base64'
   end
 
   unless platform.is_aix? || platform.is_windows?

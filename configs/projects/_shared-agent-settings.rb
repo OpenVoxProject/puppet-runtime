@@ -148,8 +148,6 @@ proj.setting(:host, host)
 # Load default compiler settings
 instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 
-proj.setting(:openssl_version, '3.0')
-
 if platform.is_windows?
   proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
   proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
