@@ -193,10 +193,10 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-little-plugger'
   proj.component 'rubygem-log4r'
   proj.component 'rubygem-logging'
-  proj.component 'rubygem-multi_json'
   proj.component 'rubygem-minitar'
   proj.component 'rubygem-molinillo'
-  proj.component 'rubygem-multi_json' # TODO: Probably obsolete for openbolt 6 - see https://github.com/OpenVoxProject/openvox/pull/293
+  # TODO: multi_json will probably be obsolete for openbolt 6 - see https://github.com/OpenVoxProject/openvox/pull/293
+  proj.component 'rubygem-multi_json'
   proj.component 'rubygem-multipart-post'
   proj.component 'rubygem-net-http-persistent'
   proj.component 'rubygem-net-scp'
