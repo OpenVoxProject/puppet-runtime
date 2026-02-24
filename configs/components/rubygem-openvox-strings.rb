@@ -6,8 +6,8 @@
 #####
 component 'rubygem-openvox-strings' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '6.0.0'
-  pkg.sha256sum '3fd42dfd91d7d42ece6edb4254876937ec5634a65f951d912abcaec30156dc88'
+  pkg.version '7.0.0'
+  pkg.sha256sum '721346006242976650f92553adfffcef076cad84ee63e93d64044e602333db00'
   pkg.build_requires 'rubygem-openvox'
   pkg.build_requires 'rubygem-rgen'
   pkg.build_requires 'rubygem-yard'

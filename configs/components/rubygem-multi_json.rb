@@ -5,8 +5,8 @@
 #####
 component 'rubygem-multi_json' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.18.0'
-  pkg.sha256sum '23f70cf73e2895a33e6d10f0ec955b28ef5627ca4bbad0f292e7d16f4675596f'
+  pkg.version '1.19.1'
+  pkg.sha256sum '7aefeff8f2c854bf739931a238e4aea64592845e0c0395c8a7d2eea7fdd631b7'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
