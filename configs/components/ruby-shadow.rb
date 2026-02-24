@@ -33,12 +33,6 @@ component 'ruby-shadow' do |pkg, settings, platform|
     ruby = File.join(settings[:ruby_bindir], 'ruby')
   end
 
-  base = 'resources/patches/ruby_32'
-  # https://github.com/apalmblad/ruby-shadow/issues/26
-  # if ruby-shadow gets a 3 release this should be removed
-  pkg.apply_patch "#{base}/ruby-shadow-taint.patch", strip: '1'
-  pkg.apply_patch "#{base}/ruby-shadow-rbconfig.patch", strip: '1'
-
   pkg.build do
     [
       "#{ruby} extconf.rb",
