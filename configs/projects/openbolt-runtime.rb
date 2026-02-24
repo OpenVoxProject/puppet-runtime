@@ -207,10 +207,8 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
   proj.component 'rubygem-openvox'
-  proj.component 'rubygem-openfact'
   proj.component 'rubygem-puppet_forge'
   proj.component 'rubygem-puppet-resource_api'
-  proj.component 'rubygem-openvox-strings'
   proj.component 'rubygem-puppetfile-resolver'
   proj.component 'rubygem-r10k'
   proj.component 'rubygem-rgen'
@@ -224,6 +222,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-unicode-emoji'
   proj.component 'rubygem-webrick'
   proj.component 'rubygem-yard'
+  proj.component 'rubygem-openvox-strings'
 
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'

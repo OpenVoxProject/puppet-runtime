@@ -455,8 +455,10 @@ end
 def git_summary
   out, err, ok = Open3.capture3('git', '-C', REPO_ROOT, 'log', '--name-status', 'HEAD^..HEAD')
   return if !ok || out.strip.empty?
+
   puts "\nCongratulations, you have authored a new git commit!"
   puts out
+  puts err if err
 end
 
 def ensure_no_uncommitted_changes
