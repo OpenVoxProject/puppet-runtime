@@ -4,8 +4,8 @@
 #   https://rubygems.org/gems/ruby-shadow
 #####
 component 'ruby-shadow' do |pkg, settings, platform|
-  pkg.url 'https://github.com/apalmblad/ruby-shadow'
-  pkg.ref 'refs/tags/2.5.1'
+  pkg.url 'https://github.com/bastelfreak/ruby-shadow'
+  pkg.ref 'bc7752a9ddbde06c1418734d003a9607bafcc6df'
 
   pkg.build_requires "ruby-#{settings[:ruby_version]}"
   if !platform.is_cross_compiled? && platform.architecture == 'sparc'
@@ -33,12 +33,6 @@ component 'ruby-shadow' do |pkg, settings, platform|
   else
     ruby = File.join(settings[:ruby_bindir], 'ruby')
   end
-
-  base = 'resources/patches/ruby_32'
-  # https://github.com/apalmblad/ruby-shadow/issues/26
-  # if ruby-shadow gets a 3 release this should be removed
-  pkg.apply_patch "#{base}/ruby-shadow-taint.patch", strip: '1'
-  pkg.apply_patch "#{base}/ruby-shadow-rbconfig.patch", strip: '1'
 
   pkg.build do
     [
