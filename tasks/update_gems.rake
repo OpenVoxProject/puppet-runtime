@@ -452,7 +452,7 @@ def git_commit(message)
   warn "git commit failed:\n#{err}" unless ok
 end
 
-def git_summary()
+def git_summary
   out, err, ok = Open3.capture3('git', '-C', REPO_ROOT, 'log', '--name-status', 'HEAD^..HEAD')
   return if !ok || out.strip.empty?
   puts "\nCongratulations, you have authored a new git commit!"
