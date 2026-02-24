@@ -168,6 +168,38 @@ component 'ruby-4.0' do |pkg, settings, platform|
     pkg.configure { ['bash autogen.sh'] }
   end
 
+  # we want to provide the different just in time compilers where possible
+  # they require a modern rust version
+  # https://docs.ruby-lang.org/en/master/jit/zjit_md.html zjit: Rust 1.85.0
+  # https://docs.ruby-lang.org/en/master/jit/yjit_md.html yjit: Rust 1.58.0
+  platforms_without_rust = [
+    'debian-11-aarch64',
+    'debian-11-amd64',
+    'debian-12-aarch64',
+    'debian-12-amd64',
+    'debian-13-armhf',
+    'macos-all-arm64',
+    'macos-all-x86_64',
+    'sles-15-x86_64',
+    'sles-16-aarch64',
+    'sles-16-x86_64',
+    'ubuntu-22.04-aarch64',
+    'ubuntu-22.04-amd64',
+    'ubuntu-24.04-aarch64',
+    'ubuntu-24.04-amd64',
+    'ubuntu-24.04-armhf',
+    'ubuntu-25.04-aarch64',
+    'ubuntu-25.04-amd64',
+    'ubuntu-25.04-armhf',
+    'ubuntu-26.04-armhf',
+    'windows-all-x64'
+  ]
+  if platforms_without_rust.include? platform.name
+    configure_flags = ''
+  else
+    pkg.build_requires 'rustc'
+    configure_flags = '--enable-yjit --enable-zjit'
+  end
   pkg.configure do
     [
       "bash configure \
@@ -175,7 +207,8 @@ component 'ruby-4.0' do |pkg, settings, platform|
         --disable-install-doc \
         --disable-install-rdoc \
         #{settings[:host]} \
-        #{special_flags}"
+        #{special_flags} \
+        #{configure_flags}"
     ]
   end
 
