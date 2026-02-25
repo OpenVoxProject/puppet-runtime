@@ -195,7 +195,8 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-logging'
   proj.component 'rubygem-minitar'
   proj.component 'rubygem-molinillo'
-  proj.component 'rubygem-multi_json' # TODO: Probably obsolete for openbolt 6 - see https://github.com/OpenVoxProject/openvox/pull/293
+  # TODO: multi_json will probably be obsolete for openbolt 6 - see https://github.com/OpenVoxProject/openvox/pull/293
+  proj.component 'rubygem-multi_json'
   proj.component 'rubygem-multipart-post'
   proj.component 'rubygem-net-http-persistent'
   proj.component 'rubygem-net-scp'
@@ -206,10 +207,8 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-paint'
   proj.component 'rubygem-public_suffix'
   proj.component 'rubygem-openvox'
-  proj.component 'rubygem-openfact'
   proj.component 'rubygem-puppet_forge'
   proj.component 'rubygem-puppet-resource_api'
-  proj.component 'rubygem-openvox-strings'
   proj.component 'rubygem-puppetfile-resolver'
   proj.component 'rubygem-r10k'
   proj.component 'rubygem-rgen'
@@ -223,6 +222,7 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-unicode-emoji'
   proj.component 'rubygem-webrick'
   proj.component 'rubygem-yard'
+  proj.component 'rubygem-openvox-strings'
 
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'

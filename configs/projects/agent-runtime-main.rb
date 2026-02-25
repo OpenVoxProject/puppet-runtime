@@ -35,6 +35,7 @@ project 'agent-runtime-main' do |proj|
   ########
 
   # rubocop:disable Style/IfUnlessModifier
+
   proj.component 'runtime-agent'
   proj.component 'libffi'
   proj.component 'libyaml'
@@ -44,6 +45,7 @@ project 'agent-runtime-main' do |proj|
   proj.component 'puppet-ca-bundle'
   proj.component "ruby-#{proj.ruby_version}"
 
+  proj.component 'rubygem-base64'
   proj.component 'rubygem-concurrent-ruby'
   proj.component 'rubygem-deep_merge'
   proj.component 'rubygem-erubi'
@@ -76,7 +78,6 @@ project 'agent-runtime-main' do |proj|
   if platform.is_macos?
     proj.component 'readline'
     proj.component 'rubygem-CFPropertyList'
-    proj.component 'rubygem-base64'
   end
 
   unless platform.is_aix? || platform.is_windows?
