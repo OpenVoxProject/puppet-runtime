@@ -224,6 +224,11 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-yard'
   proj.component 'rubygem-openvox-strings'
 
+  # Choria dependencies
+  proj.component 'rubygem-systemu'
+  proj.component 'rubygem-nats-pure'
+  proj.component 'rubygem-choria-mcorpc-support'
+
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'
   proj.component 'rubygem-winrm'
