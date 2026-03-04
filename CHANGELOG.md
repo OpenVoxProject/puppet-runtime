@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.03.04.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.03.04.1) (2026-03-04)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.25.1...2026.03.04.1)
+
+**Implemented enhancements:**
+
+- enable Choria transport [\#129](https://github.com/OpenVoxProject/puppet-runtime/pull/129) ([marcusdots](https://github.com/marcusdots))
+
 ## [2026.02.25.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.02.25.1) (2026-02-25)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.16.1...2026.02.25.1)
@@ -20,6 +28,19 @@ All notable changes to this project will be documented in this file.
 | rubygem-openfact | 5.4.0 | 5.5.0 |
 | rubygem-openvox | 8.24.2 | 8.25.0 |
 | rubygem-openvox-strings | 6.0.0 | 7.0.0 |
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-choria-mcorpc-support |  | 2.26.5 |
+| rubygem-nats-pure |  | 0.6.2 |
+| rubygem-systemu |  | 2.6.5 |
+
+**Project component additions:**
+- rubygem-choria-mcorpc-support: openbolt-runtime
+- rubygem-nats-pure: openbolt-runtime
+- rubygem-systemu: openbolt-runtime
 
 **Merged pull requests:**
 
