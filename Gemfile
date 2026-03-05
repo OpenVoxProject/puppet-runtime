@@ -16,10 +16,9 @@ gem 'rake', '~> 13.0'
 gem 'rubocop', '~> 1.86'
 gem 'rubocop-rake', '~> 0.7'
 gem 'vanagon', *location_for(ENV['VANAGON_LOCATION'] || 'https://github.com/openvoxproject/vanagon#main')
-# Need to update the openssl gem on MacOS to avoid SSL errors. Doesn't hurt to have the newest
-# for all platforms.
+# Need to update the openssl gem on MacOS to avoid SSL errors.
 # https://www.rubyonmac.dev/certificate-verify-failed-unable-to-get-certificate-crl-openssl-ssl-sslerror
-gem 'openssl' unless `uname -o`.chomp == 'Cygwin'
+gem 'openssl', '~> 3' if RUBY_PLATFORM =~ /darwin/
 
 gem 'octokit', '< 11'
 
