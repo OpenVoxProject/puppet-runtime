@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.03.19.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.03.19.1) (2026-03-19)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.03.04.1...2026.03.19.1)
+
+**Implemented enhancements:**
+
+- \[Feature request\]: Add choria-mcorpc-support gem [\#128](https://github.com/OpenVoxProject/puppet-runtime/issues/128)
+
+**Fixed bugs:**
+
+- \[Bug\]: ArgumentError when trying to use bundled `debug` gem [\#130](https://github.com/OpenVoxProject/puppet-runtime/issues/130)
+
+**Merged pull requests:**
+
+- Fix openbolt-runtime for Windows [\#134](https://github.com/OpenVoxProject/puppet-runtime/pull/134) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.03.04.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.03.04.1) (2026-03-04)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.02.25.1...2026.03.04.1)
