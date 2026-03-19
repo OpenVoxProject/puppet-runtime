@@ -30,7 +30,7 @@ project 'openbolt-runtime' do |proj|
     end
     # We build for windows not in the final destination, but in the paths that correspond
     # to the directory ids expected by WIX. This will allow for a portable installation (ideally).
-    proj.setting(:prefix, File.join('C:', proj.base_dir, proj.company_id, proj.product_id))
+    proj.setting(:prefix, File.join('C:', proj.base_dir, proj.pl_company_id, proj.pl_product_id))
   else
     proj.setting(:prefix, '/opt/puppetlabs/bolt')
   end
