@@ -5,8 +5,8 @@
 #####
 component 'rubygem-gettext' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '3.5.1'
-  pkg.sha256sum '03ec7f71ea7e2cf1fdcd5e08682e98b81601922fdbee890b7bc6f63b0e1a512a'
+  pkg.version '3.5.2'
+  pkg.sha256sum 'ada02c59aa7e9f56bd2522faedaed16421dd2f3ddb5fe28628c0be5abcbf3c74'
   pkg.build_requires 'rubygem-erubi'
   pkg.build_requires 'rubygem-locale'
   pkg.build_requires 'rubygem-text'
