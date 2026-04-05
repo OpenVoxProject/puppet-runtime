@@ -6,6 +6,10 @@ proj.setting(:ldflags, "-L#{proj.libdir} -Wl,-rpath=#{proj.libdir}")
 
 # Platform specific overrides or settings, which may override the defaults
 
+# Newer Xcode (16+) defaults clang to -std=gnu23 and C23 changes semantics in ways that
+# can turn previously valid C into undefined behavior, which can cause segfaults.
+proj.setting(:cflags, "#{proj.cflags} -std=gnu17") if platform.is_macos?
+
 # Harden Linux ELF binaries by compiling with PIE (Position Independent Executables) support,
 # stack canary and full RELRO.
 # We only do this on platforms that use their default OS toolchain since pl-gcc versions
