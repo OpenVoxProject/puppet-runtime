@@ -2,14 +2,15 @@
 # Component release information:
 #   https://rubygems.org/gems/nats-pure
 #   https://github.com/nats-io/nats-pure.rb/blob/main/CHANGELOG.md
+# 2026-04-05: Pinned as rubygem-choria-mcorpc-support requires < 0.7.
+#   Need to work on updating that gem so we can update this one.
+#   https://github.com/OpenVoxProject/puppet-runtime/issues/128#issuecomment-3989498214
 #####
 component 'rubygem-nats-pure' do |pkg, _settings, _platform|
-  # WARNING Update ahead
-  # You shall not update beyond 0.6.0, because that is what bundler determined
-  # https://github.com/OpenVoxProject/puppet-runtime/issues/128#issuecomment-3989498214
   ### Maintained by update_gems automation ###
-  pkg.version '2.5.0'
-  pkg.sha256sum '95e03c6aa6afaa33c6938928a04efbef8474844b11c95c8219c1c397ce030a4a'
+  # PINNED
+  pkg.version '0.6.2'
+  pkg.sha256sum '4c8b24466ae4a364ac5e5f066d5045b6825632993a3d39ddd91718c2bc86c1f5'
   pkg.build_requires 'rubygem-base64'
   pkg.build_requires 'rubygem-concurrent-ruby'
   ### End automated maintenance section ###
