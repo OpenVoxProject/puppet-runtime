@@ -5,8 +5,8 @@
 #####
 component 'rubygem-net-ssh' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '7.3.0'
-  pkg.sha256sum '172076c4b30ce56fb25a03961b0c4da14e1246426401b0f89cba1a3b54bf3ef0'
+  pkg.version '7.3.2'
+  pkg.sha256sum '65029e213c380e20e5fd92ece663934ab0a0fe888e0cd7cc6a5b664074362dd4'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

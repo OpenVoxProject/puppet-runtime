@@ -2,8 +2,8 @@
 # Component release information: https://github.com/curl/curl/releases
 #####
 component 'curl' do |pkg, settings, platform|
-  pkg.version '8.18.0'
-  pkg.sha256sum 'e9274a5f8ab5271c0e0e6762d2fce194d5f98acc568e4ce816845b2dcc0cf88f'
+  pkg.version '8.19.0'
+  pkg.sha256sum '2a2c11db4c122691aa23b4363befda1bfd801770bfebf41e1d21cee4f2ab0f71'
 
   pkg.url "https://curl.se/download/curl-#{pkg.get_version}.tar.gz"
   pkg.mirror "#{settings[:buildsources_url]}/curl-#{pkg.get_version}.tar.gz"
