@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.04.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.05.1) (2026-04-05)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.03.19.1...2026.04.05.1)
+
+**Fixed bugs:**
+
+- Use gnu17 for clang on MacOS [\#138](https://github.com/OpenVoxProject/puppet-runtime/pull/138) ([nmburgan](https://github.com/nmburgan))
+
+**Security fixes:**
+
+- Ruby: Update 3.2.10-\>3.2.11 [\#136](https://github.com/OpenVoxProject/puppet-runtime/pull/136) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.03.19.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.03.19.1) (2026-03-19)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.03.04.1...2026.03.19.1)
@@ -12,6 +24,27 @@ All notable changes to this project will be documented in this file.
 **Fixed bugs:**
 
 - \[Bug\]: ArgumentError when trying to use bundled `debug` gem [\#130](https://github.com/OpenVoxProject/puppet-runtime/issues/130)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.18.0 | 8.19.0 |
+| ruby-3.2 | 3.2.10 | 3.2.11 |
+| rubygem-addressable | 2.8.8 | 2.9.0 |
+| rubygem-aws-partitions | 1.1218.0 | 1.1234.0 |
+| rubygem-aws-sdk-core | 3.242.0 | 3.244.0 |
+| rubygem-aws-sdk-ec2 | 1.603.0 | 1.610.0 |
+| rubygem-excon | 1.3.2 | 1.4.2 |
+| rubygem-ffi | 1.17.3 | 1.17.4 |
+| rubygem-gettext | 3.5.1 | 3.5.2 |
+| rubygem-gettext-setup | 1.1.0 | 1.1.1 |
+| rubygem-locale | 2.1.4 | 2.1.5 |
+| rubygem-net-ssh | 7.3.0 | 7.3.2 |
+| rubygem-openvox-strings | 7.0.0 | 7.1.0 |
+| rubygem-public_suffix | 7.0.2 | 7.0.5 |
+| rubygem-puppet_forge | 6.1.0 | 6.2.0 |
+| rubygem-r10k | 5.0.2 | 5.0.3 |
 
 **Merged pull requests:**
 
