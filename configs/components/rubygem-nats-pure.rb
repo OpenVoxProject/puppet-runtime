@@ -11,8 +11,6 @@ component 'rubygem-nats-pure' do |pkg, _settings, _platform|
   # PINNED
   pkg.version '0.6.2'
   pkg.sha256sum '4c8b24466ae4a364ac5e5f066d5045b6825632993a3d39ddd91718c2bc86c1f5'
-  pkg.build_requires 'rubygem-base64'
-  pkg.build_requires 'rubygem-concurrent-ruby'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')

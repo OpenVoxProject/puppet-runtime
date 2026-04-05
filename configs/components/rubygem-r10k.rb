@@ -5,8 +5,8 @@
 #####
 component 'rubygem-r10k' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '5.0.2'
-  pkg.sha256sum '48e24e2b8447cdc56b03303b741247a5255bb40f170c9d113c5d3dbd8c83e8b3'
+  pkg.version '5.0.3'
+  pkg.sha256sum 'a76daddd8cecdc1cf0816f3d19adb23782598d373344a9de23623f601d58a68b'
   pkg.build_requires 'rubygem-colored2'
   pkg.build_requires 'rubygem-cri'
   pkg.build_requires 'rubygem-gettext-setup'
