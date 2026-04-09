@@ -5,8 +5,8 @@
 #####
 component 'rubygem-aws-partitions' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.1236.0'
-  pkg.sha256sum '00f58da2f959852c70067e1ea9690072891320bebf480c4415e8bdff2eeb1cdf'
+  pkg.version '1.1237.0'
+  pkg.sha256sum '9b82f529b69ad83a8e4c5e123038924ed5e8f59bd6064a293ef20efc63364841'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
