@@ -1,6 +1,30 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.04.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.09.1) (2026-04-09)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.05.1...2026.04.09.1)
+
+**Implemented enhancements:**
+
+- Update openfact 5.5.0-\>5.6.0 & aws-partitions 1.1236.0-\>1.1237.0 & yard 0.9.38-\>0.9.39 [\#142](https://github.com/OpenVoxProject/puppet-runtime/pull/142) ([bastelfreak](https://github.com/bastelfreak))
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| libxml2 | 2.15.1 | 2.15.2 |
+| openssl-3.0 | 3.0.19 | 3.0.20 |
+| rubygem-aws-partitions | 1.1234.0 | 1.1237.0 |
+| rubygem-aws-sdk-ec2 | 1.610.0 | 1.611.0 |
+| rubygem-openfact | 5.5.0 | 5.6.0 |
+| rubygem-yard | 0.9.38 | 0.9.39 |
+
+**Merged pull requests:**
+
+- libxml2: Update 2.15.1-\>2.15.2 [\#141](https://github.com/OpenVoxProject/puppet-runtime/pull/141) ([corporate-gadfly](https://github.com/corporate-gadfly))
+- openssl: Update 3.0.19-\>3.0.20 & update aws gems [\#140](https://github.com/OpenVoxProject/puppet-runtime/pull/140) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.04.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.05.1) (2026-04-05)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.03.19.1...2026.04.05.1)
