@@ -445,7 +445,7 @@ def git_commit(message)
   warn "git diff --cached failed:\n#{err}\n#{out}" unless ok
   return if !ok || out.strip.empty?
 
-  args = ['git', '-C', REPO_ROOT, 'commit', '-m', 'Update rubygem components']
+  args = ['git', '-C', REPO_ROOT, 'commit', '-s', '-m', 'Update rubygem components']
   args += ['-m', message] unless message.empty?
 
   _, err, ok = Open3.capture3(*args)
