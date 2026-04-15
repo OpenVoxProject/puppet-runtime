@@ -5,8 +5,8 @@
 #####
 component 'rubygem-hiera-eyaml' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '5.0.0'
-  pkg.sha256sum 'efdbc2d6d48897fc288047a391403b15c00cdf43de6765903997d4b65ae48895'
+  pkg.version '5.0.1'
+  pkg.sha256sum 'b463fc9aa8f310659251cc7efd8c5db2e0fa893c4bc5b97e07276cb597cb93e6'
   pkg.build_requires 'rubygem-base64'
   pkg.build_requires 'rubygem-highline'
   pkg.build_requires 'rubygem-optimist'
