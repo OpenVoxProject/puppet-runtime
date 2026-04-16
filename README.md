@@ -59,10 +59,18 @@ Where:
 ## Updating rubygem components
 
 This repo includes a rake task that will use the RubyGems API to update all rubygem components, including adding any missing runtime dependencies.
+
 ```
 $ bundle exec rake vox:update_gems
 ```
+
+This is the all-in-one task, which will also commit your changes.
+However, there is also `vox:update_gems_wo_commit`, which does the same except committing changes.
+There's a CI workflow that runs daily + on demand.
+It raises a PR / updates an existing PR if the rake task finds any changes.
+
 In each `rubygem-*.rb` file in `configs/components`, you will find a "magic" block near the top. For example:
+
 ```
 ### Maintained by update_gems automation ###
 pkg.version '2.14.0'
