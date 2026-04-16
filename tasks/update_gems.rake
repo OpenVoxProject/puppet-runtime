@@ -483,30 +483,39 @@ def ensure_no_uncommitted_changes
   exit 1
 end
 
+def check_and_summarize(commit: true)
+  ensure_no_uncommitted_changes
+
+  progress_print('Updating components and creating missing ones')
+  update_all_components_and_create_missing
+  progress_clear
+
+  progress_print('Ensuring project component dependencies')
+  ensure_projects_have_component_deps
+  progress_clear
+
+  summary = build_summary
+
+  if summary.empty?
+    puts 'No updates to any rubygem components needed'
+    exit 0
+  end
+
+  puts summary
+
+  return unless commit
+
+  git_add
+  git_commit(summary)
+  git_summary
+end
 namespace :vox do
-  desc 'Update rubygem components and print a summary of changes'
+  desc 'Update rubygem components, commit them and print a summary of changes'
   task :update_gems do
-    ensure_no_uncommitted_changes
-
-    progress_print('Updating components and creating missing ones')
-    update_all_components_and_create_missing
-    progress_clear
-
-    progress_print('Ensuring project component dependencies')
-    ensure_projects_have_component_deps
-    progress_clear
-
-    summary = build_summary
-
-    if summary.empty?
-      puts 'No updates to any rubygem components needed'
-      exit 0
-    end
-
-    puts summary
-
-    git_add
-    git_commit(summary)
-    git_summary
+    check_and_summarize(commit: true)
+  end
+  desc 'Update rubygem components, commit them and print a summary of changes'
+  task :update_gems_wo_commit do
+    check_and_summarize(commit: false)
   end
 end
