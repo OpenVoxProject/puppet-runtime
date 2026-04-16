@@ -48,7 +48,7 @@ jobs:
       - name: Display bundle environment
         run: bundle env
       - name: Check for gem updates
-        run: vox:update_gems
+        run: bundle exec rake vox:update_gems
       - name: Create pull Request
         uses: peter-evans/create-pull-request@v8
         with:
