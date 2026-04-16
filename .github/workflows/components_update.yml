@@ -3,9 +3,9 @@
 name: Update components
 
 on:
-  workflow_call: {}
+  workflow_call:
   schedule:
-  - cron: "0 0 * * *"
+    - cron: "0 0 * * *"
 
 env:
   GIT_AUTHOR_NAME: OpenVoxProjectBot
