@@ -1,6 +1,29 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.04.16.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.16.1) (2026-04-16)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.15.1...2026.04.16.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1238.0 | 1.1239.0 |
+| rubygem-openvox | 8.26.0 | 8.26.1 |
+| rubygem-yard | 0.9.41 | 0.9.42 |
+
+**Merged pull requests:**
+
+- CI: Update PR: Do not add `skip-changelog` label [\#154](https://github.com/OpenVoxProject/puppet-runtime/pull/154) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components [\#153](https://github.com/OpenVoxProject/puppet-runtime/pull/153) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- CI: Fix more typos [\#152](https://github.com/OpenVoxProject/puppet-runtime/pull/152) ([bastelfreak](https://github.com/bastelfreak))
+- CI: Set ruby-version to ruby [\#151](https://github.com/OpenVoxProject/puppet-runtime/pull/151) ([bastelfreak](https://github.com/bastelfreak))
+- CI: Fix typos in workflow [\#150](https://github.com/OpenVoxProject/puppet-runtime/pull/150) ([bastelfreak](https://github.com/bastelfreak))
+- CI: Fix typos in workflow [\#149](https://github.com/OpenVoxProject/puppet-runtime/pull/149) ([bastelfreak](https://github.com/bastelfreak))
+- Add CI workflow to raise gem update PRs [\#148](https://github.com/OpenVoxProject/puppet-runtime/pull/148) ([bastelfreak](https://github.com/bastelfreak))
+- Build puppet-runtime for Linux on PRs [\#101](https://github.com/OpenVoxProject/puppet-runtime/pull/101) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.04.15.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.15.1) (2026-04-15)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.09.1...2026.04.15.1)
