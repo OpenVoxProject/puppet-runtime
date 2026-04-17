@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.04.17.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.17.1) (2026-04-17)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.16.1...2026.04.17.1)
+
+**Fixed bugs:**
+
+- multi\_json: Downgrade 1.20.1-\>1.19.1 [\#156](https://github.com/OpenVoxProject/puppet-runtime/pull/156) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.04.16.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.16.1) (2026-04-16)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.15.1...2026.04.16.1)
@@ -12,6 +20,12 @@ All notable changes to this project will be documented in this file.
 | rubygem-aws-partitions | 1.1238.0 | 1.1239.0 |
 | rubygem-openvox | 8.26.0 | 8.26.1 |
 | rubygem-yard | 0.9.41 | 0.9.42 |
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-multi_json | 1.20.1 | 1.19.1 |
 
 **Merged pull requests:**
 
