@@ -5,9 +5,11 @@
 #####
 component 'rubygem-multi_json' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.20.1'
-  pkg.sha256sum '2f3934e805cc45ef91b551a1f89d0e9191abd06a5e04a2ef09a6a036c452ca6d'
-  pkg.build_requires 'rubygem-concurrent-ruby'
+  # PINNED
+  # 1.20.0 introduced a breaking change :melting_face:
+  # https://github.com/sferik/multi_json/commit/ca2c747570335f8d3b6b0904aae6ace41329aedd
+  pkg.version '1.19.1'
+  pkg.sha256sum '7aefeff8f2c854bf739931a238e4aea64592845e0c0395c8a7d2eea7fdd631b7'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
