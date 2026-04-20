@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.04.20.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.20.1) (2026-04-20)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.17.1...2026.04.20.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1239.0 | 1.1240.0 |
+| rubygem-aws-sdk-core | 3.244.0 | 3.245.0 |
+| rubygem-aws-sdk-ec2 | 1.611.0 | 1.612.0 |
+| rubygem-openvox | 8.26.1 | 8.26.2 |
+| rubygem-yard | 0.9.42 | 0.9.43 |
+
+**Merged pull requests:**
+
+- Update Ruby components [\#158](https://github.com/OpenVoxProject/puppet-runtime/pull/158) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.04.17.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.04.17.1) (2026-04-17)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.16.1...2026.04.17.1)
