@@ -1,6 +1,31 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.05.11.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.05.11.1) (2026-05-11)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.05.07.1...2026.05.11.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.19.0 | 8.20.0 |
+| libxml2 | 2.15.2 | 2.15.3 |
+| rubygem-aws-partitions | 1.1240.0 | 1.1246.0 |
+| rubygem-aws-sdk-core | 3.245.0 | 3.246.0 |
+| rubygem-aws-sdk-ec2 | 1.612.0 | 1.615.0 |
+
+**Merged pull requests:**
+
+- Cleanup old resources [\#169](https://github.com/OpenVoxProject/puppet-runtime/pull/169) ([Sharpie](https://github.com/Sharpie))
+- net-imap: Update 0.3.9-\>0.4.24 [\#168](https://github.com/OpenVoxProject/puppet-runtime/pull/168) ([Sharpie](https://github.com/Sharpie))
+- erb: Update 4.0.2-\>4.0.3.1 [\#167](https://github.com/OpenVoxProject/puppet-runtime/pull/167) ([Sharpie](https://github.com/Sharpie))
+- Extract version + URL for non-rubygem components + add update script [\#166](https://github.com/OpenVoxProject/puppet-runtime/pull/166) ([bastelfreak](https://github.com/bastelfreak))
+- CI: Test all platforms & Switch to Ruby 4.0  [\#165](https://github.com/OpenVoxProject/puppet-runtime/pull/165) ([bastelfreak](https://github.com/bastelfreak))
+- libxml2: Update 2.15.2-\>2.15.3 [\#164](https://github.com/OpenVoxProject/puppet-runtime/pull/164) ([Sharpie](https://github.com/Sharpie))
+- curl: Update 8.19.0-\>8.20.0 [\#163](https://github.com/OpenVoxProject/puppet-runtime/pull/163) ([binford2k](https://github.com/binford2k))
+- Update Ruby components [\#160](https://github.com/OpenVoxProject/puppet-runtime/pull/160) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.05.07.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.05.07.1) (2026-05-07)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.04.20.1...2026.05.07.1)
