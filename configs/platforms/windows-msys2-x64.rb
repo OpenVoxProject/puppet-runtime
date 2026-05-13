@@ -20,7 +20,7 @@ platform 'windows-msys2-x64' do |plat|
     'patch',
   ]
 
-  plat.provision_with("C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')};C:/msys64/usr/bin/pacman.exe -Ql mingw-w64-ucrt-x86_64-gcc-libs; ls -la /ucrt64/bin/;ls -la /;pwd;ls -la /usr/;ls -la C:/msys64/ucrt64/bin;ls -la /usr/x86_64-pc-cygwin")
+  plat.provision_with("C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')}; C:/msys64/usr/bin/pacman.exe -Ql mingw-w64-ucrt-x86_64-gcc-libs; echo '######## /ucrt64/bin/ ########'; ls -la /ucrt64/bin/; echo '######## / ########'; ls -la /; echo '######## pwd ########'; pwd; echo '######## /usr/ ########'; ls -la /usr/; echo '######## C:/msys64/ucrt64/bin ########'; ls -la C:/msys64/ucrt64/bin;echo '######## /usr/x86_64-pc-cygwin'; ls -la /usr/x86_64-pc-cygwin")
   plat.install_build_dependencies_with 'C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed'
 
   plat.make '/usr/bin/make'
