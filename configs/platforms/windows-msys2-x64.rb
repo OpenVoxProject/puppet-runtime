@@ -22,14 +22,15 @@ platform 'windows-msys2-x64' do |plat|
   commands = [
     "C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')};",
     "C:/msys64/usr/bin/pacman.exe -Ql mingw-w64-ucrt-x86_64-gcc-libs;",
-    "echo '######## /ucrt64/bin/ ########'; ls -la/ucrt64/bin/;",
+    "echo '######## /ucrt64/bin/ ########'; ls -la /ucrt64/bin/;",
     "echo '######## / ########'; ls -la /;",
     "echo '######## pwd ########'; pwd;",
     "echo '######## /usr/ ########'; ls -la /usr/;",
     "echo '######## C:/msys64/ucrt64/bin ########'; ls -la C:/msys64/ucrt64/bin;",
     "echo '######## /usr/x86_64-pc-cygwin ########'; ls -la /usr/x86_64-pc-cygwin;",
-    "echo '######## /usr/x86_64-pc-cygwin/bin/ ########';",
+    "echo '######## /usr/x86_64-pc-cygwin/bin/ ########'; ls -la /usr/x86_64-pc-cygwin/bin/;",
     "echo '######## find /usr/ -name libgcc_s_seh-1.dll ########'; find /usr/ -name libgcc_s_seh-1.dll;",
+    "echo '######## find C:/msys64/ -name libgcc_s_seh-1.dll ########'; find C:/msys64/ -name libgcc_s_seh-1.dll;",
   ]
 
   plat.provision_with(commands.join(' '))
