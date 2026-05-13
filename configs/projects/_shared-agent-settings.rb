@@ -151,9 +151,9 @@ instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 if platform.is_windows?
   if platform.name =~ /^windows-msys2/
     # MSYS2 UCRT64: native compiler, libraries live under /ucrt64
-    proj.setting(:gcc_root, '/ucrt64')
-    proj.setting(:gcc_bindir, '/ucrt64/bin')
-    proj.setting(:tools_root, '/ucrt64')
+    proj.setting(:gcc_root, 'C:/cygwin64/ucrt64')
+    proj.setting(:gcc_bindir, 'C:/cygwin64/ucrt64/bin')
+    proj.setting(:tools_root, 'C:/cygwin64/ucrt64')
     proj.setting(:msys, 'winsymlinks:nativestrict')
   else
     # Cygwin + mingw-w64 cross-compiler
