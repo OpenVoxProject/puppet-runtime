@@ -97,7 +97,8 @@ component 'ruby-4.0' do |pkg, settings, platform|
   without_dtrace = [
     'macos-all-arm64',
     'macos-all-x86_64',
-    'windows-all-x64'
+    'windows-all-x64',
+    'windows-msys2-x64',
   ]
 
   # sometimes dtrace will be enabled at compile time if the dtrace binary is present
@@ -136,7 +137,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'ubuntu-25.04-amd64',
     'ubuntu-25.04-armhf',
     'ubuntu-26.04-armhf',
-    'windows-all-x64'
+    'windows-msys2-x64'
   ]
   if platforms_without_rust.include? platform.name
     configure_flags = ''
@@ -180,7 +181,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'aarch64-redhat-linux' => 'aarch64-linux',
     'arm-linux-gnueabihf' => 'arm-linux-eabihf',
     'arm-linux-gnueabi' => 'arm-linux-eabi',
-    'x86_64-w64-mingw32' => 'x64-mingw32'
+    'x86_64-w64-mingw32' => 'x64-mingw-ucrt',
   }
   rbconfig_topdir = if target_doubles.key?(settings[:platform_triple])
                       File.join(ruby_dir, 'lib', 'ruby', '4.0.0', target_doubles[settings[:platform_triple]])
@@ -198,7 +199,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
   if platform.is_macos?
     rbconfig_changes['CC'] = "#{settings[:cc]} #{cflags}"
   elsif platform.is_windows?
-    rbconfig_changes['CC'] = 'x86_64-w64-mingw32-gcc'
+    rbconfig_changes['CC'] = 'gcc'
   end
 
   pkg.add_source('file://resources/files/ruby_vendor_gems/operating_system.rb')
