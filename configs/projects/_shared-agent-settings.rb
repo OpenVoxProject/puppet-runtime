@@ -149,9 +149,19 @@ proj.setting(:host, host)
 instance_eval File.read('configs/projects/_shared-compiler-settings.rb')
 
 if platform.is_windows?
-  proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
-  proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
-  proj.setting(:tools_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
+  if platform.name =~ /^windows-msys2/
+    # MSYS2 UCRT64: native compiler, libraries live under /ucrt64
+    proj.setting(:gcc_root, '/ucrt64')
+    proj.setting(:gcc_bindir, '/ucrt64/bin')
+    proj.setting(:tools_root, '/ucrt64')
+    proj.setting(:msys, 'winsymlinks:nativestrict')
+  else
+    # Cygwin + mingw-w64 cross-compiler
+    proj.setting(:gcc_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
+    proj.setting(:gcc_bindir, "#{proj.gcc_root}/bin")
+    proj.setting(:tools_root, '/usr/x86_64-w64-mingw32/sys-root/mingw')
+    proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
+  end
   # If tools_root ever differs from gcc_root again, add it back here.
   proj.setting(:cppflags, "-I#{proj.gcc_root}/include -I#{proj.gcc_root}/include/readline -I#{proj.includedir}")
   proj.setting(:cflags, proj.cppflags)
@@ -159,8 +169,6 @@ if platform.is_windows?
   ldflags = "-L#{proj.tools_root}/lib -L#{proj.gcc_root}/lib -L#{proj.libdir} -Wl,--nxcompat"
   ldflags += ' -Wl,--dynamicbase' if platform.name !~ /windowsfips-/ || name != 'agent-runtime-7.x'
   proj.setting(:ldflags, ldflags)
-
-  proj.setting(:cygwin, 'nodosfilewarning winsymlinks:native')
 else
   proj.setting(:tools_root, '/opt/pl-build-tools')
 end

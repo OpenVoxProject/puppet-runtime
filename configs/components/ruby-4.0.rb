@@ -101,10 +101,8 @@ component 'ruby-4.0' do |pkg, settings, platform|
     # https://github.com/ruby/ruby/blob/c9c2245c0a25176072e02db9254f0e0c84c805cd/configure.ac#L2329-L2330
     special_flags += ' --with-coroutine=arm64 '
   elsif platform.is_windows?
-    # ruby's configure script guesses the build host is `cygwin`, because we're using
-    # cygwin opensshd & bash. So mkmf will convert compiler paths, e.g. -IC:/... to
-    # cygwin paths, -I/cygdrive/c/..., which confuses mingw-w64. So specify the build
-    # target explicitly.
+    # MSYS2's bash may report the build host as `msys` rather than `x86_64-w64-mingw32`.
+    # Specify the build target explicitly so Ruby configures correctly for mingw64/ucrt.
     special_flags += " CPPFLAGS='-DFD_SETSIZE=2048' debugflags=-g "
 
     special_flags += ' --build x86_64-w64-mingw32 '
@@ -121,7 +119,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'sles-12-ppc64le',
     'solaris-11-sparc',
     'solaris-113-sparc',
-    'windows-all-x64',
+    'windows-msys2-x64',
     'windowsfips-2016-x64'
   ]
 
@@ -156,7 +154,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'ubuntu-25.04-amd64',
     'ubuntu-25.04-armhf',
     'ubuntu-26.04-armhf',
-    'windows-all-x64'
+    'windows-msys2-x64'
   ]
   if platforms_without_rust.include? platform.name
     configure_flags = ''
@@ -209,8 +207,8 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'sparc-sun-solaris2.11' => 'sparc-solaris2.11',
     'arm-linux-gnueabihf' => 'arm-linux-eabihf',
     'arm-linux-gnueabi' => 'arm-linux-eabi',
-    'x86_64-w64-mingw32' => 'x64-mingw32',
-    'i686-w64-mingw32' => 'i386-mingw32'
+    'x86_64-w64-mingw32' => 'x64-mingw-ucrt',
+    'i686-w64-mingw32' => 'i386-mingw-ucrt'
   }
   rbconfig_topdir = if target_doubles.key?(settings[:platform_triple])
                       File.join(ruby_dir, 'lib', 'ruby', '4.0.0', target_doubles[settings[:platform_triple]])
@@ -246,7 +244,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
   elsif platform.is_macos?
     rbconfig_changes['CC'] = "#{settings[:cc]} #{cflags}"
   elsif platform.is_windows?
-    rbconfig_changes['CC'] = 'x86_64-w64-mingw32-gcc'
+    rbconfig_changes['CC'] = 'gcc'
   end
 
   pkg.add_source('file://resources/files/ruby_vendor_gems/operating_system.rb')
