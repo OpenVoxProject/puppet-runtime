@@ -81,7 +81,7 @@ project 'agent-runtime-main' do |proj|
   end
 
   unless platform.is_aix? || platform.is_windows?
-    proj.component 'ruby-shadow'
+    proj.component 'ruby-shadow-patched'
   end
 
   # We only build ruby-selinux for EL, Fedora, Debian and Ubuntu (amd64/i386)
