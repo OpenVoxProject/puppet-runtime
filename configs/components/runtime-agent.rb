@@ -16,7 +16,7 @@ component 'runtime-agent' do |pkg, settings, platform|
 
     # gdbm and iconv are all runtime dependencies of ruby, and their libraries need
     # to exist inside our vendored ruby
-    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm-4.dll", "#{settings[:ruby_bindir]}/libgdbm-4.dll"
+    pkg.install_file "#{settings[:tools_root]}/bin/libgdbm-6.dll", "#{settings[:ruby_bindir]}/libgdbm-6.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4.dll",
                      "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
