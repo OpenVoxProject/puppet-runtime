@@ -1,4 +1,4 @@
-$url="https://cygwin.com/setup-x86_64.exe"
-$dest="C:\setup-x86_64.exe"
+$url="https://repo.msys2.org/distrib/msys2-x86_64-latest.exe"
+$dest="C:\msys2-x86_64-latest.exe"
 Invoke-WebRequest -Uri $url -OutFile $dest
-cmd /c "C:\setup-x86_64.exe -s https://cygwin.osuosl.org -q -P ruby=3.2.2-2,ruby-devel=3.2.2-2,gcc-core,make,git,libyaml-devel"
+cmd /c "C:\msys2-x86_64-latest.exe in --confirm-command --accept-messages --root C:/msys64"
