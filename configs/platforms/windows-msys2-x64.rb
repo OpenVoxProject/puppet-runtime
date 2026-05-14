@@ -17,8 +17,6 @@ platform 'windows-msys2-x64' do |plat|
     #'mingw-w64-ucrt-x86_64-ruby',
     'mingw-w64-ucrt-x86_64-zlib',
     'mingw-w64-ucrt-x86_64-gcc-libs',
-    #'mingw-w64-ucrt-x86_64-perl',
-    'mingw-w64-x86_64-perl',
     'patch',
   ]
 
