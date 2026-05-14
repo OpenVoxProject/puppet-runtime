@@ -14,9 +14,10 @@ platform 'windows-msys2-x64' do |plat|
     'mingw-w64-ucrt-x86_64-libffi',
     'mingw-w64-ucrt-x86_64-libyaml',
     'mingw-w64-ucrt-x86_64-readline',
-    'mingw-w64-ucrt-x86_64-ruby',
+    #'mingw-w64-ucrt-x86_64-ruby',
     'mingw-w64-ucrt-x86_64-zlib',
     'mingw-w64-ucrt-x86_64-gcc-libs',
+    'mingw-w64-ucrt-x86_64-perl',
     'patch',
   ]
   commands = [
@@ -31,7 +32,7 @@ platform 'windows-msys2-x64' do |plat|
     "echo '######## /usr/x86_64-pc-cygwin/bin/ ########'; ls -la /usr/x86_64-pc-cygwin/bin/;",
     "echo '######## find /usr/ -name libgcc_s_seh-1.dll ########'; find /usr/ -name libgcc_s_seh-1.dll;",
     "echo '######## find C:/msys64/ -name libgcc_s_seh-1.dll ########'; find C:/msys64/ -name libgcc_s_seh-1.dll;",
-    #"echo '######## find C:/msys64/ -name \"libgdbm*\" ########; find C:/msys64/ -name \"libgdbm*\";",
+    "echo '######## find C:/msys64/ -name \"libgdbm*\" ########; find C:/msys64/ -name \"libgdbm*\";",
   ]
 
   plat.provision_with(commands.join(' '))
