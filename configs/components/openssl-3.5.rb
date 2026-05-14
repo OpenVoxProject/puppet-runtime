@@ -90,7 +90,7 @@ component 'openssl' do |pkg, settings, platform|
   configure_flags << project_flags
 
   pkg.configure do
-    ["./Configure #{configure_flags.join(' ')}"]
+    ["./Configure LIST", "./Configure #{configure_flags.join(' ')}"]
   end
 
   #######
