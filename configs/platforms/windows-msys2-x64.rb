@@ -17,9 +17,20 @@ platform 'windows-msys2-x64' do |plat|
     #'mingw-w64-ucrt-x86_64-ruby',
     'mingw-w64-ucrt-x86_64-zlib',
     'mingw-w64-ucrt-x86_64-gcc-libs',
-    'mingw-w64-ucrt-x86_64-perl',
+    #'mingw-w64-ucrt-x86_64-perl',
+    'mingw-w64-x86_64-perl',
     'patch',
   ]
+
+  # with mingw-w64-ucrt-x86_64-perl, we get:
+  #
+  # ******************************************************************************
+  # This perl implementation doesn't produce Unix like paths (with forward slash
+  # directory separators).  Please use an implementation that matches your
+  # building platform.
+  # This Perl version: 5.38.5 for MSWin32-x64-multi-thread
+  # ******************************************************************************
+  #
   commands = [
     "C:/msys64/usr/bin/pacman.exe -S --noconfirm --needed #{packages.join(' ')};",
     "C:/msys64/usr/bin/pacman.exe -Ql mingw-w64-ucrt-x86_64-gcc-libs;",
