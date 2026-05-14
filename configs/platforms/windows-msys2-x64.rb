@@ -14,10 +14,9 @@ platform 'windows-msys2-x64' do |plat|
     'mingw-w64-ucrt-x86_64-libffi',
     'mingw-w64-ucrt-x86_64-libyaml',
     'mingw-w64-ucrt-x86_64-readline',
-    #'mingw-w64-ucrt-x86_64-ruby',
     'mingw-w64-ucrt-x86_64-zlib',
     'mingw-w64-ucrt-x86_64-gcc-libs',
-    'perl',
+    'mingw-w64-perl',
     'patch',
   ]
   commands = [
