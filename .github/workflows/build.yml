@@ -48,7 +48,7 @@ jobs:
       platform_list: ${{ inputs.platform_list }}
       vanagon_branch: ${{ inputs.vanagon_branch }}
       upload_to_s3: ${{ inputs.upload_to_s3 }}
-      branch: 'main'
+      branch: 'msys2'
     secrets: inherit
   build_dev:
     if: ${{ github.event.inputs.use_dev == 'true' }}
