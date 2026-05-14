@@ -106,7 +106,7 @@ component 'openssl' do |pkg, settings, platform|
   pkg.environment 'CFLAGS', cflags
   pkg.environment 'LDFLAGS', ldflags
   pkg.configure do
-    ["./Configure #{configure_flags.join(' ')}"]
+    ["./Configure LIST", "./Configure #{configure_flags.join(' ')}"]
   end
 
   #######
