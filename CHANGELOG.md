@@ -1,6 +1,50 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.05.15.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.05.15.1) (2026-05-15)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.05.11.1...2026.05.15.1)
+
+**Fixed bugs:**
+
+- Apply compiler hardening to EL8 and newer [\#183](https://github.com/OpenVoxProject/puppet-runtime/pull/183) ([bastelfreak](https://github.com/bastelfreak))
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| openssl-3.5 |  | 3.5.6 |
+| ruby-4.0 |  | 4.0.3 |
+| ruby-shadow-patched |  | bc7752a9ddbde06c1418734d003a9607bafcc6df |
+| rubygem-aws-partitions | 1.1246.0 | 1.1248.0 |
+| rubygem-aws-sdk-core | 3.246.0 | 3.247.0 |
+| rubygem-aws-sdk-ec2 | 1.615.0 | 1.616.0 |
+| rubygem-faraday | 2.14.1 | 2.14.2 |
+| rubygem-openvox | 8.26.2 | 8.27.0 |
+
+**Project component additions:**
+- openssl-3.5: agent-runtime-main
+- ruby-4.0: agent-runtime-main
+- ruby-shadow-patched: agent-runtime-main
+
+**Merged pull requests:**
+
+- Remove 32bit leftovers [\#190](https://github.com/OpenVoxProject/puppet-runtime/pull/190) ([bastelfreak](https://github.com/bastelfreak))
+- faraday: version 2.14.1 -\> 2.14.2 & openvox: version 8.26.2 -\> 8.27.0 [\#188](https://github.com/OpenVoxProject/puppet-runtime/pull/188) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components [\#187](https://github.com/OpenVoxProject/puppet-runtime/pull/187) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Drop unused platforms: Fedora 41, Solaris 11, Windows FIPS, SLES 12 [\#186](https://github.com/OpenVoxProject/puppet-runtime/pull/186) ([bastelfreak](https://github.com/bastelfreak))
+- openssl: simplify logic for rpm platforms [\#185](https://github.com/OpenVoxProject/puppet-runtime/pull/185) ([bastelfreak](https://github.com/bastelfreak))
+- openssl: cleanup logic, remove 32bit leftovers [\#184](https://github.com/OpenVoxProject/puppet-runtime/pull/184) ([bastelfreak](https://github.com/bastelfreak))
+- update\_component\_info: Dont ignore armhf & redhatfips [\#182](https://github.com/OpenVoxProject/puppet-runtime/pull/182) ([bastelfreak](https://github.com/bastelfreak))
+- augeas component: fix outdated comment [\#181](https://github.com/OpenVoxProject/puppet-runtime/pull/181) ([bastelfreak](https://github.com/bastelfreak))
+- Remove all PowerPC leftovers [\#180](https://github.com/OpenVoxProject/puppet-runtime/pull/180) ([bastelfreak](https://github.com/bastelfreak))
+- Remove unused cross compilation logic [\#179](https://github.com/OpenVoxProject/puppet-runtime/pull/179) ([bastelfreak](https://github.com/bastelfreak))
+- Remove unused libedit component [\#178](https://github.com/OpenVoxProject/puppet-runtime/pull/178) ([bastelfreak](https://github.com/bastelfreak))
+- agent-runtime-main: remove more solaris/aix leftovers [\#177](https://github.com/OpenVoxProject/puppet-runtime/pull/177) ([bastelfreak](https://github.com/bastelfreak))
+- puppet-runtime: Remove solaris/AIX/redhatfips-7 leftovers [\#176](https://github.com/OpenVoxProject/puppet-runtime/pull/176) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components [\#175](https://github.com/OpenVoxProject/puppet-runtime/pull/175) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Add Ruby 4.0 & OpenSSL 3.5 to puppet-runtime-main [\#174](https://github.com/OpenVoxProject/puppet-runtime/pull/174) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [2026.05.11.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.05.11.1) (2026-05-11)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.05.07.1...2026.05.11.1)
