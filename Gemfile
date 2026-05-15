@@ -1,10 +1,19 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
+require 'uri'
+
 def location_for(place)
   if place =~ /^((?:git[:@]|https:)[^#]*)#(.*)/
     [{ :git => $1, :branch => $2, :require => false }]
-  elsif place =~ /^file:\/\/(.*)/
-    ['>= 0', { :path => File.expand_path($1), :require => false }]
+  elsif place.start_with?('file://')
+     uri = URI(place)
+     path =
+       if uri.host && !uri.host.empty?
+         "#{uri.host}#{uri.path}"
+       else
+         uri.path
+       end
+    ['>= 0', { path: path, require: false }]
   else
     [place, { :require => false }]
   end
