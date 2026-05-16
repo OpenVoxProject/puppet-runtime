@@ -19,7 +19,7 @@ namespace :vox do
     end
 
     engine = platform =~ /^(macos|windows)-/ ? 'local' : 'docker'
-    cmd = "bundle exec build #{project} #{platform} --engine #{engine}"
+    cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine} --verbose"
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
