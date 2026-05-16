@@ -27,7 +27,7 @@ namespace :vox do
     run_command('ls -la', silent: false, print_command: true, report_status: true)
     run_command('ls -la configs/projects/agent-runtime-main.rb', silent: false, print_command: true, report_status: true)
     run_command("ls -la 'D:/a/puppet-runtime/puppet-runtime/configs/projects/agent-runtime-main.rb'", silent: false, print_command: true, report_status: true)
-    run_command("ls -la 'D:/d/a/puppet-runtime/puppet-runtime/configs/projects/agent-runtime-main.rb'", silent: false, print_command: true, report_status: true)
+    # run_command("ls -la 'D:/d/a/puppet-runtime/puppet-runtime/configs/projects/agent-runtime-main.rb'", silent: false, print_command: true, report_status: true)
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
