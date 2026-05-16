@@ -23,7 +23,9 @@ namespace :vox do
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
+    run_command('pwd', silent: false, print_command: true, report_status: true)
     run_command('ls -la', silent: false, print_command: true, report_status: true)
+    run_command('ls -la configs/projects/agent-runtime-main.rb', silent: false, print_command: true, report_status: true)
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
