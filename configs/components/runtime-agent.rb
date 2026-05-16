@@ -19,7 +19,7 @@ component 'runtime-agent' do |pkg, settings, platform|
     pkg.install_file "#{settings[:tools_root]}/bin/libgdbm-6.dll", "#{settings[:ruby_bindir]}/libgdbm-6.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libgdbm_compat-4.dll",
                      "#{settings[:ruby_bindir]}/libgdbm_compat-4.dll"
-    pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
+    #pkg.install_file "#{settings[:tools_root]}/bin/libffi-6.dll", "#{settings[:ruby_bindir]}/libffi-6.dll"
     pkg.install_file "#{settings[:tools_root]}/bin/libffi-8.dll", "#{settings[:ruby_bindir]}/libffi-8.dll"
   end
 end
