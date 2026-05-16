@@ -19,10 +19,11 @@ namespace :vox do
     end
 
     engine = platform =~ /^(macos|windows)-/ ? 'local' : 'docker'
-    cmd = "ls -la; bundle exec vanagon build #{project} #{platform} --engine #{engine} --verbose"
+    cmd = "bundle exec vanagon build #{project} #{platform} --engine #{engine} --verbose"
 
     FileUtils.rm_rf('C:/ProgramFiles64Folder/') if platform =~ /^windows-/
 
+    run_command('ls -la', silent: false, print_command: true, report_status: true)
     run_command(cmd, silent: false, print_command: true, report_status: true)
   end
 end
