@@ -26,7 +26,9 @@ project 'agent-runtime-main' do |proj|
   end
 
   if platform.is_windows? then
-    instance_eval File.read(normalize_windows_path(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb')))
+    path = normalize_windows_path(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
+    puts "normalized_path: #{path}"
+    instance_eval File.read(path)
   else
     instance_eval File.read(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
   end
