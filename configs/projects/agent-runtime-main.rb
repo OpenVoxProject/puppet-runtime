@@ -20,15 +20,19 @@ project 'agent-runtime-main' do |proj|
       rest = Regexp.last_match(2)
       return "#{drive}:/#{rest}"
     end
+    puts "Make path pathig: #{path}"
     
     path
   end
 
   if platform.is_windows? then
     instance_eval File.read(normalize_windows_path(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb')))
+    puts "normalizing for windows: #{instance_eval}"
   else
     instance_eval File.read(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
   end
+
+  puts "final path: #{instance_eval}"
 
   ########
   # Settings specific to this branch
