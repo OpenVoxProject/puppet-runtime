@@ -8,7 +8,27 @@ project 'agent-runtime-main' do |proj|
   # Load shared agent settings
   ########
 
-  instance_eval File.read(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
+  def normalize_windows_path(path)
+    return path if path.nil? || path.empty?
+
+    # already a native Windows path
+    return path if path.match?(/\A[A-Za-z]:[\\\/]/)
+    
+    # convert MSYS path like /d/a/repo to D:/a/repo
+    if path.match?(%r{\A/([a-zA-Z])/(.*)})
+      drive = Regexp.last_match(1).upcase
+      rest = Regexp.last_match(2)
+      return "#{drive}:/#{rest}"
+    end
+    
+    path
+  end
+
+  if platform.is_windows? then
+    instance_eval File.read(normalize_windows_path(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb')))
+  else
+    instance_eval File.read(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
+  end
 
   ########
   # Settings specific to this branch
