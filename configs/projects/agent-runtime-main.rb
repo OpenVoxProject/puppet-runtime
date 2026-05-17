@@ -33,7 +33,6 @@ project 'agent-runtime-main' do |proj|
     instance_eval File.read(File.join(File.dirname(__FILE__), '_shared-agent-settings.rb'))
   end
 
-  puts "final path: #{instance_eval}"
   puts "project libdir: #{proj.libdir}"
 
   ########
