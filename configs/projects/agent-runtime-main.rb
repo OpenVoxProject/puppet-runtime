@@ -34,6 +34,7 @@ project 'agent-runtime-main' do |proj|
   end
 
   puts "final path: #{instance_eval}"
+  puts "project libdir: #{proj.libdir}"
 
   ########
   # Settings specific to this branch
