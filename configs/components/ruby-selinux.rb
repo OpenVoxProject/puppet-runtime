@@ -56,6 +56,11 @@ component 'ruby-selinux' do |pkg, settings, platform|
     pkg.sha256sum 'e7ee2c01dba64a0c35c9d7c9c0e06209d8186b325b0638a0d83f915cc3c101e8'
     pkg.build_requires 'python3-setuptools'
     pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
+  when /^(fedora-44-)/
+    pkg.version '3.10'
+    pkg.sha256sum '1ef216c5b56fb7e0a51cd2909787a175a17ee391e0467894807873539ebe766b'
+    pkg.build_requires 'python3-setuptools'
+    pkg.url "https://github.com/SELinuxProject/selinux/releases/download/#{pkg.get_version}/libselinux-#{pkg.get_version}.tar.gz"
   else
     raise "The ruby-selinux component needs to be updated for platform #{platform.name}"
   end
