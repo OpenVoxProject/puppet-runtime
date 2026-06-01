@@ -54,7 +54,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
   elsif platform.is_windows?
-    optflags = "#{cflags} -O3"
+    optflags = "#{cflags} -O2"
     pkg.environment 'optflags', optflags
     pkg.environment 'CFLAGS', optflags
     pkg.environment 'MAKE', 'make'
@@ -81,23 +81,12 @@ component 'ruby-4.0' do |pkg, settings, platform|
   # want to use/maintain pl-ruby if we don't have to. Instead set baseruby to
   # "no" which will force ruby to build and use miniruby.
   special_flags += ' --with-baseruby=no '
-
-  if platform.is_windows?
-    # ruby's configure script guesses the build host is `cygwin`, because we're using
-    # cygwin opensshd & bash. So mkmf will convert compiler paths, e.g. -IC:/... to
-    # cygwin paths, -I/cygdrive/c/..., which confuses mingw-w64. So specify the build
-    # target explicitly.
-    special_flags += " CPPFLAGS='-DFD_SETSIZE=2048' debugflags=-g "
-
-    special_flags += ' --build x86_64-w64-mingw32 '
-  elsif platform.is_macos?
-    special_flags += " --with-openssl-dir=#{settings[:prefix]} "
-  end
+  special_flags += " --with-openssl-dir=#{settings[:prefix]} " if platform.is_macos?
 
   without_dtrace = [
     'macos-all-arm64',
     'macos-all-x86_64',
-    'windows-all-x64'
+    'windows-msys2-x64'
   ]
 
   # sometimes dtrace will be enabled at compile time if the dtrace binary is present
@@ -136,7 +125,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'ubuntu-25.04-amd64',
     'ubuntu-25.04-armhf',
     'ubuntu-26.04-armhf',
-    'windows-all-x64'
+    'windows-msys2-x64'
   ]
   if platforms_without_rust.include? platform.name
     configure_flags = ''
@@ -180,7 +169,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'aarch64-redhat-linux' => 'aarch64-linux',
     'arm-linux-gnueabihf' => 'arm-linux-eabihf',
     'arm-linux-gnueabi' => 'arm-linux-eabi',
-    'x86_64-w64-mingw32' => 'x64-mingw32'
+    'x86_64-w64-mingw32' => 'x64-mingw32-ucrt'
   }
   rbconfig_topdir = if target_doubles.key?(settings[:platform_triple])
                       File.join(ruby_dir, 'lib', 'ruby', '4.0.0', target_doubles[settings[:platform_triple]])
@@ -195,11 +184,7 @@ component 'ruby-4.0' do |pkg, settings, platform|
   # then the CC override allows us to build ffi_c.so for ARM as well. The
   # "host" ruby is configured in _shared-agent-settings
   rbconfig_changes = {}
-  if platform.is_macos?
-    rbconfig_changes['CC'] = "#{settings[:cc]} #{cflags}"
-  elsif platform.is_windows?
-    rbconfig_changes['CC'] = 'x86_64-w64-mingw32-gcc'
-  end
+  rbconfig_changes['CC'] = "#{settings[:cc]} #{cflags}" if platform.is_macos?
 
   pkg.add_source('file://resources/files/ruby_vendor_gems/operating_system.rb')
   defaults_dir = File.join(settings[:libdir], 'ruby/4.0.0/rubygems/defaults')
