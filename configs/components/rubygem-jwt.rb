@@ -4,6 +4,7 @@
 #   https://github.com/jwt/ruby-jwt/blob/v3.1.2/CHANGELOG.md
 # Notes:
 #   r10k pins this to < 3, so pinning to the latest 2.x version for now.
+#   https://github.com/puppetlabs/r10k/pull/1434
 #####
 component 'rubygem-jwt' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
