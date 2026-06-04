@@ -1,6 +1,4 @@
 platform 'windows-all-x64' do |plat|
-  plat.vmpooler_template 'win-2019-x86_64'
-
   # Not currently used
   plat.docker_image 'windows:ltsc2019'
   plat.docker_registry 'mcr.microsoft.com'
