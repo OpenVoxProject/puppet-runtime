@@ -19,11 +19,13 @@ ruby_bindir ||= settings[:ruby_bindir]
 if platform.is_windows?
   pkg.environment 'PATH',
                   "$(shell cygpath -u #{settings[:gcc_bindir]}):$(shell cygpath -u #{settings[:tools_root]}/bin):$(shell cygpath -u #{settings[:tools_root]}/include):$(shell cygpath -u #{settings[:bindir]}):$(shell cygpath -u #{ruby_bindir}):$(shell cygpath -u #{settings[:includedir]}):$(PATH)"
-  pkg.environment 'CYGWIN', settings[:cygwin]
+  if settings[:cygwin]
+    pkg.environment 'CYGWIN', settings[:cygwin]
+  elsif settings[:msys]
+    pkg.environment 'MSYS', settings[:msys]
+  end
   pkg.environment 'LDFLAGS', settings[:ldflags]
-  optflags = "#{settings[:cflags]} -O3"
-  pkg.environment 'optflags', optflags
-  pkg.environment 'CFLAGS', optflags
+  pkg.environment 'CFLAGS', settings[:cflags]
 elsif platform.is_macos?
   pkg.environment 'optflags', settings[:cflags]
   pkg.environment 'CFLAGS', settings[:cflags]
