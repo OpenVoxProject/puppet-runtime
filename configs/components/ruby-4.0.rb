@@ -53,11 +53,6 @@ component 'ruby-4.0' do |pkg, settings, platform|
     pkg.environment 'CXX', settings[:cxx]
     pkg.environment 'MACOSX_DEPLOYMENT_TARGET', settings[:deployment_target]
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin:/usr/local/bin'
-  elsif platform.is_windows?
-    optflags = "#{cflags} -O2"
-    pkg.environment 'optflags', optflags
-    pkg.environment 'CFLAGS', optflags
-    pkg.environment 'MAKE', 'make'
   else
     pkg.environment 'optflags', '-O2'
   end

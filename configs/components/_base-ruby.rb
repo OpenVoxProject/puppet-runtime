@@ -25,9 +25,7 @@ if platform.is_windows?
     pkg.environment 'MSYS', settings[:msys]
   end
   pkg.environment 'LDFLAGS', settings[:ldflags]
-  optflags = "#{settings[:cflags]} -O3"
-  pkg.environment 'optflags', optflags
-  pkg.environment 'CFLAGS', optflags
+  pkg.environment 'CFLAGS', settings[:cflags]
 elsif platform.is_macos?
   pkg.environment 'optflags', settings[:cflags]
   pkg.environment 'CFLAGS', settings[:cflags]
