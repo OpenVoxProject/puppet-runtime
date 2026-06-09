@@ -1,6 +1,36 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.06.09.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.06.09.1) (2026-06-09)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.05.20.1...2026.06.09.1)
+
+**Implemented enhancements:**
+
+- Build Ruby 4 under MSYS2 [\#199](https://github.com/OpenVoxProject/puppet-runtime/pull/199) ([Sharpie](https://github.com/Sharpie))
+
+**Fixed bugs:**
+
+- \[Bug\]: Failing "Comment output on PR" action on Pull Requests [\#37](https://github.com/OpenVoxProject/puppet-runtime/issues/37)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| openssl-3.0 | 3.0.20 | 3.0.21 |
+| openssl-3.5 | 3.5.6 | 3.5.7 |
+| rubygem-aws-partitions | 1.1248.0 | 1.1258.0 |
+| rubygem-aws-sdk-core | 3.247.0 | 3.251.0 |
+| rubygem-aws-sdk-ec2 | 1.616.0 | 1.621.0 |
+| rubygem-excon | 1.4.2 | 1.5.0 |
+| rubygem-faraday-net_http | 3.4.2 | 3.4.4 |
+| rubygem-yard | 0.9.43 | 0.9.44 |
+
+**Merged pull requests:**
+
+- OpenSSL June 2026 Security Releases [\#201](https://github.com/OpenVoxProject/puppet-runtime/pull/201) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#191](https://github.com/OpenVoxProject/puppet-runtime/pull/191) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.05.20.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.05.20.1) (2026-05-20)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.05.11.1...2026.05.20.1)
