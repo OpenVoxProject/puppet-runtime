@@ -4,8 +4,8 @@
 #####
 component 'rubygem-excon' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.4.2'
-  pkg.sha256sum '32d8d8eda619717d9b8043b4675e096fb5c2139b080e2ad3b267f88c545aaa35'
+  pkg.version '1.5.0'
+  pkg.sha256sum 'c503ad1d0123bc8ab2a062ff3789dc891ec368cb9e13765ab88a9c58c8bb6d50'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
