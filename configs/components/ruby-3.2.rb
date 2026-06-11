@@ -41,23 +41,24 @@ component 'ruby-3.2' do |pkg, settings, platform|
   # Upgrade erb 4.0.2 -> 4.0.3.1, fixes CVE-2026-41316
   pkg.apply_patch "#{base}/upgrade-erb-4.0.3.1.patch"
 
-  # Upgrade net-imap 0.3.9 -> 0.4.24, fixes CVE-2026-42246, other CVEs, and build issues.
+  # Upgrade net-imap 0.3.9 -> 0.6.4.1, fixes CVE-2026-42246, CVE-2026-47240,
+  # other CVEs, and build issues.
   pkg.add_source(
-    'https://rubygems.org/downloads/net-imap-0.4.24.gem',
+    'https://rubygems.org/downloads/net-imap-0.6.4.1.gem',
     {
-      sum: '88289db8fd3f08aa8c661137810118e58fe309829e815e2ea8f3650662a6501b',
+      sum: '29f0360d75a7efd3539f16ac1957dea5c0a51ddeceb348db4553c3120914ea0d',
       sum_type: 'sha256'
     }
   )
   pkg.configure do
     [
-      'cp ../net-imap-0.4.24.gem gems/',
-      "sed -i.bak 's/^net-imap.*/net-imap 0.4.24 https:\\/\\/github.com\\/ruby\\/net-imap/' gems/bundled_gems",
+      'cp ../net-imap-0.6.4.1.gem gems/',
+      "sed -i.bak 's/^net-imap.*/net-imap 0.6.4.1 https:\\/\\/github.com\\/ruby\\/net-imap/' gems/bundled_gems",
       # This next bit can be done via "make extract-gems", but that requires us
       # to have a "baseruby" installed.
-      'tar xf gems/net-imap-0.4.24.gem',
-      'mkdir .bundle/gems/net-imap-0.4.24',
-      'tar -C .bundle/gems/net-imap-0.4.24 -xzf data.tar.gz'
+      'tar xf gems/net-imap-0.6.4.1.gem',
+      'mkdir .bundle/gems/net-imap-0.6.4.1',
+      'tar -C .bundle/gems/net-imap-0.6.4.1 -xzf data.tar.gz'
     ]
   end
 
