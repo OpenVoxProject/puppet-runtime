@@ -1,7 +1,7 @@
 component 'rubygem-choria-mcorpc-support' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.26.5'
-  pkg.sha256sum '4f82fc732ab4c85b73a71941de3bae6b11ac5787c9e48f05f92679d82209f82d'
+  pkg.version '2.27.0'
+  pkg.sha256sum 'b4b148cd673533b8bd42621b834c35c580888d4d527b0c45db8d385068055dd3'
   pkg.build_requires 'rubygem-nats-pure'
   pkg.build_requires 'rubygem-systemu'
   ### End automated maintenance section ###
