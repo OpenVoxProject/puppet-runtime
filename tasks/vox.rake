@@ -52,6 +52,33 @@ class Version
   end
 end
 
+def build_component_change_lines(prev_data, new_data, include_project_component_additions: true)
+  header_lines = ["\n**Component Changes:**\n", "| Component | Old Version | New Version |\n", "|-----------|-------------|-------------|\n"]
+  component_lines = []
+  new_components = []
+
+  new_data['components'].sort.each do |comp, ver|
+    prev_ver = prev_data['components'][comp]
+    next if prev_ver == ver
+
+    new_components << comp if prev_ver.nil?
+    component_lines << "| #{comp} | #{prev_ver} | #{ver} |\n"
+  end
+  component_lines = header_lines + component_lines unless component_lines.empty?
+
+  if include_project_component_additions && !new_components.empty?
+    component_lines << "\n**Project component additions:**\n"
+    new_components.each do |component|
+      projects = new_data['projects']
+                 .select { |_, platforms| platforms.values.any? { |components| components.key?(component) } }
+                 .keys
+      component_lines << "- #{component}: #{projects.join(', ')}\n"
+    end
+  end
+
+  component_lines
+end
+
 desc 'Set the full version of the project'
 task 'vox:version:bump:full' do
   puts 'This project use the current date as version number.  No bump needed.'
@@ -107,49 +134,53 @@ else
 end
 # rubocop:enable Rake/DuplicateTask
 
+desc 'Show component change information between two tags from component_info.json'
+task 'release:changelog_components:diff', %i[old_tag new_tag include_project_component_additions] do |_, args|
+  abort 'You must provide old_tag and new_tag, e.g. rake "release:changelog_components:diff[2026.06.11.1,2026.06.12.1,true]"' if args[:old_tag].to_s.empty? || args[:new_tag].to_s.empty?
+
+  data_file = File.expand_path('../component_info.json', __dir__)
+  data = JSON.parse(File.read(data_file))
+
+  abort "No component information found for old_tag #{args[:old_tag]} in #{data_file}" unless data.key?(args[:old_tag])
+  abort "No component information found for new_tag #{args[:new_tag]} in #{data_file}" unless data.key?(args[:new_tag])
+
+  include_project_component_additions = !%w[0 false no off].include?(args[:include_project_component_additions].to_s.downcase)
+
+  component_lines = build_component_change_lines(
+    data[args[:old_tag]],
+    data[args[:new_tag]],
+    include_project_component_additions: include_project_component_additions
+  )
+
+  if component_lines.empty?
+    puts "No component changes detected between #{args[:old_tag]} and #{args[:new_tag]}"
+  else
+    puts component_lines.join
+  end
+end
+
 desc 'Inject component change information into changelog'
 task 'release:changelog_components', ['tag'] do |_, args|
-  abort 'You must provide the tag that will be used for this release.' if args[:tag].nil? || args[:tag].empty?
-
   changelog = File.expand_path('../CHANGELOG.md', __dir__)
   data_file = File.expand_path('../component_info.json', __dir__)
   data = JSON.parse(File.read(data_file))
 
-  abort "No component information found for tag #{args[:tag]} in #{data_file}" unless data.key?(args[:tag])
-  abort "Data for tag #{args[:tag]} does not appear at the top of the file." unless data.keys.first == args[:tag]
+  tag = args[:tag].to_s.empty? ? data.keys.first : args[:tag]
+  abort "No component information found for tag #{tag} in #{data_file}" unless data.key?(tag)
+  abort "Data for tag #{tag} does not appear at the top of the file." unless data.keys.first == tag
+  abort "No previous tag data found in #{data_file} to diff against #{tag}" if data.keys[1].nil?
 
-  prev_data = data.values[1]
-  new_data = data.values[0]
-
-  header_lines = ["\n**Component Changes:**\n", "| Component | Old Version | New Version |\n", "|-----------|-------------|-------------|\n"]
-  component_lines = []
-  new_components = []
-  data[args[:tag]]['components'].sort.each do |comp, ver|
-    prev_ver = prev_data['components'][comp]
-    next if prev_ver == ver
-
-    new_components << comp if prev_ver.nil?
-    component_lines << "| #{comp} | #{prev_data['components'][comp]} | #{ver} |\n"
-  end
-  component_lines = header_lines + component_lines unless component_lines.empty?
-
-  unless new_components.empty?
-    component_lines << "\n**Project component additions:**\n"
-    new_components.each do |component|
-      projects = new_data['projects']
-                 .select { |_, platforms| platforms.values.any? { |components| components.key?(component) } }
-                 .keys
-      component_lines << "- #{component}: #{projects.join(', ')}\n"
-    end
-  end
+  prev_data = data[data.keys[1]]
+  new_data = data[tag]
+  component_lines = build_component_change_lines(prev_data, new_data)
 
   if component_lines.empty?
-    puts "No component changes detected for tag #{args[:tag]}"
+    puts "No component changes detected for tag #{tag}"
   else
     content = File.read(changelog)
     new_content = content.sub('**Merged pull requests:**', "#{component_lines.join}\n**Merged pull requests:**")
     File.write(changelog, new_content)
-    puts "Injected component change information into #{changelog} for tag #{args[:tag]}"
+    puts "Injected component change information into #{changelog} for tag #{tag}"
   end
 end
 
