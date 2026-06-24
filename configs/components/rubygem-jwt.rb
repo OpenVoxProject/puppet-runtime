@@ -9,8 +9,8 @@
 component 'rubygem-jwt' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
   # PINNED
-  pkg.version '2.10.2'
-  pkg.sha256sum '31e1ee46f7359883d5e622446969fe9c118c3da87a0b1dca765ce269c3a0c4f4'
+  pkg.version '2.10.3'
+  pkg.sha256sum 'e4d9352fbc7309b1a7448c7dd713dfe4d8c47077af80759cdbed8f878ea0b484'
   pkg.build_requires 'rubygem-base64' if settings[:ruby_version] == '3.2'
   ### End automated maintenance section ###
 
