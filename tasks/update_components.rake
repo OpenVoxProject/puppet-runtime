@@ -24,7 +24,8 @@ def github_owner_repo(url)
   [Regexp.last_match(1), Regexp.last_match(2).sub(/\.git$/, '')]
 end
 
-# Normalize a version string by stripping common tag prefixes.
+# Normalize a version string by stripping common tag prefixes and
+# replacing underscores with .
 def normalize_version(tag)
   return nil if tag.nil?
 
@@ -32,6 +33,8 @@ def normalize_version(tag)
      .sub(/\Arefs\/tags\/v?/, '')
      .sub(/\Arelease-/, '')
      .sub(/\Aopenssl-/, '')
+     .sub(/\Acurl-/, '')
+     .gsub('_', '.')
 end
 
 # Try to parse a version from a normalized string, returning nil if unparseable.
