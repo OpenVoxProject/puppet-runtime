@@ -26,6 +26,8 @@ end
 
 # Normalize a version string by stripping common tag prefixes.
 def normalize_version(tag)
+  return nil if tag.nil?
+
   tag.sub(/\Av(?=\d)/, '')
      .sub(/\Arefs\/tags\/v?/, '')
      .sub(/\Arelease-/, '')
@@ -50,11 +52,12 @@ end
 # and somme people, like openssl, maintain multiple streams. So the latest tag might not be the highest version
 # We do some version comparison to find the actual highest version
 def latest_github_tag(owner, repo)
-  github_client.tags("#{owner}/#{repo}", per_page: 100)
-               .map { |tag| [tag.name, try_version(normalize_version(tag.name))] }
-               .reject { |_, version| version.nil? || version.prerelease? }
-               .max_by { |_, version| version }
-               .first
+  tags = github_client.tags("#{owner}/#{repo}", per_page: 100)
+                      .map { |tag| [tag.name, try_version(normalize_version(tag.name))] }
+                      .reject { |_, version| version.nil? || version.prerelease? }
+                      .max_by { |_, version| version }
+
+  tags.nil? ? tags : tags.first
 end
 
 def current_version(data)
