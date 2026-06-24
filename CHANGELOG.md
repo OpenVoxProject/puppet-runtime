@@ -1,6 +1,39 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.06.24.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.06.24.1) (2026-06-24)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.06.10.1...2026.06.24.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.20.0 | 8.21.0 |
+| rubygem-aws-partitions | 1.1259.0 | 1.1262.0 |
+| rubygem-aws-sdk-core | 3.251.0 | 3.252.0 |
+| rubygem-aws-sdk-ec2 | 1.622.0 | 1.625.0 |
+| rubygem-choria-mcorpc-support | 2.26.5 | 2.27.0 |
+| rubygem-concurrent-ruby | 1.3.6 | 1.3.7 |
+| rubygem-faraday | 2.14.2 | 2.14.3 |
+| rubygem-jwt | 2.10.2 | 2.10.3 |
+| rubygem-sys-filesystem | 1.5.5 | 1.6.0 |
+
+
+**Security fixes:**
+
+- rubygem-jwt: Update 2.10.2-\>2.10.3 [\#216](https://github.com/OpenVoxProject/puppet-runtime/pull/216) ([Sharpie](https://github.com/Sharpie))
+- curl: Update 8.20.0-\>8.21.0 [\#215](https://github.com/OpenVoxProject/puppet-runtime/pull/215) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#211](https://github.com/OpenVoxProject/puppet-runtime/pull/211) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- net-imap: Update 0.4.24-\>0.6.4.1 [\#206](https://github.com/OpenVoxProject/puppet-runtime/pull/206) ([Sharpie](https://github.com/Sharpie))
+
+**Merged pull requests:**
+
+- Update update components [\#214](https://github.com/OpenVoxProject/puppet-runtime/pull/214) ([Sharpie](https://github.com/Sharpie))
+- Ignore base64 gem during update\_gems workflow [\#213](https://github.com/OpenVoxProject/puppet-runtime/pull/213) ([Sharpie](https://github.com/Sharpie))
+- Add rake task for component diff between versions [\#208](https://github.com/OpenVoxProject/puppet-runtime/pull/208) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components [\#205](https://github.com/OpenVoxProject/puppet-runtime/pull/205) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.06.10.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.06.10.1) (2026-06-10)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.06.09.1...2026.06.10.1)
