@@ -6,8 +6,8 @@
 #####
 component 'rubygem-puppet-resource_api' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.0.0'
-  pkg.sha256sum '4649fcb5d5e5f8cbda0887f706b95be5b52a089bcf98ce8ebf0496c3266fd9c4'
+  pkg.version '2.0.1'
+  pkg.sha256sum '6c3c64450a5de34314867cfbb505a5837729a2639fa88885cde634cb76750a33'
   pkg.build_requires 'rubygem-hocon'
   ### End automated maintenance section ###
 
