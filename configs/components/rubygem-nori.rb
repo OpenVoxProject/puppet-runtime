@@ -6,8 +6,8 @@
 #####
 component 'rubygem-nori' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.7.1'
-  pkg.sha256sum '6166cd336959854762073e2fbae888593809cac1b3e904f4fb009313d7226861'
+  pkg.version '2.9.1'
+  pkg.sha256sum '72dd12420ccb3f62c32466c2e4d8ab1cc08ae525c2488f30524be6ee8cb6e606'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
