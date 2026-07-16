@@ -1,6 +1,30 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.07.16.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.07.16.1) (2026-07-16)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.07.06.1...2026.07.16.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| ruby-4.0 | 4.0.5 | 4.0.6 |
+| rubygem-aws-partitions | 1.1265.0 | 1.1268.0 |
+| rubygem-aws-sdk-core | 3.252.0 | 3.254.0 |
+| rubygem-aws-sdk-ec2 | 1.628.0 | 1.632.0 |
+| rubygem-openfact | 5.6.1 | 5.7.0 |
+| rubygem-openvox | 8.28.0 | 8.28.1 |
+| rubygem-windows_error | 0.1.5 | 0.1.6 |
+
+
+**Merged pull requests:**
+
+- ruby-4.0: Update 4.0.5-\>4.0.6 [\#229](https://github.com/OpenVoxProject/puppet-runtime/pull/229) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#226](https://github.com/OpenVoxProject/puppet-runtime/pull/226) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Clarify description of workflow "branch" input [\#225](https://github.com/OpenVoxProject/puppet-runtime/pull/225) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#224](https://github.com/OpenVoxProject/puppet-runtime/pull/224) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.07.06.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.07.06.1) (2026-07-06)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.06.24.1...2026.07.06.1)
