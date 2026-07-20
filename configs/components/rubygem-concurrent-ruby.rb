@@ -5,8 +5,8 @@
 #####
 component 'rubygem-concurrent-ruby' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '1.3.7'
-  pkg.sha256sum '4412caec3a5ea2e5fdc52076724c071a81f2c0593d83b2ac8cbb8ca63b3151b0'
+  pkg.version '1.3.8'
+  pkg.sha256sum 'b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
