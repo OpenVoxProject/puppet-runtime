@@ -76,7 +76,12 @@ component 'ruby-4.0' do |pkg, settings, platform|
   # want to use/maintain pl-ruby if we don't have to. Instead set baseruby to
   # "no" which will force ruby to build and use miniruby.
   special_flags += ' --with-baseruby=no '
-  special_flags += " --with-openssl-dir=#{settings[:prefix]} " if platform.is_macos?
+  if platform.is_macos?
+    special_flags += " --with-openssl-dir=#{settings[:prefix]} "
+    # configure will pick up libgmp from Homebrew, and the resulting compiler
+    # warnings result in mis-configuration.
+    special_flags += ' --without-gmp '
+  end
 
   without_dtrace = [
     'macos-all-arm64',
