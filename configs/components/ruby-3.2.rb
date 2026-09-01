@@ -120,6 +120,9 @@ component 'ruby-3.2' do |pkg, settings, platform|
                      end
   elsif platform.is_macos?
     special_flags += " --with-openssl-dir=#{settings[:prefix]} "
+    # configure will pick up libgmp from Homebrew, and the resulting compiler
+    # warnings cause mis-configuration.
+    special_flags += ' --without-gmp '
   end
 
   without_dtrace = [
