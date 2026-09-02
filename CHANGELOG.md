@@ -1,6 +1,35 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.09.02.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.02.1) (2026-09-02)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.08.27.1...2026.09.02.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| curl | 8.21.0 | 8.22.0 |
+| libffi | 3.5.2 | 3.8.0 |
+| rubygem-aws-partitions | 1.1282.0 | 1.1283.0 |
+| rubygem-aws-sdk-ec2 | 1.639.0 | 1.642.0 |
+
+
+**Fixed bugs:**
+
+- Build Ruby without libgmp on macOS [\#253](https://github.com/OpenVoxProject/puppet-runtime/pull/253) ([Sharpie](https://github.com/Sharpie))
+- Amazon 2023: Add workaround for building augeas [\#251](https://github.com/OpenVoxProject/puppet-runtime/pull/251) ([bastelfreak](https://github.com/bastelfreak))
+
+**Security fixes:**
+
+- curl: Update 8.21.0-\>8.22.0 [\#254](https://github.com/OpenVoxProject/puppet-runtime/pull/254) ([Sharpie](https://github.com/Sharpie))
+
+**Merged pull requests:**
+
+- Pin openfact gem to 5.7.0 [\#255](https://github.com/OpenVoxProject/puppet-runtime/pull/255) ([Sharpie](https://github.com/Sharpie))
+- libffi: Update 3.5.2-\>3.8.0 [\#252](https://github.com/OpenVoxProject/puppet-runtime/pull/252) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components [\#249](https://github.com/OpenVoxProject/puppet-runtime/pull/249) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.08.27.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.08.27.1) (2026-08-27)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.08.04.1...2026.08.27.1)
