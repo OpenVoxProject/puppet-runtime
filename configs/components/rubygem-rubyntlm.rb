@@ -5,8 +5,8 @@
 #####
 component 'rubygem-rubyntlm' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '0.6.5'
-  pkg.sha256sum '47013402b99ae29ee93f930af51edaec8c6008556f4be25705a422b4430314f5'
+  pkg.version '0.6.6'
+  pkg.sha256sum '1dab5d8b5c4f6f4c01b0878ba094f0aee5d8c197d0f03eaf43d5a176d66ab447'
   pkg.build_requires 'rubygem-base64' if settings[:ruby_version] == '3.2'
   ### End automated maintenance section ###
 
