@@ -5,7 +5,7 @@ component 'curl' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/curl.json')
   pkg.mirror "#{settings[:buildsources_url]}/curl-#{pkg.get_version}.tar.gz"
 
-  pkg.build_requires "openssl-#{settings[:openssl_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'openssl' : "openssl-#{settings[:openssl_version]}")
   pkg.build_requires 'puppet-ca-bundle-8.x'
 
   ldflags = settings[:ldflags]

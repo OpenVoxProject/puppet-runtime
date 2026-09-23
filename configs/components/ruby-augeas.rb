@@ -4,14 +4,14 @@
 #####
 component 'ruby-augeas' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/ruby-augeas.json')
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'ruby' : "ruby-#{settings[:ruby_version]}")
   pkg.build_requires 'augeas'
 
   pkg.environment 'PATH', '$(PATH):/usr/local/bin:/opt/csw/bin:/usr/ccs/bin:/usr/sfw/bin'
   pkg.environment 'CONFIGURE_ARGS', '--vendor'
   pkg.environment 'PKG_CONFIG_PATH', "#{File.join(settings[:libdir], 'pkgconfig')}:/usr/lib/pkgconfig"
 
-  ruby = File.join(settings[:ruby_bindir], 'ruby')
+  ruby = settings[:host_ruby]
 
   if platform.is_macos?
     pkg.environment 'PATH', '$(PATH):/opt/homebrew/bin' if platform.architecture == 'arm64'

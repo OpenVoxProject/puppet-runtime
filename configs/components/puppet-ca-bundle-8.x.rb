@@ -1,7 +1,7 @@
 component 'puppet-ca-bundle-8.x' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/puppet-ca-bundle-8.x.json')
 
-  pkg.build_requires "openssl-#{settings[:openssl_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'openssl' : "openssl-#{settings[:openssl_version]}")
 
   openssl_cmd = "#{settings[:bindir]}/openssl"
 
