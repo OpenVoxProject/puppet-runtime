@@ -1,6 +1,51 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.09.24.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.24.1) (2026-09-24)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.09.02.1...2026.09.24.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| libxml2 | 2.15.3 | 2.15.4 |
+| ruby-4.0 | 4.0.6 | 4.0.7 |
+| rubygem-aws-partitions | 1.1283.0 | 1.1289.0 |
+| rubygem-aws-sdk-core | 3.254.1 | 3.257.0 |
+| rubygem-aws-sdk-ec2 | 1.642.0 | 1.652.0 |
+| rubygem-faraday | 2.14.3 | 2.14.4 |
+| rubygem-openfact | 5.7.0 | 5.7.1 |
+| rubygem-openvox | 8.28.1 | 8.29.0 |
+| rubygem-rubyntlm | 0.6.5 | 0.6.8 |
+| rubygem-rubyzip | 2.4.1 | 3.7.0 |
+| rubygem-unicode-display_width | 3.2.0 | 3.3.0 |
+| rubygem-unicode-emoji | 4.2.0 | 4.3.0 |
+| rubygem-winrm | 2.3.9 | 2.4.1 |
+| rubygem-winrm-fs | 1.3.5 | 1.3.7 |
+
+
+**Implemented enhancements:**
+
+- Ruby: Update 4.0.6-\>4.0.7 [\#261](https://github.com/OpenVoxProject/puppet-runtime/pull/261) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- CI: dont compile debian11 for puppet-runtime-main [\#260](https://github.com/OpenVoxProject/puppet-runtime/pull/260) ([bastelfreak](https://github.com/bastelfreak))
+
+**Security fixes:**
+
+- libxml2: Update 2.15.3-\>2.15.4 [\#258](https://github.com/OpenVoxProject/puppet-runtime/pull/258) ([Sharpie](https://github.com/Sharpie))
+
+**Merged pull requests:**
+
+- Update Ruby components [\#269](https://github.com/OpenVoxProject/puppet-runtime/pull/269) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- CI: Use rubocop rake task [\#268](https://github.com/OpenVoxProject/puppet-runtime/pull/268) ([bastelfreak](https://github.com/bastelfreak))
+- Update Ruby components and openfact [\#266](https://github.com/OpenVoxProject/puppet-runtime/pull/266) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Update Ruby components [\#264](https://github.com/OpenVoxProject/puppet-runtime/pull/264) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Update Ruby components [\#263](https://github.com/OpenVoxProject/puppet-runtime/pull/263) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Update Ruby components [\#257](https://github.com/OpenVoxProject/puppet-runtime/pull/257) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.09.02.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.02.1) (2026-09-02)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.08.27.1...2026.09.02.1)
