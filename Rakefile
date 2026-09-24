@@ -25,4 +25,17 @@ def run_command(cmd, silent: true, print_command: false, report_status: false)
   output.chomp
 end
 
+begin
+  require 'rubocop/rake_task'
+rescue LoadError
+  # Do nothing if no required gem installed
+else
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    # These make the rubocop experience maybe slightly less terrible
+    task.options = ['--display-cop-names', '--display-style-guide', '--extra-details']
+    # Use Rubocop's Github Actions formatter if possible
+    task.formatters << 'github' if ENV['GITHUB_ACTIONS'] == 'true'
+  end
+end
+
 Dir.glob(File.join('tasks/**/*.rake')).each { |file| load file }
