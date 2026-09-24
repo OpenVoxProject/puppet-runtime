@@ -40,7 +40,7 @@ end
 # BUILD REQUIREMENTS
 ####################
 
-pkg.build_requires "openssl-#{settings[:openssl_version]}"
+pkg.build_requires(platform.is_archlinux? ? 'openssl' : "openssl-#{settings[:openssl_version]}")
 
 #######
 # BUILD

@@ -10,7 +10,7 @@
 component 'ruby-shadow-patched' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/ruby-shadow-patched.json')
 
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'ruby' : "ruby-#{settings[:ruby_version]}")
 
   pkg.environment 'CONFIGURE_ARGS', '--vendor'
 
@@ -18,7 +18,7 @@ component 'ruby-shadow-patched' do |pkg, settings, platform|
     pkg.environment 'RUBY', settings[:host_ruby]
     ruby = "#{settings[:host_ruby]} -r#{settings[:datadir]}/doc/rbconfig-#{settings[:ruby_version]}-orig.rb"
   else
-    ruby = File.join(settings[:ruby_bindir], 'ruby')
+    ruby = settings[:host_ruby]
   end
 
   pkg.build do

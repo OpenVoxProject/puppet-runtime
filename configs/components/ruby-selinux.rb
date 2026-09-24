@@ -69,9 +69,9 @@ component 'ruby-selinux' do |pkg, settings, platform|
   pkg.add_source('file://resources/patches/ruby-selinux/selinuxswig_ruby_undefining_allocator.patch')
   pkg.add_source('file://resources/patches/ruby-selinux/undefining_allocator_el_7.patch')
 
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'ruby' : "ruby-#{settings[:ruby_version]}")
   system_include = '-I/usr/include'
-  ruby = "#{settings[:ruby_bindir]}/ruby -rrbconfig"
+  ruby = "#{settings[:host_ruby]} -rrbconfig"
 
   # The RHEL 9 libselinux-devel package provides headers, but we don't want to
   # use the package becuase of a compatibility issue with the shared library.

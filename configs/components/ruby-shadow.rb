@@ -6,12 +6,12 @@
 component 'ruby-shadow' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/ruby-shadow.json')
 
-  pkg.build_requires "ruby-#{settings[:ruby_version]}"
+  pkg.build_requires(platform.is_archlinux? ? 'ruby' : "ruby-#{settings[:ruby_version]}")
   pkg.environment 'PATH', '$(PATH):/usr/ccs/bin:/usr/sfw/bin'
 
   pkg.environment 'CONFIGURE_ARGS', '--vendor'
 
-  ruby = File.join(settings[:ruby_bindir], 'ruby')
+  ruby = settings[:host_ruby]
 
   base = 'resources/patches/ruby_32'
   # https://github.com/apalmblad/ruby-shadow/issues/26

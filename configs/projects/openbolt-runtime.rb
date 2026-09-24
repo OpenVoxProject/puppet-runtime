@@ -35,7 +35,11 @@ project 'openbolt-runtime' do |proj|
     proj.setting(:prefix, '/opt/puppetlabs/bolt')
   end
 
-  ruby_base_version = proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
+  ruby_base_version = if platform.is_archlinux?
+                        '3.4.0'
+                      else
+                        proj.ruby_version.gsub(/(\d+)\.(\d+)(\.\d+)?/, '\1.\2.0')
+                      end
 
   proj.setting(:ruby_dir, proj.prefix)
   proj.setting(:bindir, File.join(proj.prefix, 'bin'))
@@ -57,11 +61,12 @@ project 'openbolt-runtime' do |proj|
     platform_triple = platform.platform_triple
     host = "--host #{platform_triple}"
   else
-    proj.setting(:host_ruby, File.join(proj.ruby_bindir, 'ruby'))
-    proj.setting(:host_gem, File.join(proj.ruby_bindir, 'gem'))
+    proj.setting(:host_ruby, platform.is_archlinux? ? '/usr/bin/ruby' : File.join(proj.ruby_bindir, 'ruby'))
+    proj.setting(:host_gem, platform.is_archlinux? ? '/usr/bin/gem' : File.join(proj.ruby_bindir, 'gem'))
   end
 
   proj.setting(:gem_home, File.join(proj.libdir, 'ruby', 'gems', ruby_base_version))
+  proj.setting(:system_gem_path, '/usr/lib/ruby/gems/3.4.0') if platform.is_archlinux?
   proj.setting(:gem_install, "#{proj.host_gem} install --no-document --local --bindir=#{proj.ruby_bindir}")
 
   proj.setting(:platform_triple, platform_triple)

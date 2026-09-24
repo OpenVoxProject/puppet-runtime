@@ -20,7 +20,8 @@ end
 # When cross-compiling, we can't use the rubygems we just built.
 # Instead we use the host gem installation and override GEM_HOME. Yay?
 pkg.environment 'GEM_HOME', settings[:gem_home]
-pkg.environment 'GEM_PATH', settings[:gem_home]
+gem_path = [settings[:gem_home], settings[:system_gem_path]].compact.join(':')
+pkg.environment 'GEM_PATH', gem_path
 
 # PA-25 in order to install gems in a cross-compiled environment we need to
 # set RUBYLIB to include puppet and hiera, so that their gemspecs can resolve

@@ -15,7 +15,7 @@ gem 'packaging', *location_for(ENV['PACKAGING_LOCATION'] || '~> 0.105')
 gem 'rake', '~> 13.0'
 gem 'rubocop', '~> 1.86'
 gem 'rubocop-rake', '~> 0.7'
-gem 'vanagon', *location_for(ENV['VANAGON_LOCATION'] || 'https://github.com/openvoxproject/vanagon#main')
+gem 'vanagon', *location_for(ENV['VANAGON_LOCATION'] || 'https://github.com/openvoxproject/vanagon#archlinux')
 # Need to update the openssl gem on MacOS to avoid SSL errors.
 # https://www.rubyonmac.dev/certificate-verify-failed-unable-to-get-certificate-crl-openssl-ssl-sslerror
 gem 'openssl', '~> 3' if RUBY_PLATFORM =~ /darwin/
