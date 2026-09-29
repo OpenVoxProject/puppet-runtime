@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.09.29.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.29.1) (2026-09-29)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.09.24.1...2026.09.29.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| openssl-3.5 | 3.5.8 | 3.5.9 |
+| rubygem-aws-partitions | 1.1289.0 | 1.1290.0 |
+| rubygem-aws-sdk-ec2 | 1.652.0 | 1.653.0 |
+
+
+**Merged pull requests:**
+
+- Bump OpenSSL to 3.5.9 [\#274](https://github.com/OpenVoxProject/puppet-runtime/pull/274) ([nmburgan](https://github.com/nmburgan))
+- Update Ruby components [\#272](https://github.com/OpenVoxProject/puppet-runtime/pull/272) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.09.24.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.24.1) (2026-09-24)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.09.02.1...2026.09.24.1)
