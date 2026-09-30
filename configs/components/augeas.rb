@@ -4,8 +4,6 @@
 component 'augeas' do |pkg, settings, platform|
   pkg.load_from_json('configs/components/augeas.json')
 
-  pkg.apply_patch 'resources/patches/augeas/augeas-1.14.1-return_reg_enosys.patch'
-
   if platform.is_el? || platform.is_fedora?
     # Augeas 1.11.0+ needs a libselinux pkgconfig file on these platforms:
     pkg.build_requires 'ruby-selinux'
