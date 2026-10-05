@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.10.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.10.05.1) (2026-10-05)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.09.29.1...2026.10.05.1)
+
+**Merged pull requests:**
+
+- Add redhatfips-10-x86\_64 platform and fix SELinux issue for redhatfips [\#278](https://github.com/OpenVoxProject/puppet-runtime/pull/278) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.09.29.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.09.29.1) (2026-09-29)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.09.24.1...2026.09.29.1)
