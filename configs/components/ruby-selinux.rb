@@ -76,7 +76,7 @@ component 'ruby-selinux' do |pkg, settings, platform|
   # The RHEL 9 libselinux-devel package provides headers, but we don't want to
   # use the package becuase of a compatibility issue with the shared library.
   # Instead, we use the headers provided in the tarball.
-  system_include.prepend('-I./include ') if platform.name =~ /el-(9|10)/
+  system_include.prepend('-I./include ') if platform.name =~ /(el|redhatfips)-(9|10)/
 
   cflags = ''
 
