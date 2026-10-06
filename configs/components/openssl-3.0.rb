@@ -94,6 +94,7 @@ component 'openssl' do |pkg, settings, platform|
   else
     configure_flags << 'no-legacy' << 'no-md4'
   end
+  configure_flags << 'enable-fips' if platform.is_fips?
 
   # Individual projects may provide their own openssl configure flags:
   project_flags = settings[:openssl_extra_configure_flags] || []
@@ -126,8 +127,12 @@ component 'openssl' do |pkg, settings, platform|
   install_commands = []
 
   # Skip man and html docs
-  install_commands << "#{platform[:make]} #{install_prefix} install_sw install_ssldirs"
+  install_targets = 'install_sw install_ssldirs'
+  install_targets += ' install_fips' if platform.is_fips?
+  install_commands << "#{platform[:make]} #{install_prefix} #{install_targets}"
   install_commands << "rm -f #{settings[:prefix]}/bin/c_rehash"
+  # The agent package generates fipsmodule.cnf on the host it is installed on
+  install_commands << "rm -f #{settings[:prefix]}/ssl/fipsmodule.cnf" if platform.is_fips?
 
   pkg.install do
     install_commands
