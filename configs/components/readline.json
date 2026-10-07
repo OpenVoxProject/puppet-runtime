@@ -1,5 +1,5 @@
 {
   "version": "8.1.2",
-  "url": "http://ftp.gnu.org/gnu/readline/readline-8.1.2.tar.gz",
+  "url": "https://mirrors.kernel.org/gnu/readline/readline-8.1.2.tar.gz",
   "sha256sum": "7589a2381a8419e68654a47623ce7dfcb756815c8fee726b98f90bf668af7bc6"
 }
