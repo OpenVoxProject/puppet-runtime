@@ -1,10 +1,18 @@
-component 'rubygem-choria-mcorpc-support' do |pkg, _settings, _platform|
+component 'rubygem-choria-mcorpc-support' do |pkg, settings, _platform|
   ### Maintained by update_gems automation ###
   pkg.version '2.27.0'
-  pkg.sha256sum 'b4b148cd673533b8bd42621b834c35c580888d4d527b0c45db8d385068055dd3'
+  pkg.build_requires 'git'
   pkg.build_requires 'rubygem-nats-pure'
   pkg.build_requires 'rubygem-systemu'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
+
+  # Test build from the head of main instead of the released gem
+  pkg.url 'https://github.com/choria-io/choria-mcorpc-support.git'
+  pkg.ref 'main'
+  pkg.build do
+    git_safe_directory = 'GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0="$${PWD}"'
+    ["#{git_safe_directory} #{settings[:host_gem]} build choria-mcorpc-support.gemspec"]
+  end
 end
