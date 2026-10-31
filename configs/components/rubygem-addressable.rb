@@ -5,8 +5,8 @@
 #####
 component 'rubygem-addressable' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.9.0'
-  pkg.sha256sum '7fdf6ac3660f7f4e867a0838be3f6cf722ace541dd97767fa42bc6cfa980c7af'
+  pkg.version '2.9.1'
+  pkg.sha256sum 'f1212365945455c84e8d031eea40fc6bedf0c663a78d95b3ab93591040bc5c35'
   pkg.build_requires 'rubygem-public_suffix'
   ### End automated maintenance section ###
 
