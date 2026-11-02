@@ -5,8 +5,8 @@
 #####
 component 'rubygem-httpclient' do |pkg, _settings, _platform|
   ### Maintained by update_gems automation ###
-  pkg.version '2.9.0'
-  pkg.sha256sum '4b645958e494b2f86c2f8a2f304c959baa273a310e77a2931ddb986d83e498c8'
+  pkg.version '2.10.0'
+  pkg.sha256sum '8c10f65a5e618b9e1c37dc95fccec9e84953b74748257f65930c68c6f221a4ed'
   ### End automated maintenance section ###
 
   instance_eval File.read('configs/components/_base-rubygem.rb')
