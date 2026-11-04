@@ -1,6 +1,34 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.04.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.04.1) (2026-11-04)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.10.28.1...2026.11.04.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-addressable | 2.9.0 | 2.9.2 |
+| rubygem-aws-partitions | 1.1298.0 | 1.1300.0 |
+| rubygem-aws-sdk-core | 3.260.0 | 3.263.0 |
+| rubygem-aws-sdk-ec2 | 1.660.0 | 1.663.0 |
+| rubygem-choria-mcorpc-support | 2.27.0 | 2.28.0 |
+| rubygem-colored2 | 4.0.3 | 4.1.0 |
+| rubygem-faraday | 2.15.0 | 2.15.1 |
+| rubygem-httpclient | 2.9.0 | 2.10.0 |
+| rubygem-net-scp | 4.1.1 | 4.2.1 |
+| rubygem-net-ssh | 7.3.6 | 7.3.8 |
+| rubygem-openvox | 9.2.0 | 9.3.0 |
+
+
+**Merged pull requests:**
+
+- Update Ruby components [\#328](https://github.com/OpenVoxProject/puppet-runtime/pull/328) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Pin net-ssh gem to 7.3.8 [\#326](https://github.com/OpenVoxProject/puppet-runtime/pull/326) ([Sharpie](https://github.com/Sharpie))
+- Clean up old OpenSSL patches [\#325](https://github.com/OpenVoxProject/puppet-runtime/pull/325) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#316](https://github.com/OpenVoxProject/puppet-runtime/pull/316) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.10.28.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.10.28.1) (2026-10-28)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.10.25.1...2026.10.28.1)
