@@ -40,10 +40,11 @@ pkg.install do
   steps = []
   # Attempting to uninstall a default gem this way will fail, so ignore failures
   steps << "#{gem_uninstall} --force --silent #{name} || true"
-  steps << "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options || ''}"
   # If we are installing a newer version of a default gem, we need to remove the existing
   # specification file so that we don't get warnings. The corresponding gem directory is
   # usually empty and only there for compatibility reasons, so we remove that too to avoid confusion.
   steps << "rm -fv #{settings[:gem_home]}/specifications/default/#{name}-*.gemspec"
-  steps << "rm -rfv #{settings[:gem_home]}/gems/#{name}-*[!#{version}]"
+  steps << "rm -rfv #{settings[:gem_home]}/gems/#{name}-[0-9]*"
+
+  steps << "#{settings[:gem_install]} #{name}-#{version}.gem #{gem_install_options || ''}"
 end
