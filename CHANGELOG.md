@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.04.2](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.04.2) (2026-11-04)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.04.1...2026.11.04.2)
+
+**Merged pull requests:**
+
+- Stop gem cleanup from deleting sibling gems [\#330](https://github.com/OpenVoxProject/puppet-runtime/pull/330) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.11.04.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.04.1) (2026-11-04)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.10.28.1...2026.11.04.1)
