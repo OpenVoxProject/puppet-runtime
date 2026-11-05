@@ -121,9 +121,6 @@ component 'ruby-4.0' do |pkg, settings, platform|
     'ubuntu-24.04-aarch64',
     'ubuntu-24.04-amd64',
     'ubuntu-24.04-armhf',
-    'ubuntu-25.04-aarch64',
-    'ubuntu-25.04-amd64',
-    'ubuntu-25.04-armhf',
     'ubuntu-26.04-armhf',
     'windows-msys2-x64'
   ]
