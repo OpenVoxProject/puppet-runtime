@@ -79,12 +79,30 @@ jobs:
             branch: main
     steps:
       - name: Trigger promote workflow in ${{ matrix.repo }} (${{ matrix.branch }})
+        id: dispatch
         env:
           GH_TOKEN: ${{ secrets.OPENVOXBOT_TRIGGER_WORKFLOWS }}
+          REPO: ${{ matrix.repo }}
+          BRANCH: ${{ matrix.branch }}
+          VERSION: ${{ needs.get_version.outputs.version }}
         run: |
-          gh workflow run promote.yml \
-            --repo "${{ matrix.repo }}" \
-            --ref main \
-            -f component=puppet-runtime \
-            -f ref="${{ needs.get_version.outputs.version }}" \
-            -f branch="${{ matrix.branch }}"
+          # return_run_details makes the API respond with the run id and URL
+          response=$(gh api --method POST \
+            "repos/${REPO}/actions/workflows/promote.yml/dispatches" \
+            -f ref=main \
+            -F return_run_details=true \
+            -f 'inputs[component]=puppet-runtime' \
+            -f "inputs[ref]=${VERSION}" \
+            -f "inputs[branch]=${BRANCH}")
+          run_id=$(jq -r '.workflow_run_id' <<< "${response}")
+          run_url=$(jq -r '.html_url' <<< "${response}")
+          echo "run_id=${run_id}" >> "$GITHUB_OUTPUT"
+          echo "Triggered ${run_url}"
+          echo "- [${REPO} (${BRANCH})](${run_url})" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Wait for promote workflow in ${{ matrix.repo }} (${{ matrix.branch }})
+        env:
+          GH_TOKEN: ${{ secrets.OPENVOXBOT_TRIGGER_WORKFLOWS }}
+          REPO: ${{ matrix.repo }}
+          RUN_ID: ${{ steps.dispatch.outputs.run_id }}
+        run: gh run watch "${RUN_ID}" --repo "${REPO}" --exit-status
