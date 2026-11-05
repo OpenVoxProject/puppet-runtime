@@ -60,3 +60,31 @@ jobs:
       project_name: ${{ matrix.project_name }}
       branch: ${{ matrix.branch }}
     secrets: inherit
+
+  promote:
+    needs:
+      - get_version
+      - build
+    runs-on: ubuntu-26.04
+    permissions: {}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repo: OpenVoxProject/openvox
+            branch: main
+          - repo: OpenVoxProject/openvox
+            branch: '8.x'
+          - repo: OpenVoxProject/openbolt
+            branch: main
+    steps:
+      - name: Trigger promote workflow in ${{ matrix.repo }} (${{ matrix.branch }})
+        env:
+          GH_TOKEN: ${{ secrets.OPENVOXBOT_TRIGGER_WORKFLOWS }}
+        run: |
+          gh workflow run promote.yml \
+            --repo "${{ matrix.repo }}" \
+            --ref main \
+            -f component=puppet-runtime \
+            -f ref="${{ needs.get_version.outputs.version }}" \
+            -f branch="${{ matrix.branch }}"
