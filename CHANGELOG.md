@@ -1,6 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.05.1) (2026-11-05)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.04.2...2026.11.05.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1300.0 | 1.1301.0 |
+| rubygem-aws-sdk-core | 3.263.0 | 3.264.0 |
+| rubygem-aws-sdk-ec2 | 1.663.0 | 1.664.0 |
+
+
+**Merged pull requests:**
+
+- Remove configuration for Ubuntu 25.04 [\#335](https://github.com/OpenVoxProject/puppet-runtime/pull/335) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#332](https://github.com/OpenVoxProject/puppet-runtime/pull/332) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.11.04.2](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.04.2) (2026-11-04)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.04.1...2026.11.04.2)
