@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.06.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.06.1) (2026-11-06)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.05.1...2026.11.06.1)
+
+**Merged pull requests:**
+
+- Remove configuration for Ubuntu 25.04 [\#335](https://github.com/OpenVoxProject/puppet-runtime/pull/335) ([Sharpie](https://github.com/Sharpie))
+- Hold multi\_json at 1.19.1 in agent-runtime-8.x [\#334](https://github.com/OpenVoxProject/puppet-runtime/pull/334) ([miharp](https://github.com/miharp))
+- Update Ruby components [\#332](https://github.com/OpenVoxProject/puppet-runtime/pull/332) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.11.05.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.05.1) (2026-11-05)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.04.2...2026.11.05.1)
