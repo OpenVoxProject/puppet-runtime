@@ -1,6 +1,32 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.12.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.12.1) (2026-11-12)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.06.1...2026.11.12.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| rubygem-aws-partitions | 1.1301.0 | 1.1305.0 |
+| rubygem-aws-sdk-core | 3.264.0 | 3.268.0 |
+| rubygem-aws-sdk-ec2 | 1.664.0 | 1.668.0 |
+| rubygem-minitar | 1.1.0 | 1.2.0 |
+| rubygem-openfact | 6.2.1 | 6.2.2 |
+
+
+**Implemented enhancements:**
+
+- promote releases into openvox & openbolt [\#336](https://github.com/OpenVoxProject/puppet-runtime/pull/336) ([bastelfreak](https://github.com/bastelfreak))
+
+**Merged pull requests:**
+
+- Update Ruby components [\#346](https://github.com/OpenVoxProject/puppet-runtime/pull/346) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Update Ruby components [\#345](https://github.com/OpenVoxProject/puppet-runtime/pull/345) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+- Remove configuration for Fedora 42 [\#341](https://github.com/OpenVoxProject/puppet-runtime/pull/341) ([Sharpie](https://github.com/Sharpie))
+- Update Ruby components [\#340](https://github.com/OpenVoxProject/puppet-runtime/pull/340) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.11.06.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.06.1) (2026-11-06)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.05.1...2026.11.06.1)
