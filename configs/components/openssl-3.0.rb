@@ -132,13 +132,8 @@ component 'openssl' do |pkg, settings, platform|
   # BUILD
   #######
 
-  build_commands = []
-
-  build_commands << "#{platform[:make]} depend"
-  build_commands << platform[:make]
-
   pkg.build do
-    build_commands
+    [platform[:make]]
   end
 
   #########
