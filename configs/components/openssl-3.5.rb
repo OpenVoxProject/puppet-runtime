@@ -102,7 +102,7 @@ component 'openssl' do |pkg, settings, platform|
   #######
 
   pkg.build do
-    [platform[:make]]
+    ["#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"]
   end
 
   #########
