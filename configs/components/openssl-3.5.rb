@@ -79,7 +79,8 @@ component 'openssl' do |pkg, settings, platform|
     'no-rc5',
     'no-mdc2',
     'no-rmd160',
-    'no-whirlpool'
+    'no-whirlpool',
+    'no-tests'
   ]
 
   if settings[:use_legacy_openssl_algos]

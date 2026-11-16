@@ -86,7 +86,8 @@ component 'openssl' do |pkg, settings, platform|
     'no-rc5',
     'no-mdc2',
     # 'no-rmd160', this is causing failures with pxp, remove once pxp-agent does not need it
-    'no-whirlpool'
+    'no-whirlpool',
+    'no-tests'
   ]
 
   if settings[:use_legacy_openssl_algos]
