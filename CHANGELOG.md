@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.16.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.16.1) (2026-11-16)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.12.1...2026.11.16.1)
+
+**Merged pull requests:**
+
+- Build the OpenSSL FIPS provider on FIPS platforms [\#280](https://github.com/OpenVoxProject/puppet-runtime/pull/280) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.11.12.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.12.1) (2026-11-12)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.06.1...2026.11.12.1)
