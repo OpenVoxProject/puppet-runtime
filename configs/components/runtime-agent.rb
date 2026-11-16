@@ -34,8 +34,8 @@ component 'runtime-agent' do |pkg, settings, platform|
                        "#{settings[:bindir]}/libwinpthread-1.dll"
 
       # Used by the zlib default gem.
-      pkg.install_file "#{settings[:gcc_bindir]}/zlib1.dll",
-                       "#{settings[:bindir]}/zlib1.dll"
+      pkg.install_file "#{settings[:gcc_bindir]}/libz-1.dll",
+                       "#{settings[:bindir]}/libz-1.dll"
     end
   end
 end

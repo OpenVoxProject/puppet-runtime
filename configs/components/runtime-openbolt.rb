@@ -19,7 +19,7 @@ component 'runtime-openbolt' do |pkg, settings, platform|
       # Matches what the ruby-lang.org builds copy into ruby_builtin_dlls
       pkg.install_file "#{settings[:gcc_bindir]}/libgmp-10.dll", "#{settings[:bindir]}/libgmp-10.dll"
       pkg.install_file "#{settings[:gcc_bindir]}/libwinpthread-1.dll", "#{settings[:bindir]}/libwinpthread-1.dll"
-      pkg.install_file "#{settings[:gcc_bindir]}/zlib1.dll", "#{settings[:bindir]}/zlib1.dll"
+      pkg.install_file "#{settings[:gcc_bindir]}/libz-1.dll", "#{settings[:bindir]}/libz-1.dll"
     end
   end
 end
