@@ -79,7 +79,8 @@ component 'openssl' do |pkg, settings, platform|
     'no-rc5',
     'no-mdc2',
     'no-rmd160',
-    'no-whirlpool'
+    'no-whirlpool',
+    'no-tests'
   ]
 
   if settings[:use_legacy_openssl_algos]
@@ -101,13 +102,8 @@ component 'openssl' do |pkg, settings, platform|
   # BUILD
   #######
 
-  build_commands = []
-
-  build_commands << "#{platform[:make]} depend"
-  build_commands << platform[:make]
-
   pkg.build do
-    build_commands
+    ["#{platform[:make]} -j$(shell expr $(shell #{platform[:num_cores]}) + 1)"]
   end
 
   #########
