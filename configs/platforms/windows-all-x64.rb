@@ -22,7 +22,6 @@ platform 'windows-all-x64' do |plat|
     'mingw64-x86_64-gcc-g++',
     'mingw64-x86_64-gdbm',
     'mingw64-x86_64-libffi',
-    'mingw64-x86_64-readline',
     'mingw64-x86_64-zlib',
     'ruby',
     'ruby-devel',
