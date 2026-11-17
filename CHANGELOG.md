@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.17.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.17.1) (2026-11-17)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.12.1...2026.11.17.1)
+
+**Closed issues:**
+
+- Windows 9.4.0 MSI: zlib.so imports libz-1.dll but only zlib1.dll is packaged \(require 'zlib' fails with LoadError 126\) [\#350](https://github.com/OpenVoxProject/puppet-runtime/issues/350)
+
+**Merged pull requests:**
+
+- OpenSSL build efficiencies [\#353](https://github.com/OpenVoxProject/puppet-runtime/pull/353) ([nmburgan](https://github.com/nmburgan))
+- Fix zlib on Windows, remove unused readline, add check for missing DLLs [\#352](https://github.com/OpenVoxProject/puppet-runtime/pull/352) ([nmburgan](https://github.com/nmburgan))
+- Build the OpenSSL FIPS provider on FIPS platforms [\#280](https://github.com/OpenVoxProject/puppet-runtime/pull/280) ([nmburgan](https://github.com/nmburgan))
+
 ## [2026.11.12.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.12.1) (2026-11-12)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.06.1...2026.11.12.1)
