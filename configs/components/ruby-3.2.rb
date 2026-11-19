@@ -35,6 +35,15 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0005-regexp-free-failed-alternation-branch.patch"
   pkg.apply_patch "#{base}/0006-regexp-preserve-program-size-error.patch"
 
+  # Backport the Ruby 3.3.14 fixes for the Regexp and String case conversion
+  # advisories below. Keep this order, since the patches build on the ones
+  # above and on each other.
+  #
+  # GHSA-3p8q-wmhx-vm2w, heap buffer overflow in regexp compilation
+  pkg.apply_patch "#{base}/0007-regexp-bound-compiled-program-writes.patch"
+  pkg.apply_patch "#{base}/0008-regexp-harden-bbuf-size-arithmetic.patch"
+  pkg.apply_patch "#{base}/0009-regexp-check-program-size-in-length-pass.patch"
+
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
     pkg.apply_patch "#{base}/ruby-faster-load_32.patch"
