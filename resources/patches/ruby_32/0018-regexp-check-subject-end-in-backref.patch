@@ -1,0 +1,37 @@
+From: Hiroya Fujinami <make.just.on@gmail.com>
+Date: 2026-10-30T16:30:19+09:00
+Subject: [PATCH 12/15] Check the end of the subject in string_cmp_ic
+
+Backport of Ruby 3.3 commit 1184052e023c95a7883a4f68c0b22883109a5a0d
+(ruby/ruby#20003, GHSA-pvgc-g7gj-pv6h).
+
+---
+diff --git a/regexec.c b/regexec.c
+index e7f7276990..be4f870d7f 100644
+--- a/regexec.c
++++ b/regexec.c
+@@ -1782,6 +1782,7 @@ static int string_cmp_ic(OnigEncoding enc, int case_fold_flag,
+   s2   = *ps2;
+   end1 = s1 + mblen;
+   while (s1 < end1) {
++    if (s2 >= text_end) return 0;
+     len1 = ONIGENC_MBC_CASE_FOLD(enc, case_fold_flag, &s1, text_end, buf1);
+     len2 = ONIGENC_MBC_CASE_FOLD(enc, case_fold_flag, &s2, text_end, buf2);
+     if (len1 != len2) return 0;
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index 0eaa90007f..0df6da9647 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -1506,6 +1506,12 @@ def test_ignorecase_fold_longer_than_operand
+     end;
+   end
+ 
++  def test_backref_ignorecase_at_end_of_string
++    assert_no_match(/(k\0)\1/i, "k\0\u212a")
++    assert_match(/(k)\1/i, "k\u212a")
++    assert_match(/(k\0)\1/i, "k\0\u212a\0")
++  end
++
+   def test_unicode_age
+     assert_match(/^\p{Age=6.0}$/u, "\u261c")
+     assert_match(/^\p{Age=1.1}$/u, "\u261c")

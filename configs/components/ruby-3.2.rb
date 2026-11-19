@@ -53,6 +53,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0015-regexp-keep-comment-as-token-separator.patch"
   pkg.apply_patch "#{base}/0016-regexp-fix-emacs-mule-case-fold-length.patch"
   pkg.apply_patch "#{base}/0017-regexp-reject-invalid-code-point-escapes.patch"
+  # GHSA-pvgc-g7gj-pv6h, out-of-bounds read in case-insensitive backreferences
+  pkg.apply_patch "#{base}/0018-regexp-check-subject-end-in-backref.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
