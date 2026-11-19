@@ -59,6 +59,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0019-regexp-preprocess-source-in-to-s.patch"
   # GHSA-34m4-m9fh-gqp5, heap buffer overflow in case conversion of strings
   pkg.apply_patch "#{base}/0020-string-fix-sharp-s-case-map-overflow.patch"
+  # GHSA-87fm-7w84-j2px, integer overflow in case conversion of strings
+  pkg.apply_patch "#{base}/0021-string-check-case-map-lengths.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
