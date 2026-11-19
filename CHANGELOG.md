@@ -1,6 +1,48 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2026.11.19.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.19.1) (2026-11-19)
+
+[Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.17.1...2026.11.19.1)
+
+
+**Component Changes:**
+| Component | Old Version | New Version |
+|-----------|-------------|-------------|
+| ruby-4.0 | 4.0.9 | 4.0.10 |
+| rubygem-aws-partitions | 1.1305.0 | 1.1308.0 |
+| rubygem-aws-sdk-core | 3.268.0 | 3.270.0 |
+| rubygem-aws-sdk-ec2 | 1.668.0 | 1.673.0 |
+| rubygem-connection_pool |  | 3.0.3 |
+| rubygem-faraday-net_http_persistent |  | 2.3.1 |
+| rubygem-httpclient | 2.10.0 | 2.11.0 |
+| rubygem-net-http-persistent |  | 4.0.8 |
+| rubygem-net-scp | 4.2.1 | 4.2.2 |
+| rubygem-openfact | 6.2.2 | 6.2.3 |
+| rubygem-openvox | 9.3.0 | 9.4.1 |
+| rubygem-orchestrator_client |  | 0.7.2 |
+| rubygem-puppet-resource_api | 2.0.1 | 2.1.0 |
+
+**Project component additions:**
+- rubygem-connection_pool: openbolt-runtime
+- rubygem-faraday-net_http_persistent: openbolt-runtime
+- rubygem-net-http-persistent: openbolt-runtime
+- rubygem-orchestrator_client: openbolt-runtime
+
+
+**Implemented enhancements:**
+
+- Add the orchestrator\_client gem and deps back to openbolt-runtime [\#355](https://github.com/OpenVoxProject/puppet-runtime/pull/355) ([nmburgan](https://github.com/nmburgan))
+
+**Security fixes:**
+
+- Ruby 3.2 security patches [\#357](https://github.com/OpenVoxProject/puppet-runtime/pull/357) ([nmburgan](https://github.com/nmburgan))
+- ruby-4.0: Update 4.0.9-\>4.0.10 [\#356](https://github.com/OpenVoxProject/puppet-runtime/pull/356) ([Sharpie](https://github.com/Sharpie))
+
+**Merged pull requests:**
+
+- Update Ruby components [\#348](https://github.com/OpenVoxProject/puppet-runtime/pull/348) ([OpenVoxProjectBot](https://github.com/OpenVoxProjectBot))
+
 ## [2026.11.17.1](https://github.com/openvoxproject/puppet-runtime/tree/2026.11.17.1) (2026-11-17)
 
 [Full Changelog](https://github.com/openvoxproject/puppet-runtime/compare/2026.11.12.1...2026.11.17.1)
