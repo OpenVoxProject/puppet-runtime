@@ -55,6 +55,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0017-regexp-reject-invalid-code-point-escapes.patch"
   # GHSA-pvgc-g7gj-pv6h, out-of-bounds read in case-insensitive backreferences
   pkg.apply_patch "#{base}/0018-regexp-check-subject-end-in-backref.patch"
+  # GHSA-7whj-cfh7-xgm4, heap buffer overflow in Regexp#to_s
+  pkg.apply_patch "#{base}/0019-regexp-preprocess-source-in-to-s.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
