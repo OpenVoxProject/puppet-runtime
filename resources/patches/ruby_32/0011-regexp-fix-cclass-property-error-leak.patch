@@ -1,0 +1,48 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-30T16:39:52+09:00
+Subject: [PATCH 5/15] Fix a memory leak on property errors in parse_char_class
+
+Backport of Ruby 3.3 commit 6894481ee2428dc65739675be10b5f601c60cbdb
+(ruby/ruby#20001, GHSA-7x2q-68qv-6p8x).
+Without the upstream test.
+
+---
+diff --git a/regparse.c b/regparse.c
+index d247fc96af..eed959aaab 100644
+--- a/regparse.c
++++ b/regparse.c
+@@ -4724,12 +4724,12 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+     case TK_CHAR_TYPE:
+       r = add_ctype_to_cc(cc, tok->u.prop.ctype, tok->u.prop.not,
+ 			  IS_ASCII_RANGE(env->option), env);
+-      if (r != 0) return r;
++      if (r != 0) goto err;
+       if (IS_NOT_NULL(asc_cc)) {
+ 	if (tok->u.prop.ctype != ONIGENC_CTYPE_WORD)
+ 	  r = add_ctype_to_cc(asc_cc, tok->u.prop.ctype, tok->u.prop.not,
+ 			      IS_ASCII_RANGE(env->option), env);
+-	if (r != 0) return r;
++	if (r != 0) goto err;
+       }
+ 
+     next_class:
+@@ -4742,13 +4742,16 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+ 	int ctype;
+ 
+ 	ctype = fetch_char_property_to_ctype(&p, end, env);
+-	if (ctype < 0) return ctype;
++	if (ctype < 0) {
++	  r = ctype;
++	  goto err;
++	}
+ 	r = add_ctype_to_cc(cc, ctype, tok->u.prop.not, 0, env);
+-	if (r != 0) return r;
++	if (r != 0) goto err;
+ 	if (IS_NOT_NULL(asc_cc)) {
+ 	  if (ctype != ONIGENC_CTYPE_ASCII)
+ 	    r = add_ctype_to_cc(asc_cc, ctype, tok->u.prop.not, 0, env);
+-	  if (r != 0) return r;
++	  if (r != 0) goto err;
+ 	}
+ 	goto next_class;
+       }

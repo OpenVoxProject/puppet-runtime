@@ -43,6 +43,10 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0007-regexp-bound-compiled-program-writes.patch"
   pkg.apply_patch "#{base}/0008-regexp-harden-bbuf-size-arithmetic.patch"
   pkg.apply_patch "#{base}/0009-regexp-check-program-size-in-length-pass.patch"
+  # GHSA-7x2q-68qv-6p8x, double free in regexp compilation
+  pkg.apply_patch "#{base}/0010-regexp-fix-cclass-intersection-double-free.patch"
+  pkg.apply_patch "#{base}/0011-regexp-fix-cclass-property-error-leak.patch"
+  pkg.apply_patch "#{base}/0012-regexp-fix-match-cache-stack-double-free.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
