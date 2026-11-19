@@ -1,0 +1,79 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-29T14:04:57+09:00
+Subject: [PATCH 11/15] Reject surrogates and out-of-range code points in regexp code point escapes
+
+Backport of Ruby 3.3 commit bdc1368e514ac0d87ffec028adff00a8e51a38cc
+(ruby/ruby#20002, GHSA-wpqw-5qxg-m68r).
+
+---
+diff --git a/regparse.c b/regparse.c
+index a8f91d3436..84d202e7bd 100644
+--- a/regparse.c
++++ b/regparse.c
+@@ -1443,6 +1443,15 @@ node_str_cat_codepoint(Node* node, OnigEncoding enc, OnigCodePoint c)
+   return onig_node_str_cat(node, buf, buf + num);
+ }
+ 
++static int
++check_code_point(OnigCodePoint code, OnigEncoding enc)
++{
++  if (ONIGENC_IS_UNICODE(enc) &&
++      (code > 0x10ffff || (code >= 0xd800 && code <= 0xdfff)))
++    return ONIGERR_INVALID_CODE_POINT_VALUE;
++  return 0;
++}
++
+ #if 0
+ extern void
+ onig_node_conv_to_str_node(Node* node, int flag)
+@@ -4694,6 +4703,8 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+ 
+     case TK_CODE_POINT:
+       v = tok->u.code;
++      r = check_code_point(v, env->enc);
++      if (r != 0) goto err;
+       in_israw = 1;
+     val_entry:
+       len = ONIGENC_CODE_TO_MBCLEN(env->enc, v);
+@@ -6204,6 +6215,8 @@ parse_exp(Node** np, OnigToken* tok, int term,
+ 	}
+ #ifndef NUMBERED_CHAR_IS_NOT_CASE_AMBIG
+ 	else if (r == TK_CODE_POINT) {
++	  r = check_code_point(tok->u.code, env->enc);
++	  if (r != 0) return r;
+ 	  r = node_str_cat_codepoint(*np, env->enc, tok->u.code);
+ 	}
+ #endif
+@@ -6266,6 +6279,8 @@ parse_exp(Node** np, OnigToken* tok, int term,
+ 
+   case TK_CODE_POINT:
+     {
++      r = check_code_point(tok->u.code, env->enc);
++      if (r != 0) return r;
+       *np = node_new_empty();
+       CHECK_NULL_RETURN_MEMERR(*np);
+       r = node_str_cat_codepoint(*np, env->enc, tok->u.code);
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index dc573c815f..0eaa90007f 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -1273,6 +1273,19 @@ def test_emacs_mule_case_fold_at_mid_character
+     end;
+   end
+ 
++  def test_invalid_code_point_escape_in_utf16
++    %w[UTF-16LE UTF-16BE UTF-32LE UTF-32BE].each do |enc|
++      assert_raise(RegexpError) { Regexp.new("\\x{D801}".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("a\\x{D801}".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("a\\x{110000}".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("[\\x{D801}]".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("\\x{110000}".encode(enc)) }
++      s = "\u{1F600}".encode(enc)
++      assert_match(Regexp.new("\\x{1F600}".encode(enc)), s)
++      assert_match(Regexp.new("[\\x{1F600}]".encode(enc)), s)
++    end
++  end
++
+   def test_char_type
+     check(/\u3042\d/, ["\u30421", "\u30422"])
+ 

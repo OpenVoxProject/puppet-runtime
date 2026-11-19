@@ -47,6 +47,12 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0010-regexp-fix-cclass-intersection-double-free.patch"
   pkg.apply_patch "#{base}/0011-regexp-fix-cclass-property-error-leak.patch"
   pkg.apply_patch "#{base}/0012-regexp-fix-match-cache-stack-double-free.patch"
+  # GHSA-wpqw-5qxg-m68r, out-of-bounds read in case-insensitive regexp matching
+  pkg.apply_patch "#{base}/0013-regexp-check-ignore-case-fold-length.patch"
+  pkg.apply_patch "#{base}/0014-regexp-reject-incomplete-byte-escapes.patch"
+  pkg.apply_patch "#{base}/0015-regexp-keep-comment-as-token-separator.patch"
+  pkg.apply_patch "#{base}/0016-regexp-fix-emacs-mule-case-fold-length.patch"
+  pkg.apply_patch "#{base}/0017-regexp-reject-invalid-code-point-escapes.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
