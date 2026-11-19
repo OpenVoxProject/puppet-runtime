@@ -214,6 +214,13 @@ project 'openbolt-runtime' do |proj|
   proj.component 'rubygem-nats-pure'
   proj.component 'rubygem-choria-mcorpc-support'
 
+  # PCP transport dependencies. The openbolt gem does not depend on
+  # orchestrator_client and loads it when a pcp target is used.
+  proj.component 'rubygem-connection_pool'
+  proj.component 'rubygem-net-http-persistent'
+  proj.component 'rubygem-faraday-net_http_persistent'
+  proj.component 'rubygem-orchestrator_client'
+
   # Core Windows dependencies
   proj.component 'rubygem-windows_error'
   proj.component 'rubygem-winrm'
