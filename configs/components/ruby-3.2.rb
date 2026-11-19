@@ -57,6 +57,8 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0018-regexp-check-subject-end-in-backref.patch"
   # GHSA-7whj-cfh7-xgm4, heap buffer overflow in Regexp#to_s
   pkg.apply_patch "#{base}/0019-regexp-preprocess-source-in-to-s.patch"
+  # GHSA-34m4-m9fh-gqp5, heap buffer overflow in case conversion of strings
+  pkg.apply_patch "#{base}/0020-string-fix-sharp-s-case-map-overflow.patch"
 
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
