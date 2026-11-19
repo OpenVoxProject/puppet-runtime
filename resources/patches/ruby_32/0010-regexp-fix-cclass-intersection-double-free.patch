@@ -1,0 +1,39 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-29T00:48:17+09:00
+Subject: [PATCH 4/15] Fix a double free in the && handler of parse_char_class
+
+Backport of Ruby 3.3 commit 0941ceda29041d48db145cfd5eadf9e9019bb566
+(ruby/ruby#20001, GHSA-7x2q-68qv-6p8x).
+
+---
+diff --git a/regparse.c b/regparse.c
+index 59287880d2..d247fc96af 100644
+--- a/regparse.c
++++ b/regparse.c
+@@ -4849,6 +4849,7 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+ 	  r = and_cclass(prev_cc, cc, env);
+ 	  if (r != 0) goto err;
+ 	  bbuf_free(cc->mbuf);
++	  cc->mbuf = NULL;
+ 	  if (IS_NOT_NULL(asc_cc)) {
+ 	    r = and_cclass(asc_prev_cc, asc_cc, env);
+ 	    if (r != 0) goto err;
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index 575ec65fbb..a042826ff1 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -1288,6 +1288,14 @@ def test_posix_bracket
+     assert_no_match(/[[:ascii:]]/, "\x80\xFF")
+   end
+ 
++  def test_too_many_multibyte_ranges_in_intersection
++    chars = (0...9999).map {|i| (0x4e00 + 2 * i).chr("UTF-8") }.join
++    cc = "[[:^ascii:][^#{chars}]&&[^\u9fff]&&x]"
++    assert_raise(RegexpError) { Regexp.new(cc, Regexp::IGNORECASE) }
++    assert_raise(RegexpError) { Regexp.new("[x&&#{cc}]", Regexp::IGNORECASE) }
++    assert_raise(RegexpError) { Regexp.new(cc.encode("UTF-16LE"), Regexp::IGNORECASE) }
++  end
++
+   def test_cclass_R
+     assert_match(/\A\R\z/, "\r")
+     assert_match(/\A\R\z/, "\n")

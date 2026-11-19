@@ -1,0 +1,222 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-28T22:55:06+09:00
+Subject: [PATCH 14/15] Fix a heap buffer overflow in case mapping of the sharp s
+
+Backport of Ruby 3.3 commit d8d4c02fff5a3f6418ed3c331b0fe116727b8eac
+(ruby/ruby#20005, GHSA-34m4-m9fh-gqp5).
+
+---
+diff --git a/enc/iso_8859_1.c b/enc/iso_8859_1.c
+index 7af0888c3e..5535358bb7 100644
+--- a/enc/iso_8859_1.c
++++ b/enc/iso_8859_1.c
+@@ -264,7 +264,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_10.c b/enc/iso_8859_10.c
+index cae4be2db0..33dbab68ef 100644
+--- a/enc/iso_8859_10.c
++++ b/enc/iso_8859_10.c
+@@ -233,7 +233,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_13.c b/enc/iso_8859_13.c
+index fe1ddd7065..05862533f1 100644
+--- a/enc/iso_8859_13.c
++++ b/enc/iso_8859_13.c
+@@ -226,7 +226,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_14.c b/enc/iso_8859_14.c
+index 647514a016..be347d7592 100644
+--- a/enc/iso_8859_14.c
++++ b/enc/iso_8859_14.c
+@@ -235,7 +235,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_15.c b/enc/iso_8859_15.c
+index 377a3afc7b..6ccb5f906d 100644
+--- a/enc/iso_8859_15.c
++++ b/enc/iso_8859_15.c
+@@ -229,7 +229,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_16.c b/enc/iso_8859_16.c
+index 135630eb73..47aff1e120 100644
+--- a/enc/iso_8859_16.c
++++ b/enc/iso_8859_16.c
+@@ -231,7 +231,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_2.c b/enc/iso_8859_2.c
+index 3a05c6320d..3e3d506d51 100644
+--- a/enc/iso_8859_2.c
++++ b/enc/iso_8859_2.c
+@@ -229,7 +229,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_3.c b/enc/iso_8859_3.c
+index 2a343eac63..8c78fdd64d 100644
+--- a/enc/iso_8859_3.c
++++ b/enc/iso_8859_3.c
+@@ -231,7 +231,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_4.c b/enc/iso_8859_4.c
+index e2134e8c0b..24f78bb7c4 100644
+--- a/enc/iso_8859_4.c
++++ b/enc/iso_8859_4.c
+@@ -232,7 +232,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/iso_8859_9.c b/enc/iso_8859_9.c
+index 004eec310f..4670823283 100644
+--- a/enc/iso_8859_9.c
++++ b/enc/iso_8859_9.c
+@@ -224,7 +224,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/windows_1250.c b/enc/windows_1250.c
+index daf23e9d1e..62a3cbb1ed 100644
+--- a/enc/windows_1250.c
++++ b/enc/windows_1250.c
+@@ -199,7 +199,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/windows_1252.c b/enc/windows_1252.c
+index b685878d3f..a8a9b205b9 100644
+--- a/enc/windows_1252.c
++++ b/enc/windows_1252.c
+@@ -190,7 +190,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/windows_1254.c b/enc/windows_1254.c
+index 5e6d92d3d2..b9fe1bef76 100644
+--- a/enc/windows_1254.c
++++ b/enc/windows_1254.c
+@@ -232,7 +232,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/enc/windows_1257.c b/enc/windows_1257.c
+index ada03b72bf..350c90ecdd 100644
+--- a/enc/windows_1257.c
++++ b/enc/windows_1257.c
+@@ -236,7 +236,7 @@ case_map(OnigCaseFoldType* flagP, const OnigUChar** pp,
+   OnigUChar *to_start = to;
+   OnigCaseFoldType flags = *flagP;
+ 
+-  while (*pp < end && to < to_end) {
++  while (*pp < end && to_end - to > 1) {
+     code = *(*pp)++;
+     if (code == SHARP_s) {
+       if (flags & ONIGENC_CASE_UPCASE) {
+diff --git a/test/ruby/enc/test_case_mapping.rb b/test/ruby/enc/test_case_mapping.rb
+index 31acdc4331..d1edfefa5d 100644
+--- a/test/ruby/enc/test_case_mapping.rb
++++ b/test/ruby/enc/test_case_mapping.rb
+@@ -215,6 +215,27 @@ def test_shift_jis_downcase_ascii
+     assert_equal s, s.downcase(:ascii)
+   end
+ 
++  SHARP_S_SINGLE_BYTE_ENCODINGS = %w[
++    ISO-8859-1 ISO-8859-2 ISO-8859-3 ISO-8859-4 ISO-8859-9 ISO-8859-10
++    ISO-8859-13 ISO-8859-14 ISO-8859-15 ISO-8859-16
++    Windows-1250 Windows-1252 Windows-1254 Windows-1257
++  ]
++
++  def test_single_byte_sharp_s_expansion
++    SHARP_S_SINGLE_BYTE_ENCODINGS.each do |name|
++      enc = Encoding.find(name)
++      (1..64).each do |n|
++        s = ("\xDF".b * n).force_encoding(enc)
++        assert_equal "SS" * n, s.upcase, "#{name} upcase #{n}"
++        assert_equal "ss" * n, s.downcase(:fold), "#{name} fold #{n}"
++        assert_equal "SS" * n, s.swapcase, "#{name} swapcase #{n}"
++        assert_equal ("Ss" + "\xDF".b * (n - 1)).force_encoding(enc), s.capitalize, "#{name} capitalize #{n}"
++        assert_equal "SS" * n, ("a".b + "\xDF".b * n).force_encoding(enc).upcase[1..], "#{name} upcase a+#{n}"
++        assert_equal true, s.casecmp?(("ss" * n).force_encoding(enc)), "#{name} casecmp? #{n}"
++      end
++    end
++  end
++
+   def test_shift_jis_upcase_ascii
+     s = ("a".."z").map {|c| "\x89#{c}"}.join("").force_encoding("Shift_JIS")
+     assert_equal s, s.upcase(:ascii)

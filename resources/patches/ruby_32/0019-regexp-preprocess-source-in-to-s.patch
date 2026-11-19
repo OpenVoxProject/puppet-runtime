@@ -1,0 +1,79 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-11-09T03:27:00+09:00
+Subject: [PATCH 13/15] Preprocess the source before Regexp#to_s checks it with Onigmo
+
+Backport of Ruby 3.3 commit e6011259c9387ba925b90a15434107d2eef5bfa1
+(ruby/ruby#20004, GHSA-7whj-cfh7-xgm4).
+
+---
+diff --git a/re.c b/re.c
+index 2eb941b3d2..dd2d62e106 100644
+--- a/re.c
++++ b/re.c
+@@ -561,6 +561,10 @@ rb_reg_to_s(VALUE re)
+     return rb_reg_str_with_term(re, '/');
+ }
+ 
++static VALUE
++rb_reg_preprocess(const char *p, const char *end, rb_encoding *enc,
++        rb_encoding **fixed_enc, onig_errmsg_buffer err, int options);
++
+ static VALUE
+ rb_reg_str_with_term(VALUE re, int term)
+ {
+@@ -616,14 +620,23 @@ rb_reg_str_with_term(VALUE re, int term)
+         if (*ptr == ':' && ptr[len-1] == ')') {
+             Regexp *rp;
+             VALUE verbose = ruby_verbose;
+-            ruby_verbose = Qfalse;
++            rb_encoding *fixed_enc = 0;
++            onig_errmsg_buffer errmsg = "";
++            VALUE unescaped;
+ 
+             ++ptr;
+             len -= 2;
+-            err = onig_new(&rp, ptr, ptr + len, options,
+-                           enc, OnigDefaultSyntax, NULL);
+-            onig_free(rp);
+-            ruby_verbose = verbose;
++            unescaped = rb_reg_preprocess((const char *)ptr, (const char *)ptr + len,
++                                          enc, &fixed_enc, errmsg, options);
++            if (!NIL_P(unescaped)) {
++                ruby_verbose = Qfalse;
++                err = onig_new(&rp, (UChar *)RSTRING_PTR(unescaped),
++                               (UChar *)RSTRING_END(unescaped), options,
++                               enc, OnigDefaultSyntax, NULL);
++                onig_free(rp);
++                ruby_verbose = verbose;
++                RB_GC_GUARD(unescaped);
++            }
+         }
+         if (err) {
+             options = RREGEXP_PTR(re)->options;
+@@ -1530,10 +1543,6 @@ rb_reg_fixed_encoding_p(VALUE re)
+     return RBOOL(FL_TEST(re, KCODE_FIXED));
+ }
+ 
+-static VALUE
+-rb_reg_preprocess(const char *p, const char *end, rb_encoding *enc,
+-        rb_encoding **fixed_enc, onig_errmsg_buffer err, int options);
+-
+ NORETURN(static void reg_enc_error(VALUE re, VALUE str));
+ 
+ static void
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index 0df6da9647..f0587b2b89 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -85,6 +85,11 @@ def test_to_s
+     end
+   end
+ 
++  def test_to_s_comment_in_char_class
++    re = EnvUtil.suppress_warning { Regexp.new('(?:[](?#\x{7FFFFFFF})])') }
++    assert_equal('(?-mix:[](?#\x{7FFFFFFF})])', EnvUtil.suppress_warning { re.to_s })
++  end
++
+   def test_to_s_extended_subexp
+     re = /#\g#{"\n"}/x
+     re = /#{re}/

@@ -35,6 +35,33 @@ component 'ruby-3.2' do |pkg, settings, platform|
   pkg.apply_patch "#{base}/0005-regexp-free-failed-alternation-branch.patch"
   pkg.apply_patch "#{base}/0006-regexp-preserve-program-size-error.patch"
 
+  # Backport the Ruby 3.3.14 fixes for the Regexp and String case conversion
+  # advisories below. Keep this order, since the patches build on the ones
+  # above and on each other.
+  #
+  # GHSA-3p8q-wmhx-vm2w, heap buffer overflow in regexp compilation
+  pkg.apply_patch "#{base}/0007-regexp-bound-compiled-program-writes.patch"
+  pkg.apply_patch "#{base}/0008-regexp-harden-bbuf-size-arithmetic.patch"
+  pkg.apply_patch "#{base}/0009-regexp-check-program-size-in-length-pass.patch"
+  # GHSA-7x2q-68qv-6p8x, double free in regexp compilation
+  pkg.apply_patch "#{base}/0010-regexp-fix-cclass-intersection-double-free.patch"
+  pkg.apply_patch "#{base}/0011-regexp-fix-cclass-property-error-leak.patch"
+  pkg.apply_patch "#{base}/0012-regexp-fix-match-cache-stack-double-free.patch"
+  # GHSA-wpqw-5qxg-m68r, out-of-bounds read in case-insensitive regexp matching
+  pkg.apply_patch "#{base}/0013-regexp-check-ignore-case-fold-length.patch"
+  pkg.apply_patch "#{base}/0014-regexp-reject-incomplete-byte-escapes.patch"
+  pkg.apply_patch "#{base}/0015-regexp-keep-comment-as-token-separator.patch"
+  pkg.apply_patch "#{base}/0016-regexp-fix-emacs-mule-case-fold-length.patch"
+  pkg.apply_patch "#{base}/0017-regexp-reject-invalid-code-point-escapes.patch"
+  # GHSA-pvgc-g7gj-pv6h, out-of-bounds read in case-insensitive backreferences
+  pkg.apply_patch "#{base}/0018-regexp-check-subject-end-in-backref.patch"
+  # GHSA-7whj-cfh7-xgm4, heap buffer overflow in Regexp#to_s
+  pkg.apply_patch "#{base}/0019-regexp-preprocess-source-in-to-s.patch"
+  # GHSA-34m4-m9fh-gqp5, heap buffer overflow in case conversion of strings
+  pkg.apply_patch "#{base}/0020-string-fix-sharp-s-case-map-overflow.patch"
+  # GHSA-87fm-7w84-j2px, integer overflow in case conversion of strings
+  pkg.apply_patch "#{base}/0021-string-check-case-map-lengths.patch"
+
   if platform.is_windows?
     pkg.apply_patch "#{base}/windows_mingw32_mkmf.patch"
     pkg.apply_patch "#{base}/ruby-faster-load_32.patch"

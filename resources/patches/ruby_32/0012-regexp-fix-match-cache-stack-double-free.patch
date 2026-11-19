@@ -1,0 +1,56 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-30T16:42:53+09:00
+Subject: [PATCH 6/15] Fix a double free of the match stack on match cache errors
+
+Backport of Ruby 3.3 commit ab4a26435653382426f7dec4f16f72d4e7686e73
+(ruby/ruby#20001, GHSA-7x2q-68qv-6p8x).
+Adapted to the older match cache of Ruby 3.2.
+
+---
+diff --git a/regexec.c b/regexec.c
+index c45cc54d66..8238326b93 100644
+--- a/regexec.c
++++ b/regexec.c
+@@ -3906,7 +3906,7 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
+ 	if (msa->cache_index_table == NULL) {
+ 	  OnigCacheIndex *table = (OnigCacheIndex *)xmalloc(msa->num_cache_table * sizeof(OnigCacheIndex));
+ 	  if (table == NULL) {
+-	    return ONIGERR_MEMORY;
++	    goto memory_error;
+ 	  }
+ 	  OnigPosition r = init_cache_index_table(reg, table);
+           if (r < 0) {
+@@ -3919,16 +3919,16 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
+ 	size_t match_cache_size8 = (size_t)msa->num_cache_opcode * len;
+ 	/* overflow check */
+ 	if (match_cache_size8 / len != (size_t)msa->num_cache_opcode) {
+-	  return ONIGERR_MEMORY;
++	  goto memory_error;
+ 	}
+ 	/* Currently, int is used for the key of match_cache */
+ 	if (match_cache_size8 >= LONG_MAX_LIMIT) {
+-	  return ONIGERR_MEMORY;
++	  goto memory_error;
+ 	}
+ 	size_t match_cache_size = (match_cache_size8 >> 3) + (match_cache_size8 & 7 ? 1 : 0);
+ 	msa->match_cache = (uint8_t*)xmalloc(match_cache_size * sizeof(uint8_t));
+ 	if (msa->match_cache == NULL) {
+-	  return ONIGERR_MEMORY;
++	  goto memory_error;
+ 	}
+ 	xmemset(msa->match_cache, 0, match_cache_size * sizeof(uint8_t));
+       }
+@@ -3971,6 +3971,13 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
+   STACK_SAVE;
+   if (xmalloc_base) xfree(xmalloc_base);
+   return ONIGERR_UNEXPECTED_BYTECODE;
++
++#ifdef USE_CACHE_MATCH_OPT
++ memory_error:
++  STACK_SAVE;
++  if (xmalloc_base) xfree(xmalloc_base);
++  return ONIGERR_MEMORY;
++#endif
+ }
+ 
+ 

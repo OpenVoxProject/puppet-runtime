@@ -1,0 +1,66 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-10-28T23:01:38+09:00
+Subject: [PATCH 9/15] Keep an empty comment as a token separator in regexp preprocessing
+
+Backport of Ruby 3.3 commit ae33ea2a8e6fd2f83f52ed892df805e03c5d74e5
+(ruby/ruby#20002, GHSA-wpqw-5qxg-m68r).
+
+---
+diff --git a/re.c b/re.c
+index f357d38c63..2eb941b3d2 100644
+--- a/re.c
++++ b/re.c
+@@ -2931,6 +2931,7 @@ escape_asis:
+                         *encp = enc;
+                     }
+                 }
++                rb_str_buf_cat(buf, "(?#)", 4);
+                 break;
+             }
+             rb_str_buf_cat(buf, (char *)&c, 1);
+@@ -2989,6 +2990,9 @@ escape_asis:
+                         c = '(';
+                         rb_str_buf_cat(buf, (char *)&c, 1);
+                     }
++                    else {
++                        rb_str_buf_cat(buf, "(?#)", 4);
++                    }
+                     break;
+                 }
+                 else {
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index 32a5a4bf6a..8bd69c3abf 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -1233,6 +1233,31 @@ def test_invalid_raw_byte_escape_in_utf16
+     end
+   end
+ 
++  def test_comment_separates_tokens
++    assert_raise(RegexpError) { Regexp.new('\3(?#)43') }
++    assert_raise(RegexpError) { Regexp.new("\\3#c\n43", Regexp::EXTENDED) }
++    assert_raise(RegexpError) { Regexp.new("(?x:\\3#c\n43)") }
++    re = Regexp.new('(a)(b)(c)\3(?#)43')
++    assert_match(re, "abcc43")
++    assert_not_match(re, "abc\u00e3")
++    re = Regexp.new("(a)(b)(c)\\3#c\n43", Regexp::EXTENDED)
++    assert_match(re, "abcc43")
++    assert_not_match(re, "abc\u00e3")
++    assert_match(/a(?#x)+b/, "aaab")
++    assert_match(/a #x
++                 +b/x, "aaab")
++
++    assert_separately([], "#{<<~"begin;"}\n#{<<~'end;'}")
++    begin;
++      assert_raise(RegexpError) {
++        Regexp.new('(?~.*\3(?#)43.|(?i:\u{3380}))').match?("a\u3042")
++      }
++      assert_raise(RegexpError) {
++        Regexp.new("(?~.*(?x:\\3#c\n43).|(?i:\\u{3380}))").match?("a\u3042")
++      }
++    end;
++  end
++
+   def test_char_type
+     check(/\u3042\d/, ["\u30421", "\u30422"])
+ 

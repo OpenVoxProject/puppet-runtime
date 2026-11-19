@@ -1,0 +1,84 @@
+From: Yusuke Endoh <mame@ruby-lang.org>
+Date: 2026-11-03T12:47:19+09:00
+Subject: [PATCH 8/15] Reject incomplete characters written as byte escapes in regexps
+
+Backport of Ruby 3.3 commit c1232cb11fffa32fc9526628a0c54e0a56d490e0
+(ruby/ruby#20002, GHSA-wpqw-5qxg-m68r).
+
+---
+diff --git a/regparse.c b/regparse.c
+index eed959aaab..a8f91d3436 100644
+--- a/regparse.c
++++ b/regparse.c
+@@ -4640,7 +4640,6 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+       /* tok->base != 0 : octal or hexadec. */
+       if (! ONIGENC_IS_SINGLEBYTE(env->enc) && tok->base != 0) {
+ 	UChar buf[ONIGENC_CODE_TO_MBC_MAXLEN];
+-	UChar* bufe = buf + ONIGENC_CODE_TO_MBC_MAXLEN;
+ 	UChar* psave = p;
+ 	int i, base = tok->base;
+ 
+@@ -4660,9 +4659,10 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+ 	  goto err;
+ 	}
+ 
+-	len = enclen(env->enc, buf, buf + i);
+-	if (i < len) {
+-	  r = ONIGERR_TOO_SHORT_MULTI_BYTE_STRING;
++	len = ONIGENC_PRECISE_MBC_ENC_LEN(env->enc, buf, buf + i);
++	if (! ONIGENC_MBCLEN_CHARFOUND_P(len)) {
++	  r = ONIGENC_MBCLEN_NEEDMORE_P(len) ?
++	    ONIGERR_TOO_SHORT_MULTI_BYTE_STRING : ONIGERR_INVALID_CODE_POINT_VALUE;
+ 	  goto err;
+ 	}
+ 	else if (i > len) { /* fetch back */
+@@ -4679,7 +4679,7 @@ parse_char_class(Node** np, Node** asc_np, OnigToken* tok, UChar** src, UChar* e
+ 	  goto raw_single;
+ 	}
+ 	else {
+-	  v = ONIGENC_MBC_TO_CODE(env->enc, buf, bufe);
++	  v = ONIGENC_MBC_TO_CODE(env->enc, buf, buf + len);
+ 	  in_type = CCV_CODE_POINT;
+ 	}
+       }
+@@ -6227,11 +6227,15 @@ parse_exp(Node** np, OnigToken* tok, int term,
+       len = 1;
+       while (1) {
+ 	if (len >= ONIGENC_MBC_MINLEN(env->enc)) {
+-	  if (len == enclen(env->enc, NSTR(*np)->s, NSTR(*np)->end)) {
++	  int n = ONIGENC_IS_SINGLEBYTE(env->enc) ? 1 :
++	    ONIGENC_PRECISE_MBC_ENC_LEN(env->enc, NSTR(*np)->s, NSTR(*np)->end);
++	  if (n == len) {
+ 	    r = fetch_token(tok, src, end, env);
+ 	    NSTRING_CLEAR_RAW(*np);
+ 	    goto string_end;
+ 	  }
++	  if (! ONIGENC_MBCLEN_NEEDMORE_P(n))
++	    return ONIGERR_INVALID_CODE_POINT_VALUE;
+ 	}
+ 
+ 	r = fetch_token(tok, src, end, env);
+diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
+index 4aa5988b95..32a5a4bf6a 100644
+--- a/test/ruby/test_regexp.rb
++++ b/test/ruby/test_regexp.rb
+@@ -1220,6 +1220,19 @@ def test_parse_comment
+     failcheck('(?#')
+   end
+ 
++  def test_invalid_raw_byte_escape_in_utf16
++    {"UTF-16LE" => ['\x00\xD8', '\x00\xD8\x00\xDC'],
++     "UTF-16BE" => ['\xD8\x00', '\xD8\x00\xDC\x00']}.each do |enc, (lone, pair)|
++      assert_raise(RegexpError) { Regexp.new(lone.encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("(?i)#{lone}".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("[#{lone}]".encode(enc)) }
++      assert_raise(RegexpError) { Regexp.new("[#{lone}a]".encode(enc)) }
++      s = "\u{10000}".encode(enc)
++      assert_match(Regexp.new(pair.encode(enc)), s)
++      assert_match(Regexp.new("[#{pair}]".encode(enc)), s)
++    end
++  end
++
+   def test_char_type
+     check(/\u3042\d/, ["\u30421", "\u30422"])
+ 
