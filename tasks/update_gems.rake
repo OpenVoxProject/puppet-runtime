@@ -186,10 +186,18 @@ def get_metadata(name:, version: nil, platforms: ['ruby'], requirement: nil)
   end
 
   shas = platforms.to_h { |platform| [platform, find_sha(name, version, platform)] }
-  deps = get_version_details(name, version).dig('dependencies', 'runtime') || []
+  details = get_version_details(name, version)
+  deps = details.dig('dependencies', 'runtime') || []
   # Remove any default gems as we don't want to manage them unless specifically needed
   deps.reject! { |d| DEFAULT_AND_BUNDLED_GEMS.include?(d['name']) }
-  { 'version' => version, 'shas' => shas, 'dependencies' => deps }
+
+  {
+    'version' => version,
+    'shas' => shas,
+    'dependencies' => deps,
+    'changelog_uri' => details['changelog_uri'],
+    'source_code_uri' => details['source_code_uri']
+  }
 end
 
 # State for a component that has no file yet. read_component adds the file
@@ -466,11 +474,49 @@ def ensure_projects_have_component_deps
   end
 end
 
-def build_summary
+# Use published metadata first, then release links already documented in the component.
+# Do not guess repository paths or version tags when no changelog is provided.
+def component_release_link(component)
+  metadata = component[:metadata]
+  header_links = []
+  candidates = [['Changelog', metadata['changelog_uri']]]
+
+  (component[:lines] || []).each do |line|
+    break if line.start_with?('component ')
+
+    url = line[/^#\s+(https?:\/\/\S+)\s*$/, 1]
+    header_links << url if url
+  end
+
+  header_links.each do |url|
+    label = case URI.parse(url).path
+            when %r{/(?:changelog|changes|history)(?:[./]|$)}i then 'Changelog'
+            when %r{/releases(?:/|$)} then 'Releases'
+            when %r{/tags(?:/|$)} then 'Tags'
+            end
+
+    candidates << [label, url] if label
+  end
+
+  candidates << ['Source', metadata['source_code_uri']]
+  candidates << ['RubyGems', "https://rubygems.org/gems/#{component[:gem_name]}/versions/#{metadata['version']}"]
+
+  label, url = candidates.find do |_, candidate|
+    uri = URI.parse(candidate.to_s)
+    %w[http https].include?(uri.scheme) && uri.host
+  rescue URI::InvalidURIError
+    false
+  end
+
+  "[#{label}](<#{url}>)"
+end
+
+def build_summary(markdown: false)
   lines = []
 
   unless @component_changes.empty?
     lines << 'Component updates:'
+    lines << '' if markdown
     @component_changes.sort_by { |c| c[:name] }.each do |c|
       parts = []
       if c[:old_version] && c[:new_version] && c[:old_version] != c[:new_version]
@@ -479,6 +525,7 @@ def build_summary
         parts << "new component (version #{c[:new_version]})"
       end
       parts << "added deps: #{c[:deps_added].join(', ')}" unless c[:deps_added].empty?
+      parts << component_release_link(@components.fetch(c[:name].delete_prefix('rubygem-'))) if markdown
       lines << "- #{c[:name]}: #{parts.join(', ')}" unless parts.empty?
     end
   end
@@ -486,6 +533,7 @@ def build_summary
   unless @project_component_additions.none? { |_, v| !v.empty? }
     lines << '' unless lines.empty?
     lines << 'Project component additions:'
+    lines << '' if markdown
     @project_component_additions.keys.sort.each do |project|
       components = @project_component_additions[project].uniq.sort
       lines << "- #{project}: #{components.join(', ')}" unless components.empty?
@@ -496,12 +544,24 @@ def build_summary
   unless held.empty?
     lines << '' unless lines.empty?
     lines << 'Held back by dependents:'
+    lines << '' if markdown
     held.each do |c|
       lines << "- #{c[:component_name]}: #{c[:held_from]} available, kept at #{c[:metadata]['version']} because #{describe_dependents(c[:held_by])}"
     end
   end
 
   lines.join("\n")
+end
+
+# Keep the generated PR description outside the checkout so it is not committed.
+# This is optional for local runs and is written even when there are no updates.
+def write_pr_body
+  path = ENV['COMPONENT_UPDATE_BODY']
+  return if path.nil? || path.empty?
+
+  summary = build_summary(markdown: true)
+  summary = 'No updates to any rubygem components needed' if summary.empty?
+  File.write(path, "Automated gem update task\n\n#{summary}\n", encoding: 'UTF-8')
 end
 
 def git_add
@@ -569,6 +629,7 @@ def check_and_summarize(commit: true)
 
   summary = build_summary
   puts summary unless summary.empty?
+  write_pr_body
 
   if @component_changes.empty? && @project_component_additions.values.all?(&:empty?)
     puts 'No updates to any rubygem components needed'

@@ -68,6 +68,10 @@ This is the all-in-one task, which will also commit your changes.
 However, there is also `vox:update_gems_wo_commit`, which does the same except committing changes.
 There's a CI workflow that runs daily + on demand.
 It raises a PR / updates an existing PR if the rake task finds any changes.
+The PR description lists component changes with changelog links from the selected gem versions' RubyGems metadata.
+When unavailable, it uses release links from component comments, then source code or the RubyGems version page.
+Set `COMPONENT_UPDATE_BODY` to a file path to generate this Markdown description locally as well.
+The workflow writes it under `runner.temp` and passes it to the PR action using `body-path`.
 
 In each `rubygem-*.rb` file in `configs/components`, you will find a "magic" block near the top. For example:
 
